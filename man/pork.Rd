@@ -1,6 +1,6 @@
 \name{pork}
 \alias{pork}
-\title{Pork tasting data}
+\title{Pork Tasting Data}
 \description{
   This data set provides the individual choice matrices
   of two judges choosing between pairs of three samples

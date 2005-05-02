@@ -1,4 +1,4 @@
-# pork tasting data reported in Bradley & Terry (1952), p. 333
+# Pork tasting data reported in Bradley & Terry (1952), p. 333
 
 pork = array(0,c(3,3,10))
 

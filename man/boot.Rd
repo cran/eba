@@ -1,7 +1,7 @@
 \name{boot}
 \alias{boot}
 \alias{eba.boot}
-\title{Bootstrap for Elimination-by-aspects models}
+\title{Bootstrap for Elimination-By-Aspects Models}
 \description{
   Performs a bootstrap by resampling the individual data matrices.
 }
@@ -13,28 +13,28 @@
     comparison matrices}
   \item{R}{the number of bootstrap samples}
   \item{A}{a list of vectors consisting of the stimulus aspects;
-    the default is 1:I, where I is the number of stimuli}
-  \item{s}{the starting vector with default 1/J for all parameters,
-    where J is the number of parameters}
+    the default is \code{1:I}, where \code{I} is the number of stimuli}
+  \item{s}{the starting vector with default \code{1/J} for all parameters,
+    where \code{J} is the number of parameters}
 }
 \details{
-  The bootstrap function eba.boot is called automatically by boot.
+  The bootstrap function \code{eba.boot} is called automatically by
+  \code{boot}.
 }
 \value{
   \item{p}{the matrix of bootstrap vectors}
   \item{stat}{the matrix of bootstrap statistics, including parameter
     means, standard errors, and confidence limits}}
 }
-\author{Florian Wickelmaier \email{wickelmaier@web.de}}
 \seealso{
   \code{\link{OptiPt}}.
 }
 \examples{
 data(pork)  # pork tasting data, 10 individual paired comparison matrices
-eba = OptiPt(apply(pork,1:2,sum))  # fit a BTL model
-b = boot(pork,200)  # resample 200 times
+eba <- OptiPt(apply(pork, 1:2, sum))  # fit a BTL model
+b <- boot(pork, 200)  # resample 200 times
 
-plot(eba$estimate,b$stat[,'mean'],log='xy')
-abline(0,1,lty=3)
+plot(eba$estimate, b$stat[,'mean'], log='xy')
+abline(0, 1, lty=2)
 }
 \keyword{models}

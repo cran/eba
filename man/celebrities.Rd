@@ -1,6 +1,6 @@
-\name{rugr}
-\alias{rugr}
-\title{Choice among celebrities}
+\name{celebrities}
+\alias{celebrities}
+\title{Choice Among Celebrities}
 \description{
   This data set provides the absolute choice frequencies of
   234 subjects choosing between pairs of nine celebrities.
@@ -8,7 +8,7 @@
   athletes; BB, ET, and SL are female movie stars.
   Row stimuli are chosen over column stimuli.
 }
-\usage{data(rugr)}
+\usage{data(celebrities)}
 \format{A square data frame with a diagonal of zeros.}
 \references{
   Rumelhart, D.L., & Greeno, J.G. (1971).

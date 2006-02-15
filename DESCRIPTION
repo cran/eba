@@ -1,6 +1,6 @@
 Package: eba
-Version: 1.4-0
-Date: 2005/MAY/02
+Version: 1.4-1
+Date: 2006/FEB/15
 Title: Elimination-By-Aspects (EBA) Models
 Author: Florian Wickelmaier <wickelmaier@web.de>.
 Maintainer: Florian Wickelmaier <wickelmaier@web.de>

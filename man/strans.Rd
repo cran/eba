@@ -12,7 +12,7 @@
 }
 \details{
   The weak (WST), moderate (MST), and strong (SST) stochastic
-  transitivity hold for a set of relative choice frequencies \eqn{P},
+  transitivity hold for a set of choice probabilities \eqn{P},
   whenever if \eqn{P_{ij} \ge 0.5} and \eqn{P_{jk} \ge 0.5}, then
 
   \eqn{P_{ik} \ge 0.5} (WST),

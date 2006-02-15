@@ -14,6 +14,6 @@
   Rumelhart, D.L., & Greeno, J.G. (1971).
   Similarity between stimuli: An experimental test of the
   Luce and Restle choice models.
-  \emph{Journal of Mathematical Psychology}, \bold{8}, 370-381.
+  \emph{Journal of Mathematical Psychology}, \bold{8}, 370--381.
 }
 \keyword{datasets}

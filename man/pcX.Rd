@@ -10,7 +10,7 @@
 }
 \details{
   The design matrix can be used when fitting a Bradley-Terry-Luce (BTL)
-  model by means of \code{\link{glm}}.
+  model or a Thurstone-Mosteller (TM) model by means of \code{\link{glm}}.
 }
 \value{
   A matrix having \code{(nstimuli-1)*nstimuli/2} rows and
@@ -19,10 +19,18 @@
 \seealso{\code{\link{OptiPt}}, \code{\link{glm}}.}
 \examples{
 data(celebrities)  # absolute choice frequencies
-btl <- OptiPt(celebrities)
+btl <- OptiPt(celebrities)  # fit BTL model using OptiPt
 summary(btl)
 
-btl.glm <- glm(cbind(btl$y1, btl$y0) ~ pcX(9)[,-1] - 1, binomial)
+y1 <- t(celebrities)[lower.tri(celebrities)]
+y0 <- celebrities[lower.tri(celebrities)]
+
+# Fit BTL model using glm
+btl.glm <- glm(cbind(y1, y0) ~ pcX(9) - 1, binomial)
 summary(btl.glm)  # BTL model does not fit these data!
+
+# Fit Thurstone Case V model using glm
+tm.glm <- glm(cbind(y1, y0) ~ pcX(9) - 1, binomial(probit))
+summary(tm.glm)  # TM model doesn't fit either
 }
 \keyword{models}

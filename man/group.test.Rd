@@ -36,7 +36,7 @@
 \references{
   Duineveld, C.A.A., Arents, P., & King, B.M. (2000). Log-linear modelling of
   paired comparison data from consumer tests.
-  \emph{Food Quality and Preference}, \bold{11}, 63-70.
+  \emph{Food Quality and Preference}, \bold{11}, 63--70.
 }
 \seealso{\code{\link{OptiPt}}, \code{\link{wald.test}}.}
 \examples{

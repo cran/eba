@@ -1,8 +1,8 @@
+OptiPt                  Elimination-By-Aspects (EBA) Models
 boot                    Bootstrap for Elimination-By-Aspects Models
 celebrities             Choice Among Celebrities
 cov.u                   Covariance of the u-scale
 group.test              Group Effects in EBA Models
-OptiPt                  Elimination-By-Aspects (EBA) Models
 pcX                     Paired-Comparison Design Matrix
 plot.eba                Diagnostic Plot for EBA Models
 pork                    Pork Tasting Data

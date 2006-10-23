@@ -1,11 +1,14 @@
-OptiPt                  Elimination-By-Aspects (EBA) Models
+eba                     Elimination-By-Aspects (EBA) Models
 boot                    Bootstrap for Elimination-By-Aspects Models
-celebrities             Choice Among Celebrities
+celebrities             Choice among Celebrities
 cov.u                   Covariance of the u-scale
 group.test              Group Effects in EBA Models
+kendall.u               Kendall's Coefficient of Agreement
+logLik.eba              Log-Likelihood of an eba Object
 pcX                     Paired-Comparison Design Matrix
 plot.eba                Diagnostic Plot for EBA Models
 pork                    Pork Tasting Data
 residuals.eba           Residuals for EBA Models
 strans                  Stochastic Transitivity
 wald.test               Testing Linear Hypotheses
+weights                 Weights Judging Data

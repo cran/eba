@@ -29,100 +29,108 @@ OptiPt <- function(M, A = 1:I, s = rep(1/J, J)){
   #   to estimate choice-model parameters from paired-comparison data.
   #   Behavior Research Methods, Instruments, and Computers. In press.
 
-  I = ncol(M)  # number of alternatives/stimuli
-  J = max(unlist(A))  # number of eba parameters
+  I <- ncol(M)  # number of alternatives/stimuli
+  J <- max(unlist(A))  # number of eba parameters
 
-  idx1 = matrix(0,I*(I-1)/2,J)  # index matrices
-  idx0 = idx1
-  rdx=1
+  idx1 <- matrix(0,I*(I-1)/2,J)  # index matrices
+  idx0 <- idx1
+  rdx <- 1
   for(i in 1:(I-1)){                         
     for(j in (i+1):I){
-      idx1[rdx,setdiff(A[[i]],A[[j]])] = 1
-      idx0[rdx,setdiff(A[[j]],A[[i]])] = 1
-      rdx = rdx+1
+      idx1[rdx,setdiff(A[[i]],A[[j]])] <- 1
+      idx0[rdx,setdiff(A[[j]],A[[i]])] <- 1
+      rdx <- rdx+1
     }
   }
 
-  y1 = t(M)[lower.tri(t(M))]  # response vectors
-  y0 = M[lower.tri(M)]
-  n = y1+y0
-  names(y1) = names(y0) = names(n) = NULL
-  logL.sat = sum(dbinom(y1,n,y1/n,log=TRUE))  # likelihood of the sat. model
+  y1 <- t(M)[lower.tri(t(M))]  # response vectors
+  y0 <- M[lower.tri(M)]
+  n <- y1+y0
+  names(y1) <- names(y0) <- names(n) <- NULL
+  logL.sat <- sum(dbinom(y1,n,y1/n,log=TRUE))  # likelihood of the sat. model
 
-  out = nlm(L,s,y1=y1,m=n,i1=idx1,i0=idx0)  # Newton-type algorithm
-  p = out$est  # optimized parameters
-  hes = fdHess(p,L,y1,n,idx1,idx0)$H  # numerical Hessian
-  cova = solve(rbind(cbind(hes,1),c(rep(1,J),0)))[1:J,1:J]
-  se = sqrt(diag(cova))  # standard error
-  ci = qnorm(.975)*se  # 95% confidence interval
-  logL.eba = -out$min  # likelihood of the specified model
+  out <- nlm(L,s,y1=y1,m=n,i1=idx1,i0=idx0)  # Newton-type algorithm
+  p <- out$est  # optimized parameters
+  hes <- fdHess(p,L,y1,n,idx1,idx0)$H  # numerical Hessian
+  cova <- solve(rbind(cbind(hes,1),c(rep(1,J),0)))[1:J,1:J]
+  se <- sqrt(diag(cova))  # standard error
+  ci <- qnorm(.975)*se  # 95% confidence interval
+  logL.eba <- -out$min  # likelihood of the specified model
 
-  fitted = matrix(0,I,I)  # fitted PCM
-  fitted[lower.tri(fitted)] = n/(1+idx0%*%p/idx1%*%p)
+  fitted <- matrix(0,I,I)  # fitted PCM
+  fitted[lower.tri(fitted)] <- n/(1+idx0%*%p/idx1%*%p)
   mu <- as.numeric( 1/(1+idx0%*%p/idx1%*%p) )  # predicted probabilities
-  fitted = t(fitted)
-  fitted[lower.tri(fitted)] = n/(1+idx1%*%p/idx0%*%p)
+  fitted <- t(fitted)
+  fitted[lower.tri(fitted)] <- n/(1+idx1%*%p/idx0%*%p)
+  dimnames(fitted) <- dimnames(M)
 
-  chi = 2*(logL.sat-logL.eba)  # goodness-of-fit statistic
-  df = I*(I-1)/2 - (J-1)
-  pval = 1-pchisq(chi,df)
-  gof = c(chi,df,pval)
-  names(gof) = c("-2logL","df","pval")
-  chi.alt = sum((M-fitted)^2/fitted,na.rm=TRUE)
+  chi <- 2*(logL.sat-logL.eba)  # goodness-of-fit statistic
+  df <- I*(I-1)/2 - (J-1)
+  pval <- 1-pchisq(chi,df)
+  gof <- c(chi,df,pval)
+  names(gof) <- c("-2logL","df","pval")
+  chi.alt <- sum((M-fitted)^2/fitted,na.rm=TRUE)
 
-  u = numeric()  # scale values
-  for(i in 1:I) u = c(u,sum(p[A[[i]]]))
-  names(u) = colnames(M)
+  u <- numeric()  # scale values
+  for(i in 1:I) u <- c(u,sum(p[A[[i]]]))
+  names(u) <- colnames(M)
 
-  z = list(estimate=p,se=se,ci95=ci,fitted=fitted,logL.eba=logL.eba,
-           logL.sat=logL.sat,goodness.of.fit=gof,u.scale=u,
-           hessian=-hes,cov.p=cova,chi.alt=chi.alt,A=A,y1=y1,y0=y0,n=n,mu=mu)
-  class(z) = "eba"
+  z <- list(estimate=p,se=se,ci95=ci,fitted=fitted,logL.eba=logL.eba,
+            logL.sat=logL.sat,goodness.of.fit=gof,u.scale=u,
+            hessian=-hes,cov.p=cova,chi.alt=chi.alt,A=A,y1=y1,y0=y0,n=n,mu=mu)
+  class(z) <- "eba"
   z
 }
 
 
-summary.eba = function(object,...){
-  object -> x
-  I = length(x$A)
-  J = length(x$estimate)
-  y = c(x$y1,x$y0)
-  chi2 = x$goodness.of.fit[1]
-  df = x$goodness.of.fit[2]
-  pval = x$goodness.of.fit[3]
-  coef = x$estimate
-  s.err = x$se
-  tvalue = coef/s.err
-  pvalue = 2 * pnorm(-abs(tvalue))
-  dn = c("Estimate", "Std. Error")
-  coef.table = cbind(coef, s.err, tvalue, pvalue)
-  dimnames(coef.table) = list(names(coef),c(dn,"z value","Pr(>|z|)"))
+eba <- OptiPt  # wrapper for OptiPt
 
-  tests = rbind(
+
+summary.eba <- function(object,...){
+  object -> x
+  I <- length(x$A)
+  J <- length(x$estimate)
+  y <- c(x$y1,x$y0)
+  chi2 <- x$goodness.of.fit[1]
+  df <- x$goodness.of.fit[2]
+  pval <- x$goodness.of.fit[3]
+  coef <- x$estimate
+  s.err <- x$se
+  tvalue <- coef/s.err
+  pvalue <- 2 * pnorm(-abs(tvalue))
+  dn <- c("Estimate", "Std. Error")
+  coef.table <- cbind(coef, s.err, tvalue, pvalue)
+  dimnames(coef.table) <- list(names(coef),c(dn,"z value","Pr(>|z|)"))
+
+  tests <- rbind(
 
    # mean poisson model vs. saturated poisson model (on y)
-    c(1, I*(I-1), l.1 <- sum(dpois(y,mean(y),log=TRUE)),
-                  l.2 <- sum(dpois(y,y,log=TRUE)),
+    c(1, I*(I-1),
+      l.1 <- sum(dpois(y, mean(y), log=TRUE)),
+      l.2 <- sum(dpois(y, y, log=TRUE)),
       dev <- 2*(l.2 - l.1), 1-pchisq(dev,I*(I-1)-1)),
 
    # EBA model vs. saturated binomial model
     c(J-1, I*(I-1)/2, x$logL.eba, x$logL.sat, chi2, pval),
 
    # Null model vs. EBA model
-    c(0, J-1, l.1 <- sum(dbinom(x$y1,x$n,1/2,log=TRUE)), l.2 <- x$logL.eba,
+    c(0, J-1,
+      l.1 <- sum(dbinom(x$y1, x$n, 1/2, log=TRUE)),
+      l.2 <- x$logL.eba,
       dev <- 2*(l.2 - l.1), 1-pchisq(dev,J-1)),
 
    # mean poisson model vs. saturated poisson model (on n)
-    c(1, I*(I-1)/2, l.1 <- sum(dpois(x$n,mean(x$n),log=TRUE)),
-                    l.2 <- sum(dpois(x$n,x$n,log=TRUE)),
+    c(1, I*(I-1)/2,
+      l.1 <- sum(dpois(x$n, mean(x$n), log=TRUE)),
+      l.2 <- sum(dpois(x$n, x$n, log=TRUE)),
       dev <- 2*(l.2 - l.1), 1-pchisq(dev,I*(I-1)/2-1))
 
   )
-  rownames(tests) = c('Overall','EBA','Effect','Imbalance')
-  colnames(tests) = c('Df1','Df2','logLik1','logLik2','Deviance','Pr(>|Chi|)')
+  rownames(tests) <- c("Overall","EBA","Effect","Imbalance")
+  colnames(tests) <- c("Df1","Df2","logLik1","logLik2","Deviance","Pr(>|Chi|)")
 
-  aic = -2*x$logL.eba + 2*(length(coef)-1)
-  ans = list(coefficients=coef.table,chi2=chi2,df=df,pval=pval,aic=aic,
+  aic <- -2*x$logL.eba + 2*(length(coef)-1)
+  ans <- list(coefficients=coef.table,chi2=chi2,df=df,pval=pval,aic=aic,
              logL.eba=x$logL.eba,logL.sat=x$logL.sat,tests=tests,
              chi.alt=x$chi.alt)
   class(ans) <- "summary.eba"
@@ -130,14 +138,14 @@ summary.eba = function(object,...){
 }
 
 
-print.eba = function(x,digits=max(3,getOption("digits")-3),na.print="",...){
+print.eba <- function(x,digits=max(3,getOption("digits")-3),na.print="",...){
   cat("\nEBA models\n\n")
   cat("Parameter estimates:\n")
   print.default(format(x$estimate, digits = digits), print.gap = 2,
       quote = FALSE)
-  chi2 = x$goodness.of.fit[1]
-  df = x$goodness.of.fit[2]
-  pval = x$goodness.of.fit[3]
+  chi2 <- x$goodness.of.fit[1]
+  df <- x$goodness.of.fit[2]
+  pval <- x$goodness.of.fit[3]
   cat("\nGoodness of Fit:\n")
   cat("\tChi2(",df,") = ",format(chi2,digits=digits),", p = ",
       format(pval,digits=digits),"\n",sep="")
@@ -146,7 +154,7 @@ print.eba = function(x,digits=max(3,getOption("digits")-3),na.print="",...){
 }
 
 
-print.summary.eba = function(x,digits=max(3,getOption("digits")-3),na.print="",
+print.summary.eba <- function(x,digits=max(3,getOption("digits")-3),na.print="",
   symbolic.cor=p>4, signif.stars=getOption("show.signif.stars"),...){
   cat("\nParameter estimates:\n")
   printCoefmat(x$coef, digits = digits, signif.stars = signif.stars, ...)
@@ -160,72 +168,70 @@ print.summary.eba = function(x,digits=max(3,getOption("digits")-3),na.print="",
 }
 
 
-L = function(p,y1,m,i1,i0) -sum(dbinom(y1,m,1/(1+i0%*%p/i1%*%p),log=TRUE))
+L <- function(p,y1,m,i1,i0) -sum(dbinom(y1,m,1/(1+i0%*%p/i1%*%p),log=TRUE))
 
 
-strans = function(M){
+strans <- function(M){
   # Checks stochastic transitivities in a PCM (abs. freq.)
   # last mod: 08/Oct/2003 (works now for unbalanced design)
   # author: Florian Wickelmaier (wickelmaier@web.de)
 
-  I = sqrt(length(as.matrix(M)))  # number of stimuli
-  R = as.matrix(M/(M+t(M)))  # pcm rel. freq.
-  R[which(is.nan(R),arr.ind=TRUE)] = rep(0,I)
-  pre=0
-  wst=0; mst=0; sst=0
-  wstv = numeric(); mstv = numeric(); sstv = numeric()
+  I <- sqrt(length(as.matrix(M)))  # number of stimuli
+  R <- as.matrix( M / (M+t(M)) )   # pcm rel. freq.
+  R[which(is.nan(R), arr.ind=TRUE)] <- rep(0,I)
+  pre <- 0
+  wst <- mst <- sst <- 0
+  wstv <- mstv <- sstv <- numeric()
 
   for(ii in 1:(I-2)){ for(jj in (ii+1):(I-1)){ for(kk in (jj+1):I){
-    iSST=0; iMST=0; iWST=0
-    iwv=1; imv=1; isv=1
+    iSST <- iMST <- iWST <- 0
+    iwv <- imv <- isv <- 1
     for(i in c(ii,jj,kk)){
       for(j in c(ii,jj,kk)){
         for(k in c(ii,jj,kk)){
           if(i!=j && j!=k && i!=k){
             if(R[i,j]>=.5 && R[j,k]>=.5){
-              if(.5-R[i,k]<iwv) iwv = .5-R[i,k]
-              if(min(R[i,j],R[j,k])-R[i,k]<imv)
-                imv = min(R[i,j],R[j,k])-R[i,k]
-              if(max(R[i,j],R[j,k])-R[i,k]<isv)
-                isv = max(R[i,j],R[j,k])-R[i,k]
-              if(R[i,k]>=.5) iWST = iWST+1
-              if(R[i,k]>=min(R[i,j],R[j,k])) iMST = iMST+1
-              if(R[i,k]>=max(R[i,j],R[j,k])) iSST = iSST+1
+              if(.5-R[i,k] < iwv) iwv <- .5-R[i,k]
+              if(min(R[i,j],R[j,k]) - R[i,k] < imv)
+                imv <- min(R[i,j],R[j,k]) - R[i,k]
+              if(max(R[i,j],R[j,k]) - R[i,k] < isv)
+                isv <- max(R[i,j],R[j,k]) - R[i,k]
+              if(R[i,k] >= .5) iWST <- iWST+1
+              if(R[i,k] >= min(R[i,j],R[j,k])) iMST <- iMST+1
+              if(R[i,k] >= max(R[i,j],R[j,k])) iSST <- iSST+1
             }
           }
         }
       }
     }
-    if(iSST==0){ sst = sst+1; sstv = c(sstv,isv) }
-    if(iMST==0){ mst = mst+1; mstv = c(mstv,imv) }
-    if(iWST==0){ wst = wst+1; wstv = c(wstv,iwv) }
-    pre = pre+1
+    if(iSST==0){ sst <- sst+1; sstv <- c(sstv,isv) }
+    if(iMST==0){ mst <- mst+1; mstv <- c(mstv,imv) }
+    if(iWST==0){ wst <- wst+1; wstv <- c(wstv,iwv) }
+    pre <- pre+1
   } } }
-  wv = mv = sv = 0
-  if(length(wstv)) wv = wstv
-  if(length(mstv)) mv = mstv
-  if(length(sstv)) sv = sstv
-  z = list(weak=wst,moderate=mst,strong=sst,n.tests=pre,
+  wv <- mv <- sv <- 0
+  if(length(wstv)) wv <- wstv
+  if(length(mstv)) mv <- mstv
+  if(length(sstv)) sv <- sstv
+  z <- list(weak=wst,moderate=mst,strong=sst,n.tests=pre,
            wst.violations=wv,mst.violations=mv,sst.violations=sv,pcm=R)
-  class(z) = "strans"
+  class(z) <- "strans"
   z
 }
 
 
-print.strans = function(x, digits = max(3,getOption("digits")-4), ...){
+print.strans <- function(x, digits = max(3,getOption("digits")-4), ...){
   cat("\nStochastic Transitivity\n\n")
-  tran = c(x$weak,x$moderate,x$strong)
-  ntst = x$n.tests
-  ttab = cbind(tran/ntst,
-               c(mean(x$wst.violations),mean(x$mst.violations),
-                 mean(x$sst.violations)),
-               c(max(x$wst.violations),max(x$mst.violations),
-                 max(x$sst.violations)))
+  tran <- c(x$weak, x$moderate, x$strong)
+  ntst <- x$n.tests
+  ttab <- cbind(tran/ntst,
+    c(mean(x$wst.violations), mean(x$mst.violations), mean(x$sst.violations)),
+    c(max(x$wst.violations), max(x$mst.violations), max(x$sst.violations)))
  
   # 2004/MAY/04 new:
-  ttran = cbind(tran,ttab)
-  rownames(ttran)=c("weak","moderate","strong")
-  colnames(ttran)=c("violations","error.ratio","mean.dev","max.dev")
+  ttran <- cbind(tran,ttab)
+  rownames(ttran) <- c("weak", "moderate", "strong")
+  colnames(ttran) <- c("violations", "error.ratio", "mean.dev", "max.dev")
   printCoefmat(ttran, digits = digits, signif.stars = NULL,
     zap.ind = 1, tst.ind = 0, cs.ind = 2:4, ...)
 
@@ -235,110 +241,120 @@ print.strans = function(x, digits = max(3,getOption("digits")-4), ...){
 #               collab=c("violations","error.ratio","mean.dev","max.dev"),
 #               quote=FALSE,right=TRUE)
 
-  cat("---\nNumber of Tests: ",ntst,"\n")
+  cat("---\nNumber of Tests: ", ntst, "\n")
   cat("\n")
   invisible(x)
 }
 
 
-cov.u = function(eba){
-  eba -> x
-  A = x$A
-  cov.p = x$cov.p
-  cov.u = matrix(0,length(A),length(A))
+cov.u <- function(object){
+  object -> x
+  A <- x$A
+  cov.p <- x$cov.p
+  cov.u <- matrix(0, length(A), length(A))
   for(i in 1:length(A)){
     for(j in 1:length(A)){
-      cell = 0
+      cell <- 0
       for(k in 1:length(A[[i]]))
         for(l in 1:length(A[[j]]))
-          cell = cell + cov.p[A[[i]][k],A[[j]][l]]
-      cov.u[i,j] = cell
+          cell <- cell + cov.p[A[[i]][k], A[[j]][l]]
+      cov.u[i, j] <- cell
     }
   }
   cov.u
 }
 
 
-pcX = function(nstimuli){
+pcX <- function(nstimuli){
   # paired comparison design matrix
-  X = matrix(0,choose(nstimuli,2),nstimuli)
-  count = 1
-  for(i in 1:(nstimuli-1)){
-    for(j in (i+1):nstimuli){
-      X[count,i] = 1
-      X[count,j] = -1
-      count = count + 1
+  X <- matrix(0, choose(nstimuli, 2), nstimuli)
+  count <- 1
+  for(i in 1:(nstimuli - 1)){
+    for(j in (i + 1):nstimuli){
+      X[count, i] <- 1
+      X[count, j] <- -1
+      count <- count + 1
     }
   }
   X
 }
 
 
-group.test <- function(groups,A=1:I,s=rep(1/J,J)){
+group.test <- function(groups, A = 1:I, s = rep(1/J,J)){
   # groups: 3d array of group matrices (one matrix per group)
 
-  pool = apply(groups,1:2,sum)  # pooled data matrix
-  I = ncol(pool)  # number of stimuli
-  J = max(unlist(A))  # number of eba parameters
-  ngroups = dim(groups)[3]  # number of groups
+  pool <- apply(groups, 1:2, sum)  # pooled data matrix
+  I <- ncol(pool)  # number of stimuli
+  J <- max(unlist(A))  # number of eba parameters
+  ngroups <- dim(groups)[3]  # number of groups
 
-  eba.p = OptiPt(pool,A,s)  # EBA for pooled data
-  ebas = NULL  # list of eba models (one per group)
-  for(i in 1:ngroups) ebas[[i]] = OptiPt(groups[,,i],A,s)
+  eba.p <- OptiPt(pool, A, s)  # EBA for pooled data
+  ebas <- NULL  # list of eba models (one per group)
+  for(i in 1:ngroups) ebas[[i]] <- OptiPt(groups[,,i], A, s)
 
-  C1 = sum(log(choose(eba.p$n,eba.p$y1)))
-  C2 = 0
-  for(i in 1:ngroups) C2 = C2 + sum(log(choose(ebas[[i]]$n,ebas[[i]]$y1)))
-  C = C1-C2  # combinatorial constant
+  C1 <- sum(log(choose(eba.p$n, eba.p$y1)))
+  C2 <- 0
+  for(i in 1:ngroups) C2 <- C2 + sum(log(choose(ebas[[i]]$n, ebas[[i]]$y1)))
+  C <- C1 - C2  # combinatorial constant
 
-  logL.eba.group = 0
-  y = NULL; n = NULL
+  logL.eba.group <- 0
+  y <- n <- NULL
   for(i in 1:ngroups){
-    logL.eba.group = logL.eba.group + ebas[[i]]$logL.eba
-    y = c(y, c(ebas[[i]]$y1,ebas[[i]]$y0))
-    n = c(n, ebas[[i]]$n)
+    logL.eba.group <- logL.eba.group + ebas[[i]]$logL.eba
+    y <- c(y, c(ebas[[i]]$y1, ebas[[i]]$y0))
+    n <- c(n, ebas[[i]]$n)
   }
-  logL.sat.group = 0
-  for(i in 1:ngroups) logL.sat.group = logL.sat.group + ebas[[i]]$logL.sat
+  logL.sat.group <- 0
+  for(i in 1:ngroups) logL.sat.group <- logL.sat.group + ebas[[i]]$logL.sat
 
-  tests = rbind(
+  tests <- rbind(
 
    # mean poisson model vs. saturated poisson group model (on y)
-    c(df1<-1, df2<-ngroups*I*(I-1), l.1 <- sum(dpois(y,mean(y),log=TRUE)),
-      l.2 <- sum(dpois(y,y,log=TRUE)),
-      dev <- 2*(l.2 - l.1), 1-pchisq(dev,df2-df1)),
+    c(df1 <- 1,
+      df2 <- ngroups * I * (I - 1),
+      l.1 <- sum(dpois(y, mean(y), log=TRUE)),
+      l.2 <- sum(dpois(y, y, log=TRUE)),
+      dev <- 2*(l.2 - l.1), 1 - pchisq(dev, df2 - df1)),
 
    # EBA group model vs. saturated binomial group model
-    c(df1<-ngroups*(J-1), df2<-ngroups*I*(I-1)/2, l.1 <- logL.eba.group,
-      l.2 <- logL.sat.group,
-      dev <- 2*(l.2 - l.1), 1-pchisq(dev,df2-df1)),
+    c(df1 <- ngroups * (J - 1),
+      df2 <- ngroups * I * (I - 1)/2,
+      l.1 <- logL.eba.group + C,  # add constant to obtain correct logLik
+      l.2 <- logL.sat.group + C,
+      dev <- 2*(l.2 - l.1), 1 - pchisq(dev, df2 - df1)),
 
    # EBA pool model vs. EBA group model
-    c(df1<-J-1, df2<-ngroups*(J-1), l.1 <- eba.p$logL.eba,
+    c(df1 <- J - 1,
+      df2 <- ngroups * (J - 1),
+      l.1 <- eba.p$logL.eba,
       l.2 <- logL.eba.group + C,
-      dev <- 2*(l.2 - l.1), 1-pchisq(dev,df2-df1)),
+      dev <- 2*(l.2 - l.1), 1 - pchisq(dev, df2 - df1)),
 
    # Null model vs. EBA pool model
-    c(df1<-0, df2<-J-1, l.1 <- sum(dbinom(eba.p$y1,eba.p$n,1/2,log=TRUE)),
+    c(df1 <- 0,
+      df2 <- J - 1,
+      l.1 <- sum(dbinom(eba.p$y1, eba.p$n, 1/2, log=TRUE)),
       l.2 <- eba.p$logL.eba,
-      dev <- 2*(l.2 - l.1), 1-pchisq(dev,df2-df1)),
+      dev <- 2*(l.2 - l.1), 1 - pchisq(dev, df2 - df1)),
 
    # mean poisson model vs. saturated poisson group model (on n)
-    c(df1<-1, df2<-ngroups*(I*(I-1)/2), l.1 <- sum(dpois(n,mean(n),log=TRUE)),
-                    l.2 <- sum(dpois(n,n,log=TRUE)),
-      dev <- 2*(l.2 - l.1), 1-pchisq(dev,df2-df1))
+    c(df1 <- 1,
+      df2 <- ngroups * (I * (I - 1)/2),
+      l.1 <- sum(dpois(n, mean(n), log=TRUE)),
+      l.2 <- sum(dpois(n, n, log=TRUE)),
+      dev <- 2*(l.2 - l.1), 1 - pchisq(dev, df2 - df1))
 
   )
-  rownames(tests) = c('Overall','EBA.g','Group','Effect','Imbalance')
-  colnames(tests) = c('Df1','Df2','logLik1','logLik2','Deviance','Pr(>|Chi|)')
+  rownames(tests) <- c("Overall","EBA.g","Group","Effect","Imbalance")
+  colnames(tests) <- c("Df1","Df2","logLik1","logLik2","Deviance","Pr(>|Chi|)")
 
-  z = list(tests=tests)
+  z <- list(tests=tests)
   class(z) = "group.test"
   z
 }
 
 
-print.group.test = function(x,digits=max(3,getOption("digits")-3),na.print="",
+print.group.test <- function(x,digits=max(3,getOption("digits")-3),na.print="",
   symbolic.cor=p>4, signif.stars=getOption("show.signif.stars"),...){
   cat("\nGroup test for EBA models:\n")
   cat("\n")
@@ -349,31 +365,31 @@ print.group.test = function(x,digits=max(3,getOption("digits")-3),na.print="",
 }
 
 
-wald.test <- function(eba,C,u.scale=TRUE){
+wald.test <- function(object, C, u.scale = TRUE){
   # Wald test of linear hypothesis Cp = 0 for EBA models
   # u.scale=TRUE: test on the u.scale values
   # u.scale=FALSE: test on the EBA parameters
 
   if(u.scale){
-    p = eba$u.scale
-    COV = cov.u(eba)
+    p <- object$u.scale
+    COV <- cov.u(object)
   }else{
-    p = eba$estimate
-    COV = eba$cov.p
+    p <- object$estimate
+    COV <- object$cov.p
   }
   if(!is.matrix(C)) stop("C is not a matrix.")
   if(dim(C)[2] != length(p))
     stop("Column number of C and length of p do not agree.")
-  if(u.scale) colnames(C) = names(eba$u.scale)
+  if(u.scale) colnames(C) <- names(object$u.scale)
 
-  W = t(C%*%p) %*% solve( C%*%COV%*%t(C) ) %*% (C%*%p)
-  z = list(W=W,df=qr(C)$rank,pval=1-pchisq(W,qr(C)$rank),C=C)
-  class(z) = "wald.test"
+  W <- t(C%*%p) %*% solve( C%*%COV%*%t(C) ) %*% (C%*%p)
+  z <- list(W=W,df=qr(C)$rank,pval=1-pchisq(W,qr(C)$rank),C=C)
+  class(z) <- "wald.test"
   z
 }
 
 
-print.wald.test = function(x, digits = max(3,getOption("digits")-4), ...){
+print.wald.test <- function(x, digits = max(3,getOption("digits")-4), ...){
   cat("\nWald Test: Cp = 0\n\n")
   cat("C:\n")
   print(x$C)

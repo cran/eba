@@ -1,0 +1,34 @@
+Changes in 1.4-2
+
+
+New function kendall.u: Kendall's u coefficient of agreement
+
+New function eba as a wrapper for OptiPt
+
+New function logLik.eba
+
+New data set weights to illustrate choice models with order effects
+
+
+In group.test: add combinatorial constant to logLik of all group models? Yes!
+
+Check strans for matrices, bug? No, returns NaN if there are no violations!
+
+In function OptiPt: add dimnames for fitted eba objects
+
+In celebrities data: add rownames
+
+In pork data: add dimnames
+
+
+Update group.test.Rd (details)
+
+Update OptiPt.Rd (usage, arguments, details)
+
+Update strans.Rd (value, references)
+
+Update celebrities.Rd (description, source, examples)
+
+Update pork.Rd (description, source, examples)
+
+Update DESCRIPTION file

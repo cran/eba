@@ -3,12 +3,12 @@
 \title{Covariance of the u-scale}
 \description{
   Computes the covariance matrix of the u-scale from the covariance
-  matrix of the EBA parameters.
+  matrix of EBA parameters.
 }
-\usage{cov.u(eba)}
+\usage{cov.u(object)}
 \arguments{
-  \item{eba}{an object of class \code{eba}, typically the result of a
-    call to \code{\link{OptiPt}}}
+  \item{object}{an object of class \code{eba}, typically the result of a
+    call to \code{\link{eba}}}
 }
 \details{
   The additivity law of covariances \eqn{cov(x+y,z) = cov(x,z)+cov(y,z)}
@@ -18,6 +18,6 @@
   The covariance matrix of the u-scale.
 }
 \seealso{
-  \code{\link{OptiPt}}, \code{\link{wald.test}}.
+  \code{\link{eba}}, \code{\link{wald.test}}.
 }
 \keyword{models}

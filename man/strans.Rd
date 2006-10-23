@@ -29,12 +29,19 @@
   \item{moderate}{number of violations of MST}
   \item{strong}{number of violations of SST}
   \item{n.tests}{number of transitivity tests performed}
-  \item{wst.violations}{a vector of WST violations}
-  \item{mst.violations}{a vector of MST violations}
-  \item{sst.violations}{a vector of SST violations}
+  \item{wst.violations}{a vector containing
+    \eqn{0.5 - P_{ik}} for all triples that violate WST}
+  \item{mst.violations}{a vector containing
+    \eqn{\min(P_{ij}, P_{jk}) - P_{ik}} for all triples that violate MST}
+  \item{sst.violations}{a vector containing
+    \eqn{\max(P_{ij}, P_{jk}) - P_{ik}} for all triples that violate SST}
   \item{pcm}{the square matrix of relative choice frequencies}
 }
-\seealso{\code{\link{OptiPt}}.}
+\references{
+  Tversky, A. (1969). Intransitivity of preferences.
+  \emph{Psychological Review}, \bold{76}, 31--48.
+}
+\seealso{\code{\link{eba}}, \code{\link{kendall.u}}.}
 \examples{
 data(celebrities)  # absolute choice frequencies
 strans(celebrities)  # WST and MST hold, but not SST

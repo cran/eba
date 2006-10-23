@@ -1,5 +1,6 @@
-\name{OptiPt}
+\name{eba}
 \alias{OptiPt}
+\alias{eba}
 \alias{summary.eba}
 \alias{print.summary.eba}
 \alias{print.eba}
@@ -9,22 +10,28 @@
   Fits a probabilistic choice model by maximum likelihood estimation.
 }
 \usage{
-  OptiPt(M, A = 1:I, s = rep(1/J, J))
+eba(M, A = 1:I, s = rep(1/J, J))
 
-  summary.eba(object, ...)
+OptiPt(M, A = 1:I, s = rep(1/J, J))
+
+summary.eba(object, ...)
 }
 \arguments{
-  \item{M}{a square matrix or a data frame consisting of
-    absolute frequencies; row stimuli are chosen over column stimuli}
+  \item{M}{a square matrix or a data frame consisting of absolute choice
+    frequencies; row stimuli are chosen over column stimuli}
   \item{A}{a list of vectors consisting of the stimulus aspects;
     the default is \code{1:I}, where \code{I} is the number of stimuli}
   \item{s}{the starting vector with default \code{1/J} for all parameters,
     where \code{J} is the number of parameters}
   \item{object}{an object of class \code{eba}, typically the result of a
-    call to \code{\link{OptiPt}}}
-  \item{...}{additional arguments affecting the summary produced}
+    call to \code{\link{eba}}}
+  \item{...}{additional arguments affecting the summary produced.
+    None are used in this method.}
 }
 \details{
+  \code{eba} is a wrapper function for \code{OptiPt}.  Both functions
+  can be used interchangeably.
+
   The probabilistic choice models which can be fitted to paired-comparison
   data are the Bradley-Terry-Luce (BTL) model, preference tree (Pretree)
   models, and elimination-by-aspects (EBA) models, the former being special
@@ -33,19 +40,21 @@
   \code{A} is usually a list of vectors, the first element of each being
   a number from 1 to \code{I}; additional elements specify the aspects shared
   by several stimuli.  \code{A} must have as many elements as there are
-  stimuli.  When fitting a BTL model, \code{A} reduces to \code{1:I},
-  i.e. there is only one aspect per stimulus.
+  stimuli.  When fitting a BTL model, \code{A} reduces to \code{1:I} (the
+  default), i.e. there is only one aspect per stimulus.
 
   The maximum likelihood estimation of the parameter values is
   carried out by \code{nlm}.  The Hessian matrix, however, is
   approximated by \code{fdHess{nlme}}.  The likelihood function \code{L}
   is called automatically.
+
+  See \code{\link{group.test}} for details on the likelihood ratio
+  tests reported by \code{summary.eba}.
 }
 \value{
   \item{estimate}{a vector of parameter estimates}
   \item{se}{a vector of standard errors of the parameter estimates}
-  \item{ci95}{a vector of 95\%-confidence intervals for the parameter
-    estimates}
+  \item{ci95}{a vector of 95\% confidence intervals for the parameters}
   \item{logL.eba}{the log-likelihood of the fitted model}
   \item{logL.sat}{the log-likelihood of the saturated (binomial) model}
   \item{goodness.of.fit}{the goodness of fit statistic including the
@@ -74,7 +83,7 @@
   examples. In P.R. Krishnaiah & P.K. Sen (eds.),
   \emph{Handbook of Statistics, Volume 4}. Amsterdam: Elsevier.
 
-  Tversky, A. (1972). Elimination by aspects: A theory of choice.
+  Tversky, A. (1972). Elimination by aspects: a theory of choice.
   \emph{Psychological Review}, \bold{79}, 281--299.
 
   Tversky, A., & Sattath, S. (1979). Preference trees.
@@ -82,20 +91,21 @@
 }
 \seealso{
   \code{\link{strans}}, \code{\link{cov.u}}, \code{\link{wald.test}},
-        \code{\link{group.test}}, \code{\link{plot.eba}},
-        \code{\link{residuals.eba}}, \code{\link{nlm}}.
+  \code{\link{group.test}}, \code{\link{plot.eba}},
+  \code{\link{residuals.eba}}, \code{\link{logLik.eba}},
+  \code{\link{kendall.u}}, \code{\link{nlm}}.
 }
 \examples{
 data(celebrities)  # absolute choice frequencies
 A <- list(c(1,10), c(2,10), c(3,10), c(4,11), c(5,11), c(6,11),
           c(7,12), c(8,12), c(9,12))  # the structure of aspects
-eba <- OptiPt(celebrities, A)  # Fit a preference tree
+eba1 <- eba(celebrities, A)  # fit a preference tree
 
-summary(eba)  # goodness of fit
-plot(eba)  # residuals versus predicted values
+summary(eba1)  # goodness of fit
+plot(eba1)  # residuals versus predicted values
 
-ci <- 1.96 * sqrt(diag(cov.u(eba)))  # 95\%-ci of the preference scale
-a <- barplot(eba$u, ylim = c(0, .35))  # plot the scale
-arrows(a, eba$u-ci, a, eba$u+ci, .05, 90, 3)  # error bars
+ci <- 1.96 * sqrt(diag(cov.u(eba1)))  # 95\% CI for the preference scale values
+a <- barplot(eba1$u, ylim = c(0, .35))  # plot the scale
+arrows(a, eba1$u-ci, a, eba1$u+ci, .05, 90, 3)  # error bars
 }
 \keyword{models}

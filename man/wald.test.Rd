@@ -6,10 +6,10 @@
   Tests linear hypotheses of the form \eqn{Cp = 0} in EBA models using
   the Wald test.
 }
-\usage{wald.test(eba, C, u.scale = TRUE)}
+\usage{wald.test(object, C, u.scale = TRUE)}
 \arguments{
-  \item{eba}{an object of class \code{eba}, typically the result of a
-    call to \code{\link{OptiPt}}}
+  \item{object}{an object of class \code{eba}, typically the result of a
+    call to \code{\link{eba}}}
   \item{C}{a matrix of contrasts, specifying the linear hypotheses}
   \item{u.scale}{logical, if TRUE the test is performed on the u-scale, if
                  FALSE the test is performed on the EBA parameters directly}
@@ -28,22 +28,22 @@
   \item{pval}{the p-value of the test}
 }
 \seealso{
-  \code{\link{OptiPt}}, \code{\link{group.test}}, \code{\link{cov.u}}.
+  \code{\link{eba}}, \code{\link{group.test}}, \code{\link{cov.u}}.
 }
 \examples{
 data(celebrities)  # absolute choice frequencies
 A <- list(c(1,10), c(2,10), c(3,10), c(4,11), c(5,11), c(6,11),
           c(7,12), c(8,12), c(9,12))  # the structure of aspects
-eba <- OptiPt(celebrities, A)  # Fit a preference tree
+eba1 <- eba(celebrities, A)  # fit a preference tree
 
 # Test whether JU, CY, and AJF have equal preference scale values
 C1 <- matrix(c(0,0,0,1,-1,0,0,0,0,
                0,0,0,1,0,-1,0,0,0), 2, 9, TRUE)
-wald.test(eba, C1)
+wald.test(eba1, C1)
 
 # Test whether the three branch parameters are different
 C2 <- matrix(c(0,0,0,0,0,0,0,0,0,1,-1,0,
                0,0,0,0,0,0,0,0,0,1,0,-1), 2, 12, TRUE)
-wald.test(eba, C2, u.scale = FALSE)
+wald.test(eba1, C2, u.scale = FALSE)
 }
 \keyword{models}

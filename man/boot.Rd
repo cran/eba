@@ -6,7 +6,7 @@
   Performs a bootstrap by resampling the individual data matrices.
 }
 \usage{
-  boot(D, R = 100, A = 1:I, s = rep(1/J, J))
+boot(D, R = 100, A = 1:I, s = rep(1/J, J))
 }
 \arguments{
   \item{D}{a 3d array consisting of the individual paired
@@ -27,14 +27,14 @@
     means, standard errors, and confidence limits}}
 }
 \seealso{
-  \code{\link{OptiPt}}.
+  \code{\link{eba}}.
 }
 \examples{
 data(pork)  # pork tasting data, 10 individual paired comparison matrices
-eba <- OptiPt(apply(pork, 1:2, sum))  # fit a BTL model
+btl <- eba(apply(pork, 1:2, sum))  # fit a BTL model
 b <- boot(pork, 200)  # resample 200 times
 
-plot(eba$estimate, b$stat[,'mean'], log='xy')
+plot(btl$estimate, b$stat[,'mean'], log='xy')
 abline(0, 1, lty=2)
 }
 \keyword{models}

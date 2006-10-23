@@ -16,10 +16,10 @@
   A matrix having \code{(nstimuli-1)*nstimuli/2} rows and
   \code{nstimuli} columns.
 }
-\seealso{\code{\link{OptiPt}}, \code{\link{glm}}.}
+\seealso{\code{\link{eba}}, \code{\link{glm}}.}
 \examples{
 data(celebrities)  # absolute choice frequencies
-btl <- OptiPt(celebrities)  # fit BTL model using OptiPt
+btl <- eba(celebrities)  # fit BTL model using eba
 summary(btl)
 
 y1 <- t(celebrities)[lower.tri(celebrities)]
@@ -31,6 +31,6 @@ summary(btl.glm)  # BTL model does not fit these data!
 
 # Fit Thurstone Case V model using glm
 tm.glm <- glm(cbind(y1, y0) ~ pcX(9) - 1, binomial(probit))
-summary(tm.glm)  # TM model doesn't fit either
+summary(tm.glm)  # neither fits the TM model
 }
 \keyword{models}

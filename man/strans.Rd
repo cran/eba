@@ -41,7 +41,7 @@
   Tversky, A. (1969). Intransitivity of preferences.
   \emph{Psychological Review}, \bold{76}, 31--48.
 }
-\seealso{\code{\link{eba}}, \code{\link{kendall.u}}.}
+\seealso{\code{\link{eba}}, \code{\link{circular}}, \code{\link{kendall.u}}.}
 \examples{
 data(celebrities)  # absolute choice frequencies
 strans(celebrities)  # WST and MST hold, but not SST

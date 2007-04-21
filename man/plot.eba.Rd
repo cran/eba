@@ -4,12 +4,14 @@
 \description{
   Plots EBA residuals against fitted values.
 }
-\usage{plot.eba(x, ...)}
+\usage{
+\method{plot}{eba}(x, xlab = "Predicted choice probabilities",
+  ylab = "Deviance residuals", \dots)
+}
 \arguments{
   \item{x}{an object of class \code{eba}, typically the result of a
     call to \code{\link{eba}}}
-  \item{...}{further arguments passed to or from other methods.
-    None are used in this method.}
+  \item{xlab, ylab, \dots}{graphical parameters passed to plot.}
 }
 \details{
   The deviance residuals are plotted against the predicted choice
@@ -19,7 +21,13 @@
 \seealso{\code{\link{eba}}, \code{\link{residuals.eba}}.}
 \examples{
 data(celebrities)  # absolute choice frequencies
-btl <- eba(celebrities)  # fit BTL model
-plot(btl)  # residuals versus fitted
+btl1 <- eba(celebrities)  # fit BTL model
+A <- list(c(1,10), c(2,10), c(3,10), c(4,11), c(5,11), c(6,11),
+          c(7,12), c(8,12), c(9,12))  # the structure of aspects
+eba1 <- eba(celebrities, A)  # fit a preference tree (EBA)
+
+par(mfrow = c(1,2))  # residuals versus fitted values
+plot(btl1, main = "BTL", ylim = c(-4, 4.5))  # BTL doesn't fit well
+plot(eba1, main = "EBA", ylim = c(-4, 4.5))  # EBA fits better
 }
 \keyword{models}

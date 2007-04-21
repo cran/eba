@@ -5,16 +5,17 @@
 \alias{print.summary.eba}
 \alias{print.eba}
 \alias{L}
+\alias{L.constrained}
 \title{Elimination-By-Aspects (EBA) Models}
 \description{
-  Fits a probabilistic choice model by maximum likelihood estimation.
+  Fits a (multi-attribute) probabilistic choice model by maximum likelihood.
 }
 \usage{
-eba(M, A = 1:I, s = rep(1/J, J))
+eba(M, A = 1:I, s = rep(1/J, J), constrained = TRUE)
 
-OptiPt(M, A = 1:I, s = rep(1/J, J))
+OptiPt(M, A = 1:I, s = rep(1/J, J), constrained = TRUE)
 
-summary.eba(object, ...)
+\method{summary}{eba}(object, \dots)
 }
 \arguments{
   \item{M}{a square matrix or a data frame consisting of absolute choice
@@ -23,16 +24,18 @@ summary.eba(object, ...)
     the default is \code{1:I}, where \code{I} is the number of stimuli}
   \item{s}{the starting vector with default \code{1/J} for all parameters,
     where \code{J} is the number of parameters}
+  \item{constrained}{logical, if TRUE (default), parameters are constrained
+    to be positive}
   \item{object}{an object of class \code{eba}, typically the result of a
     call to \code{\link{eba}}}
-  \item{...}{additional arguments affecting the summary produced.
+  \item{\dots}{additional arguments affecting the summary produced.
     None are used in this method.}
 }
 \details{
   \code{eba} is a wrapper function for \code{OptiPt}.  Both functions
   can be used interchangeably.
 
-  The probabilistic choice models which can be fitted to paired-comparison
+  The probabilistic choice models that can be fitted to paired-comparison
   data are the Bradley-Terry-Luce (BTL) model, preference tree (Pretree)
   models, and elimination-by-aspects (EBA) models, the former being special
   cases of the latter.
@@ -45,8 +48,8 @@ summary.eba(object, ...)
 
   The maximum likelihood estimation of the parameter values is
   carried out by \code{nlm}.  The Hessian matrix, however, is
-  approximated by \code{fdHess{nlme}}.  The likelihood function \code{L}
-  is called automatically.
+  approximated by \code{fdHess{nlme}}.  The likelihood functions
+  \code{L.constrained} and \code{L} are called automatically.
 
   See \code{\link{group.test}} for details on the likelihood ratio
   tests reported by \code{summary.eba}.
@@ -59,13 +62,13 @@ summary.eba(object, ...)
   \item{logL.sat}{the log-likelihood of the saturated (binomial) model}
   \item{goodness.of.fit}{the goodness of fit statistic including the
     likelihood ratio fitted vs. saturated model (-2logL), the degrees of
-    freedom, and the p-value of the corresponding chi2 distribution}
+    freedom, and the p-value of the corresponding chi-square distribution}
   \item{u.scale}{the u-scale of the stimuli; one u-scale value is defined
     as the sum of aspect values (parameters) that characterize a given
     stimulus}
   \item{hessian}{the Hessian matrix of the likelihood function}
   \item{cov.p}{the covariance matrix of the model parameters}
-  \item{chi.alt}{the Pearson chi2 goodness of fit statistic}
+  \item{chi.alt}{the Pearson chi-square goodness of fit statistic}
   \item{fitted}{the fitted paired-comparison matrix}
   \item{y1}{the data vector of the upper triangle matrix}
   \item{y0}{the data vector of the lower triangle matrix}
@@ -93,7 +96,7 @@ summary.eba(object, ...)
   \code{\link{strans}}, \code{\link{cov.u}}, \code{\link{wald.test}},
   \code{\link{group.test}}, \code{\link{plot.eba}},
   \code{\link{residuals.eba}}, \code{\link{logLik.eba}},
-  \code{\link{kendall.u}}, \code{\link{nlm}}.
+  \code{\link{kendall.u}}, \code{\link{circular}}, \code{\link{nlm}}.
 }
 \examples{
 data(celebrities)  # absolute choice frequencies

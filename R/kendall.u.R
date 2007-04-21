@@ -7,7 +7,7 @@ kendall.u <- function(M, cont.correct = FALSE){
   # m observers (judges), n stimuli
   # last mod: 17/OCT/2006 fw
 
-  ifelse(cont.correct, c<-1, c<-0)
+  ifelse(cont.correct, c <- 1, c <- 0)
   Sigma <- sum( c(choose(M[upper.tri(M)],2), choose(M[lower.tri(M)],2)) )
   u <- 2*Sigma / ( choose(m<-M[1,2]+M[2,1],2) * choose(n<-dim(M)[1],2) ) - 1
   min.u <- ifelse(m %% 2, -1/m, -1/(m-1))

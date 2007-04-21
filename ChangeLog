@@ -1,5 +1,44 @@
-Changes in 1.4-2
+########## Changes in 1.4-3 ##########
 
+BUG FIX: group.test now returns the correct log-likelihoods
+  (the combinatorial constant is added to the models for the *pooled* data
+  and not, as it was in 1.4-2, to the group model; this leaves the
+  deviances unchanged, but the logLik's are now correct)
+
+New function circular: number of circular triads and indices of inconsistency
+
+New function L.constrained: for constrained minimization
+
+New function eba.boot.constrained: boostrapping using constrained minimization
+
+In function OptiPt: add "constrained" argument for constrained minimization
+  defaults to TRUE, parameters are constrained to be positive
+
+In function boot.R: add "constrained" argument, see OptiPt
+  add try() method in order to catch nlm errors
+
+In function group.test.R: add "constrained" argument, see OptiPt
+
+In function cov.u: add dimnames
+
+Rename weights data to heaviness (weights is an existing function name)
+
+In function plot.eba: add ... argument to plot
+
+Update OptiPt.Rd (arguments, usage: method for summary.eba)
+
+Update boot.Rd (arguments)
+
+Update plot.eba.Rd (arguments, examples, usage: method)
+
+Update residuals.eba.Rd (usage: method)
+
+Update group.test.Rd (details, references)
+
+Update DESCRIPTION file
+
+
+########## Changes in 1.4-2 ##########
 
 New function kendall.u: Kendall's u coefficient of agreement
 
@@ -8,7 +47,6 @@ New function eba as a wrapper for OptiPt
 New function logLik.eba
 
 New data set weights to illustrate choice models with order effects
-
 
 In group.test: add combinatorial constant to logLik of all group models? Yes!
 
@@ -19,7 +57,6 @@ In function OptiPt: add dimnames for fitted eba objects
 In celebrities data: add rownames
 
 In pork data: add dimnames
-
 
 Update group.test.Rd (details)
 

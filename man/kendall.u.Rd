@@ -10,7 +10,7 @@
   \item{M}{a square matrix or a data frame consisting of absolute choice
     frequencies; row stimuli are chosen over column stimuli}
   \item{cont.correct}{logical, if TRUE a correction for continuity is
-    applied (by deducting 1 from \code{chi2}); default is FALSE}
+    applied (by deducting 1 from \code{chi2}), default is FALSE}
 }
 \details{
   Kendall's u takes values between \code{min.u} (when agreement is minimum)
@@ -38,7 +38,7 @@
   \emph{Biometrika}, \bold{31}, 324--345.
 }
 \seealso{
-  \code{\link{eba}}, \code{\link{strans}}.
+  \code{\link{eba}}, \code{\link{strans}}, \code{\link{circular}}.
 }
 \examples{
 data(celebrities)

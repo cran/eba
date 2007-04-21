@@ -2,7 +2,7 @@
 \alias{logLik.eba}
 \title{Log-Likelihood of an eba Object}
 \description{
-  Returns the log-likelihood value of the (multiattribute) probabilistic
+  Returns the log-likelihood value of the (multi-attribute) probabilistic
   choice model represented by \code{object} evaluated at the
   estimated parameters.
 }
@@ -20,11 +20,12 @@
   \code{object} evaluated at the estimated parameters.
 }
 \seealso{
-  \code{\link{eba}},\code{\link{logLik.lm}}.
+  \code{\link{eba}}, \code{\link{logLik.lm}}, \code{\link{AIC}}.
 }
 \examples{
-data(weights)
-btl1 <- eba(weights[,,"order1"])
+data(heaviness)
+btl1 <- eba(heaviness[,,"order1"])
 logLik(btl1)
+AIC(btl1)
 }
 \keyword{models}

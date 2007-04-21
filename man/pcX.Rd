@@ -25,11 +25,11 @@ summary(btl)
 y1 <- t(celebrities)[lower.tri(celebrities)]
 y0 <- celebrities[lower.tri(celebrities)]
 
-# Fit BTL model using glm
+## Fit BTL model using glm
 btl.glm <- glm(cbind(y1, y0) ~ pcX(9) - 1, binomial)
 summary(btl.glm)  # BTL model does not fit these data!
 
-# Fit Thurstone Case V model using glm
+## Fit Thurstone Case V model using glm
 tm.glm <- glm(cbind(y1, y0) ~ pcX(9) - 1, binomial(probit))
 summary(tm.glm)  # neither fits the TM model
 }

@@ -11,7 +11,7 @@
     call to \code{\link{eba}}}
 }
 \details{
-  The additivity rule of covariances \eqn{cov(x+y,z) = cov(x,z) + cov(y,z)}
+  The additivity rule for covariances \eqn{cov(x+y,z) = cov(x,z) + cov(y,z)}
   is used for the computations.
 }
 \value{

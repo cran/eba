@@ -1,71 +1,55 @@
-########## Changes in 1.4-3 ##########
+Changes in 1.5-0
 
-BUG FIX: group.test now returns the correct log-likelihoods
-  (the combinatorial constant is added to the models for the *pooled* data
-  and not, as it was in 1.4-2, to the group model; this leaves the
-  deviances unchanged, but the logLik's are now correct)
+  * eba.order.R (new set of functions): fitting and testing EBA models
+    that include a within-pair order effect
+  * OptiPt: add names to the parameter estimates
+  * print.strans: replace printCoefmat by print, now it prints
+    "0" (not "NaN") when there are no SST violations
+  * strans.Rd (value): update
+  * heaviness.Rd (source): put original reference to the data
+  * DESCRIPTION file (Date, Version, URL): 1.5-0, new web address
 
-New function circular: number of circular triads and indices of inconsistency
+Changes in 1.4-3
 
-New function L.constrained: for constrained minimization
+  * BUG FIX: group.test now returns the correct log-likelihoods (the
+    combinatorial constant is added to the models for the *pooled* data
+    and not, as it was in 1.4-2, to the group model; this leaves the
+    deviances unchanged, but the logLik's are now correct)
+  * circular.R (new function): number of circular triads and indices of
+    inconsistency
+  * L.constrained (new function): constrained minimization
+  * eba.boot.constrained (new function): bootstrapping using constrained
+    minimization
+  * OptiPt: add "constrained" argument for constrained minimization
+    defaults to TRUE, parameters are constrained to be positive
+  * boot.R: add "constrained" argument, see OptiPt
+    add try() method in order to catch nlm errors
+  * group.test: add "constrained" argument, see OptiPt
+  * cov.u: add dimnames
+  * weights data: rename to heaviness (weights is an existing function name)
+  * plot.eba: add ... argument to plot
+  * OptiPt.Rd (arguments, usage: method for summary.eba): update
+  * boot.Rd (arguments): update
+  * plot.eba.Rd (arguments, examples, usage: method): update
+  * residuals.eba.Rd (usage, method): update
+  * group.test.Rd (details, references): update
+  * DESCRIPTION (Date, Version): 1.4-3
 
-New function eba.boot.constrained: boostrapping using constrained minimization
+Changes in 1.4-2
 
-In function OptiPt: add "constrained" argument for constrained minimization
-  defaults to TRUE, parameters are constrained to be positive
-
-In function boot.R: add "constrained" argument, see OptiPt
-  add try() method in order to catch nlm errors
-
-In function group.test.R: add "constrained" argument, see OptiPt
-
-In function cov.u: add dimnames
-
-Rename weights data to heaviness (weights is an existing function name)
-
-In function plot.eba: add ... argument to plot
-
-Update OptiPt.Rd (arguments, usage: method for summary.eba)
-
-Update boot.Rd (arguments)
-
-Update plot.eba.Rd (arguments, examples, usage: method)
-
-Update residuals.eba.Rd (usage: method)
-
-Update group.test.Rd (details, references)
-
-Update DESCRIPTION file
-
-
-########## Changes in 1.4-2 ##########
-
-New function kendall.u: Kendall's u coefficient of agreement
-
-New function eba as a wrapper for OptiPt
-
-New function logLik.eba
-
-New data set weights to illustrate choice models with order effects
-
-In group.test: add combinatorial constant to logLik of all group models? Yes!
-
-Check strans for matrices, bug? No, returns NaN if there are no violations!
-
-In function OptiPt: add dimnames for fitted eba objects
-
-In celebrities data: add rownames
-
-In pork data: add dimnames
-
-Update group.test.Rd (details)
-
-Update OptiPt.Rd (usage, arguments, details)
-
-Update strans.Rd (value, references)
-
-Update celebrities.Rd (description, source, examples)
-
-Update pork.Rd (description, source, examples)
-
-Update DESCRIPTION file
+  * kendall.u.R (new function): Kendall's u coefficient of agreement
+  * eba (new function): wrapper for OptiPt
+  * logLik.eba (new function)
+  * weights (new data set): illustrate choice models with order effects
+  * group.test: add combinatorial constant to logLik of all group models
+  * Check strans for matrices: bug? No, returns NaN if there are no
+    violations
+  * OptiPt: add dimnames for fitted eba objects
+  * celebrities data: add rownames
+  * pork data: add dimnames
+  * group.test.Rd (details): update
+  * OptiPt.Rd (usage, arguments, details): update
+  * strans.Rd (value, references): update
+  * celebrities.Rd (description, source, examples): update
+  * pork.Rd (description, source, examples): update
+  * DESCRIPTION (Version, Date): 1.4-2

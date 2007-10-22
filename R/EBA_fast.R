@@ -13,7 +13,7 @@ library(nlme)  # needed for fdHess()
 #   pcX            paired-comparison design matrix
 #   wald.test      testing linear hypotheses (Cp = 0) in EBA models
 #   group.test     groupwise testing in EBA models
-#   residuals.eba  deviance and pearson residuals
+#   residuals.eba  deviance and Pearson residuals
 #   plot.eba       diagnostic plot
 #   BUG FIX: df in the imbalance test corrected
 
@@ -33,8 +33,7 @@ OptiPt <- function(M, A = 1:I, s = rep(1/J, J), constrained=TRUE){
   I <- ncol(M)  # number of alternatives/stimuli
   J <- max(unlist(A))  # number of eba parameters
 
-  idx1 <- matrix(0, I*(I-1)/2, J)  # index matrices
-  idx0 <- idx1
+  idx1 <- idx0 <- matrix(0, I*(I-1)/2, J)  # index matrices
   rdx <- 1
   for(i in 1:(I-1)){                         
     for(j in (i+1):I){
@@ -57,6 +56,7 @@ OptiPt <- function(M, A = 1:I, s = rep(1/J, J), constrained=TRUE){
   }
 
   p <- out$est  # optimized parameters
+  names(p) <- 1:J
   hes <- fdHess(p, L, y1, n, idx1, idx0)$H  # numerical Hessian
   cova <- solve(rbind(cbind(hes, 1), c(rep(1, J), 0)))[1:J,1:J]
   se <- sqrt(diag(cova))  # standard error
@@ -98,9 +98,6 @@ summary.eba <- function(object, ...){
   I <- length(x$A)
   J <- length(x$estimate)
   y <- c(x$y1, x$y0)
-  chi2 <- x$goodness.of.fit[1]
-  df <- x$goodness.of.fit[2]
-  pval <- x$goodness.of.fit[3]
   coef <- x$estimate
   s.err <- x$se
   tvalue <- coef / s.err
@@ -111,33 +108,39 @@ summary.eba <- function(object, ...){
 
   tests <- rbind(
    # mean poisson model vs. saturated poisson model (on y)
-    c(1, I*(I-1),
+    c(df1 <- 1,
+      df2 <- I*(I - 1),
       l.1 <- sum(dpois(y, mean(y), log=TRUE)),
       l.2 <- sum(dpois(y, y, log=TRUE)),
-      dev <- 2*(l.2 - l.1), 1 - pchisq(dev, I*(I-1)-1)),
+      dev <- 2*(l.2 - l.1), 1 - pchisq(dev, df2 - df1)),
 
    # EBA model vs. saturated binomial model
-    c(J-1, I*(I-1)/2, x$logL.eba, x$logL.sat, chi2, pval),
+    c(df1 <- J - 1,
+      df2 <- I*(I - 1)/2,
+      l.1 <- x$logL.eba,
+      l.2 <- x$logL.sat,
+      dev <- 2*(l.2 - l.1), 1 - pchisq(dev, df2 - df1)),
 
    # Null model vs. EBA model
-    c(0, J-1,
+    c(df1 <- 0,
+      df2 <- J - 1,
       l.1 <- sum(dbinom(x$y1, x$n, 1/2, log=TRUE)),
       l.2 <- x$logL.eba,
-      dev <- 2*(l.2 - l.1), 1 - pchisq(dev, J-1)),
+      dev <- 2*(l.2 - l.1), 1 - pchisq(dev, df2 - df1)),
 
    # mean poisson model vs. saturated poisson model (on n)
-    c(1, I*(I-1)/2,
+    c(df1 <- 1,
+      df2 <- I*(I-1)/2,
       l.1 <- sum(dpois(x$n, mean(x$n), log=TRUE)),
       l.2 <- sum(dpois(x$n, x$n, log=TRUE)),
-      dev <- 2*(l.2 - l.1), 1 - pchisq(dev, I*(I-1)/2-1))
+      dev <- 2*(l.2 - l.1), 1 - pchisq(dev, df2 - df1))
   )
   rownames(tests) <- c("Overall", "EBA", "Effect", "Imbalance")
   colnames(tests) <- c("Df1","Df2","logLik1","logLik2","Deviance","Pr(>|Chi|)")
 
   aic <- -2*x$logL.eba + 2*(length(coef)-1)
-  ans <- list(coefficients=coef.table, chi2=chi2, df=df, pval=pval, aic=aic,
-             logL.eba=x$logL.eba, logL.sat=x$logL.sat, tests=tests,
-             chi.alt=x$chi.alt)
+  ans <- list(coefficients=coef.table, aic=aic, logL.eba=x$logL.eba,
+    logL.sat=x$logL.sat, tests=tests, chi.alt=x$chi.alt)
   class(ans) <- "summary.eba"
   return(ans)
 }
@@ -152,7 +155,7 @@ print.eba <- function(x, digits=max(3, getOption("digits")-3),
   chi2 <- x$goodness.of.fit[1]
   df <- x$goodness.of.fit[2]
   pval <- x$goodness.of.fit[3]
-  cat("\nGoodness of fit (-2 log-likelihood ratio):\n")
+  cat("\nGoodness of fit (-2 log likelihood ratio):\n")
   cat("\tChi2(", df, ") = ", format(chi2, digits=digits), ", p = ",
       format(pval,digits=digits), "\n", sep="")
   cat("\n")
@@ -187,37 +190,38 @@ strans <- function(M){
   # last mod: 08/Oct/2003 (works now for unbalanced design)
   # author: Florian Wickelmaier (wickelmaier@web.de)
 
-  I <- sqrt(length(as.matrix(M)))  # number of stimuli
-  R <- as.matrix( M / (M+t(M)) )   # pcm rel. freq.
-  R[which(is.nan(R), arr.ind=TRUE)] <- rep(0,I)
+  I <- sqrt(length(as.matrix(M)))    # number of stimuli
+  R <- as.matrix( M / (M + t(M)) )   # pcm rel. freq.
+  R[which(is.nan(R), arr.ind=TRUE)] <- rep(0, I)
   pre <- 0
-  wst <- mst <- sst <- 0
-  wstv <- mstv <- sstv <- numeric()
-
+  wst <- mst <- sst <- 0             # number of violations per triple
+  wstv <- mstv <- sstv <- numeric()  # deviation from minimum permissible prob
+ 
+  ## For each triple, go through the 6 permutations
   for(ii in 1:(I-2)){ for(jj in (ii+1):(I-1)){ for(kk in (jj+1):I){
-    iSST <- iMST <- iWST <- 0
+    iSST <- iMST <- iWST <- 0  # 0 indicates that trans never held
     iwv <- imv <- isv <- 1
-    for(i in c(ii,jj,kk)){
-      for(j in c(ii,jj,kk)){
-        for(k in c(ii,jj,kk)){
-          if(i!=j && j!=k && i!=k){
-            if(R[i,j]>=.5 && R[j,k]>=.5){
-              if(.5-R[i,k] < iwv) iwv <- .5-R[i,k]
-              if(min(R[i,j],R[j,k]) - R[i,k] < imv)
-                imv <- min(R[i,j],R[j,k]) - R[i,k]
-              if(max(R[i,j],R[j,k]) - R[i,k] < isv)
-                isv <- max(R[i,j],R[j,k]) - R[i,k]
-              if(R[i,k] >= .5) iWST <- iWST+1
-              if(R[i,k] >= min(R[i,j],R[j,k])) iMST <- iMST+1
-              if(R[i,k] >= max(R[i,j],R[j,k])) iSST <- iSST+1
+    for(i in c(ii, jj, kk)){
+      for(j in c(ii, jj, kk)){
+        for(k in c(ii, jj, kk)){
+          if(i != j && j != k && i != k){
+            if(R[i, j] >= .5 && R[j, k] >= .5){  # if premise holds
+              if(.5 - R[i, k] < iwv) iwv <- .5 - R[i, k]  # take the minimum
+              if(min(R[i, j], R[j, k]) - R[i, k] < imv)   #   deviation
+                imv <- min(R[i, j], R[j, k]) - R[i, k]
+              if(max(R[i, j], R[j, k]) - R[i, k] < isv)
+                isv <- max(R[i, j], R[j, k]) - R[i, k]
+              if(R[i, k] >= .5) iWST <- iWST + 1  # increment if it holds
+              if(R[i, k] >= min(R[i, j], R[j, k])) iMST <- iMST + 1
+              if(R[i, k] >= max(R[i, j], R[j, k])) iSST <- iSST + 1
             }
           }
         }
       }
     }
-    if(iSST==0){ sst <- sst+1; sstv <- c(sstv,isv) }
-    if(iMST==0){ mst <- mst+1; mstv <- c(mstv,imv) }
-    if(iWST==0){ wst <- wst+1; wstv <- c(wstv,iwv) }
+    if(iSST == 0){ sst <- sst + 1; sstv <- c(sstv, isv) }
+    if(iMST == 0){ mst <- mst + 1; mstv <- c(mstv, imv) }
+    if(iWST == 0){ wst <- wst + 1; wstv <- c(wstv, iwv) }
     pre <- pre+1
   } } }
   wv <- mv <- sv <- 0
@@ -232,6 +236,8 @@ strans <- function(M){
 
 
 print.strans <- function(x, digits = max(3,getOption("digits")-4), ...){
+  # Last mod: 21/Aug/2007: replace printCoefmat by print
+
   cat("\nStochastic Transitivity\n\n")
   tran <- c(x$weak, x$moderate, x$strong)
   ntst <- x$n.tests
@@ -239,18 +245,15 @@ print.strans <- function(x, digits = max(3,getOption("digits")-4), ...){
     c(mean(x$wst.violations), mean(x$mst.violations), mean(x$sst.violations)),
     c(max(x$wst.violations), max(x$mst.violations), max(x$sst.violations)))
  
-  # 2004/MAY/04 new:
   ttran <- cbind(tran, ttab)
   rownames(ttran) <- c("weak", "moderate", "strong")
   colnames(ttran) <- c("violations", "error.ratio", "mean.dev", "max.dev")
-  printCoefmat(ttran, digits = digits, signif.stars = NULL,
-    zap.ind = 1, tst.ind = 0, cs.ind = 2:4, ...)
+
+  print(ttran, digits=digits)
 
 # old:
-#  print.matrix(cbind(tran,format(ttab,digits=digits)),
-#               rowlab=c("weak","moderate","strong"),
-#               collab=c("violations","error.ratio","mean.dev","max.dev"),
-#               quote=FALSE,right=TRUE)
+#  printCoefmat(ttran, digits = digits, signif.stars = NULL,
+#    zap.ind = 1, tst.ind = 0, cs.ind = 2:4, ...)
 
   cat("---\nNumber of Tests: ", ntst, "\n")
   cat("\n")
@@ -298,9 +301,9 @@ group.test <- function(groups, A = 1:I, s = rep(1/J,J), constrained=TRUE){
   # BUG FIX: combinatorial constant is added to the pooled models!
 
   pool <- apply(groups, 1:2, sum)  # pooled data matrix
-  I <- ncol(pool)  # number of stimuli
-  J <- max(unlist(A))  # number of eba parameters
-  ngroups <- dim(groups)[3]  # number of groups
+  I <- ncol(pool)                  # number of stimuli
+  J <- max(unlist(A))              # number of eba parameters
+  ngroups <- dim(groups)[3]        # number of groups
 
   eba.p <- OptiPt(pool, A, s, constrained)  # EBA for pooled data
   ebas <- NULL  # list of eba models (one per group)

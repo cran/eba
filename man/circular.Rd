@@ -14,7 +14,7 @@
   Kendall's coefficient of consistency,
   \deqn{zeta = 1 - T/T_{max},}
   lies between one (perfect consistency) and zero,
-  where \code{T} is the observed number of cicular triads,
+  where \code{T} is the observed number of circular triads,
   and the maximum possible number of circular triads is
   \eqn{T_{max} = n*(n^2 - 4)/24}, if \eqn{n} is even, and
   \eqn{T_{max} = n*(n^2 - 1)/24} else, and \eqn{n} is the
@@ -25,7 +25,7 @@
   approximation might be incorrect if \eqn{n < 8}.
 }
 \value{
-  \item{T}{number of cicular triads}
+  \item{T}{number of circular triads}
   \item{T.max}{maximum possible number of circular triads}
   \item{zeta}{Kendall's coefficient of consistency}
   \item{chi2}{the chi-square statistic for a test that the consistency is

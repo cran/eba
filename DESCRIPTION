@@ -1,6 +1,6 @@
 Package: eba
-Version: 1.4-3
-Date: 2007/APR/21
+Version: 1.5-0
+Date: 2007/OCT/22
 Title: Elimination-By-Aspects (EBA) Models
 Author: Florian Wickelmaier <wickelmaier@web.de>
 Maintainer: Florian Wickelmaier <wickelmaier@web.de>
@@ -11,5 +11,5 @@ Description: Fitting and testing multi-attribute probabilistic choice
   (Tversky, 1972), and preference tree (Pretree) models (Tversky &
   Sattath, 1979).
 License: GPL version 2 or newer
-URL: http://www.r-project.org, http://acoustics.dk/~fw
-Packaged: Sat Apr 21 20:35:34 2007; siifw01
+URL: http://www.r-project.org, http://homepages.uni-tuebingen.de/florian.wickelmaier
+Packaged: Mon Oct 22 12:16:51 2007; siifw01

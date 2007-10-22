@@ -22,10 +22,10 @@
   }
 }
 \source{
-  Davidson, R.R., & Beaver, R.J. (1977).
-  On extending the Bradley-Terry model to incorporate
-  within-pair order effects.
-  \emph{Biometrics}, \bold{33}, 693--702.
+  Beaver, R.J., Gokhale, D.V. (1975).
+  A model to incorporate within-pair order effects in
+  paired comparisons.
+  \emph{Communications in Statistics}, \bold{4}, 923--939.
 }
 \examples{
 data(heaviness)

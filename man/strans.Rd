@@ -24,7 +24,9 @@
 \value{
   A table displaying the number of violations of the weak, moderate,
   and strong stochastic transitivity, the number of tests, the
-  error ratio (violations/tests), and the mean and maximum deviation.
+  error ratio (violations/tests), and the mean and maximum deviation
+  from the minimum probability for which the corresponding transitivity
+  would hold.
   \item{weak}{number of violations of WST}
   \item{moderate}{number of violations of MST}
   \item{strong}{number of violations of SST}

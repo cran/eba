@@ -27,6 +27,7 @@ btl1 <- eba(celebrities)              # fit BTL model
 A <- list(c(1,10), c(2,10), c(3,10), c(4,11), c(5,11), c(6,11),
           c(7,12), c(8,12), c(9,12))  # the structure of aspects
 eba1 <- eba(celebrities, A)           # fit a preference tree (EBA)
+anova(btl1, eba1)                     # model comparison based on likelihoods
 
 par(mfrow = c(1,2))                   # residuals versus fitted values
 plot(btl1, main = "BTL", ylim = c(-4, 4.5))  # BTL doesn't fit well

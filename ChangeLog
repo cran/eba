@@ -1,3 +1,16 @@
+Changes in 1.5-1
+
+  * balanced.pcdesign.R (new function): creates a (completely) balanced
+    paired-comparison design
+  * thurstone.R (new function): fits a Thurstone-Mosteller model (Case V)
+    to paired-comparison data by maximum likelihood
+  * anova.eba (new function): likelihood ratio test for eba models
+  * vcov.eba (new function): covariance matrix of eba models
+  * zzMethods.R: add anova.eba.order
+  * OptiPt.Rd: put anova and vcov
+  * pcX.Rd: put reference to Critchlow & Fligner (1991)
+  * DESCRIPTION (Version, Date): 1.5-1
+
 Changes in 1.5-0
 
   * eba.order.R (new set of functions): fitting and testing EBA models

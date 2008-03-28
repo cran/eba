@@ -2,6 +2,8 @@
 \alias{OptiPt}
 \alias{eba}
 \alias{summary.eba}
+\alias{anova.eba}
+\alias{vcov.eba}
 \alias{print.summary.eba}
 \alias{print.eba}
 \alias{L}
@@ -16,6 +18,8 @@ eba(M, A = 1:I, s = rep(1/J, J), constrained = TRUE)
 OptiPt(M, A = 1:I, s = rep(1/J, J), constrained = TRUE)
 
 \method{summary}{eba}(object, \dots)
+
+\method{anova}{eba}(object, \dots, test = c("Chisq", "none"))
 }
 \arguments{
   \item{M}{a square matrix or a data frame consisting of absolute choice
@@ -28,8 +32,10 @@ OptiPt(M, A = 1:I, s = rep(1/J, J), constrained = TRUE)
     to be positive}
   \item{object}{an object of class \code{eba}, typically the result of a
     call to \code{\link{eba}}}
-  \item{\dots}{additional arguments affecting the summary produced.
-    None are used in this method.}
+  \item{test}{should the p-values of the chi-square distributions be
+    reported?}
+  \item{\dots}{additional arguments; none are used in the summary method;
+    in the anova method they refer to additional objects of class \code{eba}.}
 }
 \details{
   \code{eba} is a wrapper function for \code{OptiPt}.  Both functions
@@ -96,18 +102,21 @@ OptiPt(M, A = 1:I, s = rep(1/J, J), constrained = TRUE)
   \code{\link{strans}}, \code{\link{cov.u}}, \code{\link{wald.test}},
   \code{\link{group.test}}, \code{\link{plot.eba}},
   \code{\link{residuals.eba}}, \code{\link{logLik.eba}},
-  \code{\link{kendall.u}}, \code{\link{circular}}, \code{\link{nlm}}.
+  \code{\link{kendall.u}}, \code{\link{circular}}, \code{\link{thurstone}},
+  \code{\link{nlm}}.
 }
 \examples{
-data(celebrities)  # absolute choice frequencies
+data(celebrities)                     # absolute choice frequencies
+btl1 <- eba(celebrities)              # fit a Bradley-Terry-Luce model
 A <- list(c(1,10), c(2,10), c(3,10), c(4,11), c(5,11), c(6,11),
           c(7,12), c(8,12), c(9,12))  # the structure of aspects
-eba1 <- eba(celebrities, A)  # fit a preference tree
+eba1 <- eba(celebrities, A)           # fit a preference tree model
 
-summary(eba1)  # goodness of fit
-plot(eba1)  # residuals versus predicted values
+summary(eba1)      # goodness of fit
+plot(eba1)         # residuals versus predicted values
+anova(btl1, eba1)  # model comparison based on likelihoods
 
-ci <- 1.96 * sqrt(diag(cov.u(eba1)))  # 95\% CI for the preference scale values
+ci <- 1.96 * sqrt(diag(cov.u(eba1)))    # 95\% CI for preference scale values
 a <- barplot(eba1$u, ylim = c(0, .35))  # plot the scale
 arrows(a, eba1$u-ci, a, eba1$u+ci, .05, 90, 3)  # error bars
 }

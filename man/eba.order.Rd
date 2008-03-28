@@ -1,6 +1,7 @@
 \name{eba.order}
 \alias{eba.order}
 \alias{summary.eba.order}
+\alias{anova.eba.order}
 \alias{print.eba.order}
 \alias{print.summary.eba.order}
 \alias{L.order}

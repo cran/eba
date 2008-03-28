@@ -16,6 +16,10 @@ library(nlme)  # needed for fdHess()
 #   residuals.eba  deviance and Pearson residuals
 #   plot.eba       diagnostic plot
 #   BUG FIX: df in the imbalance test corrected
+#
+# 2008/MAR/28: added new functions:
+#   anova.eba      anova function for eba models
+#   vcov.eba       vcov function for eba models
 
 
 OptiPt <- function(M, A = 1:I, s = rep(1/J, J), constrained=TRUE){
@@ -444,3 +448,45 @@ plot.eba <- function(x, xlab = "Predicted choice probabilities",
   abline(h = 0, lty = 2)
   panel.smooth(x$mu, resid(x))
 }
+
+
+anova.eba <- function (object, ..., test = c("Chisq", "none")){
+  # Adapted form anova.polr by Brian Ripley
+
+  test <- match.arg(test)
+  dots <- list(...)
+  if (length(dots) == 0)
+      stop('anova is not implemented for a single "eba" object')
+  mlist <- list(object, ...)
+  names(mlist) <- c(deparse(substitute(object)),
+    as.character(substitute(...[]))[2:length(mlist)])
+  nt <- length(mlist)
+  dflis <- sapply(mlist, function(x) x$goodness["df"])
+  s <- order(dflis, decreasing = TRUE)
+  mlist <- mlist[s]
+  if (any(!sapply(mlist, inherits, "eba")))
+      stop('not all objects are of class "eba"')
+  ns <- sapply(mlist, function(x) length(x$mu))
+  if(any(ns != ns[1]))
+      stop("models were not all fitted to the same size of dataset")
+
+  dfs <- dflis[s]
+  lls <- sapply(mlist, function(x) x$goodness["-2logL"])
+  tss <- c("", paste(1:(nt - 1), 2:nt, sep = " vs "))
+  df <- c(NA, -diff(dfs))
+  x2 <- c(NA, -diff(lls))
+  pr <- c(NA, 1 - pchisq(x2[-1], df[-1]))
+  out <- data.frame(Model = names(mlist), Resid.df = dfs, Deviance = lls,
+                    Test = tss, Df = df, LRtest = x2, Prob = pr)
+  names(out) <- c("Model", "Resid. df", "Resid. Dev", "Test",
+                  "   Df", "LR stat.", "Pr(Chi)")
+  rownames(out) <- 1:nt
+  if (test == "none") out <- out[, 1:6]
+  class(out) <- c("Anova", "data.frame")
+  attr(out, "heading") <-
+    "Analysis of deviance table for elimination-by-aspect models\n"
+  out
+}
+
+
+vcov.eba <- function(object, ...) object$cov.p

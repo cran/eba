@@ -1,3 +1,15 @@
+Changes in 1.5-2
+
+  * linear2btl.R (new function): transforms linear model coefficients to BTL
+    parameter estimates
+  * vcov.eba.order (new function): covariance matrix of eba.order model
+    parameters
+  * anova.eba: make it work for eba.order models
+  * print.group.test, print.summary.eba, and print.summary.eba.order: delete
+    the symbolic.cor=p>4 argument that caused a NOTE from CRAN check
+  * pcX.Rd (see also): update
+  * DESCRIPTION (Version, Date): 1.5-2
+
 Changes in 1.5-1
 
   * balanced.pcdesign.R (new function): creates a (completely) balanced
@@ -5,7 +17,7 @@ Changes in 1.5-1
   * thurstone.R (new function): fits a Thurstone-Mosteller model (Case V)
     to paired-comparison data by maximum likelihood
   * anova.eba (new function): likelihood ratio test for eba models
-  * vcov.eba (new function): covariance matrix of eba models
+  * vcov.eba (new function): covariance matrix of eba model parameters
   * zzMethods.R: add anova.eba.order
   * OptiPt.Rd: put anova and vcov
   * pcX.Rd: put reference to Critchlow & Fligner (1991)

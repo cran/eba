@@ -9,3 +9,5 @@ residuals.eba.order <- residuals.eba
 plot.eba.order <- plot.eba
 
 anova.eba.order <- anova.eba
+
+vcov.eba.order <- vcov.eba

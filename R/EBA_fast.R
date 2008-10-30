@@ -5,7 +5,7 @@ library(nlme)  # needed for fdHess()
 #              'print.matrix' doesn't work anymore (for strans)
 #
 # 2004/JUL/20: trying to make it fit for CRAN:
-#   removing beta2eba.R (or do you want to explain what it does??)
+#   removing beta2eba.R (now in linear2btl.R)
 #   making summary.eba generic: add '...', rename x to object
 #   changing all 'T' to 'TRUE'
 #
@@ -167,9 +167,13 @@ print.eba <- function(x, digits=max(3, getOption("digits")-3),
 }
 
 
+# Old:
+# print.summary.eba <- function(x, digits=max(3, getOption("digits")-3),
+#   na.print="", symbolic.cor=p>4, signif.stars=getOption("show.signif.stars"),
+#   ...){
+
 print.summary.eba <- function(x, digits=max(3, getOption("digits")-3),
-  na.print="", symbolic.cor=p>4, signif.stars=getOption("show.signif.stars"),
-  ...){
+  na.print="", signif.stars=getOption("show.signif.stars"), ...){
   cat("\nParameter estimates:\n")
   printCoefmat(x$coef, digits = digits, signif.stars = signif.stars, ...)
   cat("\nModel tests:\n")
@@ -373,9 +377,13 @@ group.test <- function(groups, A = 1:I, s = rep(1/J,J), constrained=TRUE){
 }
 
 
+# Old:
+# print.group.test <- function(x, digits=max(3,getOption("digits")-3),
+#   na.print="", symbolic.cor=p>4, signif.stars=getOption("show.signif.stars"),
+#   ...){
+
 print.group.test <- function(x, digits=max(3,getOption("digits")-3),
-  na.print="", symbolic.cor=p>4, signif.stars=getOption("show.signif.stars"),
-  ...){
+  na.print="", signif.stars=getOption("show.signif.stars"), ...){
   cat("\nTesting for group effects in EBA models:\n")
   cat("\n")
   printCoefmat(x$tests, digits = digits, signif.stars = signif.stars,
@@ -452,6 +460,7 @@ plot.eba <- function(x, xlab = "Predicted choice probabilities",
 
 anova.eba <- function (object, ..., test = c("Chisq", "none")){
   # Adapted form anova.polr by Brian Ripley
+  # Works also for eba.order
 
   test <- match.arg(test)
   dots <- list(...)
@@ -464,8 +473,14 @@ anova.eba <- function (object, ..., test = c("Chisq", "none")){
   dflis <- sapply(mlist, function(x) x$goodness["df"])
   s <- order(dflis, decreasing = TRUE)
   mlist <- mlist[s]
-  if (any(!sapply(mlist, inherits, "eba")))
-      stop('not all objects are of class "eba"')
+
+# if (any(!sapply(mlist, inherits, "eba")))
+#     stop('not all objects are of class "eba"')
+  ## All models must be either eba or eba.order.
+  if(any(!sapply(mlist, inherits, "eba")) &
+     any(!sapply(mlist, inherits, "eba.order")))
+       stop('not all objects are of class "eba" or of class "eba.order"')
+
   ns <- sapply(mlist, function(x) length(x$mu))
   if(any(ns != ns[1]))
       stop("models were not all fitted to the same size of dataset")

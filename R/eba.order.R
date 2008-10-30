@@ -21,7 +21,7 @@ eba.order <- function(M1, M2, A = 1:I, s = c(rep(1/J, J), 1), constrained=TRUE){
   y0 <- c( M1[lower.tri(M1)], M2[lower.tri(M2)] )
   n  <- y1 + y0
   names(y1) <- names(y0) <- names(n) <- NULL
-  logL.sat <- sum( dbinom(y1, n, y1/n, log=TRUE))  # likelihood of sat. model
+  logL.sat <- sum(dbinom(y1, n, y1/n, log=TRUE))  # likelihood of sat. model
 
   if(constrained){  # minimization
     out <- nlm(L.constrained.order, s, y1=y1, m=n, i1=idx1, i0=idx0)  # constr
@@ -180,9 +180,13 @@ summary.eba.order <- function(object, ...){
 }
 
 
+# Old:
+# print.summary.eba.order <- function(x, digits=max(3, getOption("digits")-3),
+#   na.print="", symbolic.cor=p>4, signif.stars=getOption("show.signif.stars"),
+#   ...){
+
 print.summary.eba.order <- function(x, digits=max(3, getOption("digits")-3),
-  na.print="", symbolic.cor=p>4, signif.stars=getOption("show.signif.stars"),
-  ...){
+  na.print="", signif.stars=getOption("show.signif.stars"), ...){
   cat("\nParameter estimates (H0: parameter = 0):\n")
   printCoefmat(x$coef, digits = digits, signif.stars = signif.stars, ...)
   cat("\nOrder effects (H0: parameter = 1):\n")

@@ -26,7 +26,7 @@
 }
 \seealso{
   \code{\link{eba}}, \code{\link{thurstone}}, \code{\link{glm}},
-  \code{\link{balanced.pcdesign}}.
+  \code{\link{balanced.pcdesign}}, \code{\link{linear2btl}}.
 }
 \examples{
 data(celebrities)        # absolute choice frequencies

@@ -13,7 +13,7 @@ thurstone(M)
     frequencies; row stimuli are chosen over column stimuli}
 }
 \details{
-  \code{thurstone} is a wrapper function for \code{glm}.
+  \code{thurstone} provides a front end for \code{glm}.
 
   See Critchlow & Fligner (1991) for more details.
 }

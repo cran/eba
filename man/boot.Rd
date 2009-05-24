@@ -29,7 +29,7 @@ boot(D, R = 100, A = 1:I, s = rep(1/J, J), constrained = TRUE)
 \value{
   \item{p}{the matrix of bootstrap vectors}
   \item{stat}{the matrix of bootstrap statistics, including parameter
-    means, standard errors, and confidence limits}}
+    means, standard errors, and confidence limits}
 }
 \seealso{
   \code{\link{eba}}.

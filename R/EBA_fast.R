@@ -20,6 +20,8 @@ library(nlme)  # needed for fdHess()
 # 2008/MAR/28: added new functions:
 #   anova.eba      anova function for eba models
 #   vcov.eba       vcov function for eba models
+#
+# 2009/MAY/24: moved functions strans and print.strans to extra file
 
 
 OptiPt <- function(M, A = 1:I, s = rep(1/J, J), constrained=TRUE){
@@ -191,82 +193,6 @@ L <- function(p,y1,m,i1,i0) -sum(dbinom(y1, m, 1/(1+i0%*%p/i1%*%p), log=TRUE))
 
 L.constrained <- function(p, y1, m, i1, i0)  # constrain search space
   ifelse(all(p > 0), -sum(dbinom(y1, m, 1/(1+i0%*%p/i1%*%p), log=TRUE)), 1e20)
-
-
-strans <- function(M){
-  # Checks stochastic transitivities in a PCM (abs. freq.)
-  # last mod: 08/Oct/2003 (works now for unbalanced design)
-  # author: Florian Wickelmaier (wickelmaier@web.de)
-
-  I <- sqrt(length(as.matrix(M)))    # number of stimuli
-  R <- as.matrix( M / (M + t(M)) )   # pcm rel. freq.
-  R[which(is.nan(R), arr.ind=TRUE)] <- rep(0, I)
-  pre <- 0
-  wst <- mst <- sst <- 0             # number of violations per triple
-  wstv <- mstv <- sstv <- numeric()  # deviation from minimum permissible prob
- 
-  ## For each triple, go through the 6 permutations
-  for(ii in 1:(I-2)){ for(jj in (ii+1):(I-1)){ for(kk in (jj+1):I){
-    iSST <- iMST <- iWST <- 0  # 0 indicates that trans never held
-    iwv <- imv <- isv <- 1
-    for(i in c(ii, jj, kk)){
-      for(j in c(ii, jj, kk)){
-        for(k in c(ii, jj, kk)){
-          if(i != j && j != k && i != k){
-            if(R[i, j] >= .5 && R[j, k] >= .5){  # if premise holds
-              if(.5 - R[i, k] < iwv) iwv <- .5 - R[i, k]  # take the minimum
-              if(min(R[i, j], R[j, k]) - R[i, k] < imv)   #   deviation
-                imv <- min(R[i, j], R[j, k]) - R[i, k]
-              if(max(R[i, j], R[j, k]) - R[i, k] < isv)
-                isv <- max(R[i, j], R[j, k]) - R[i, k]
-              if(R[i, k] >= .5) iWST <- iWST + 1  # increment if it holds
-              if(R[i, k] >= min(R[i, j], R[j, k])) iMST <- iMST + 1
-              if(R[i, k] >= max(R[i, j], R[j, k])) iSST <- iSST + 1
-            }
-          }
-        }
-      }
-    }
-    if(iSST == 0){ sst <- sst + 1; sstv <- c(sstv, isv) }
-    if(iMST == 0){ mst <- mst + 1; mstv <- c(mstv, imv) }
-    if(iWST == 0){ wst <- wst + 1; wstv <- c(wstv, iwv) }
-    pre <- pre+1
-  } } }
-  wv <- mv <- sv <- 0
-  if(length(wstv)) wv <- wstv
-  if(length(mstv)) mv <- mstv
-  if(length(sstv)) sv <- sstv
-  z <- list(weak=wst, moderate=mst, strong=sst, n.tests=pre,
-           wst.violations=wv, mst.violations=mv, sst.violations=sv, pcm=R)
-  class(z) <- "strans"
-  z
-}
-
-
-print.strans <- function(x, digits = max(3,getOption("digits")-4), ...){
-  # Last mod: 21/Aug/2007: replace printCoefmat by print
-
-  cat("\nStochastic Transitivity\n\n")
-  tran <- c(x$weak, x$moderate, x$strong)
-  ntst <- x$n.tests
-  ttab <- cbind(tran/ntst,
-    c(mean(x$wst.violations), mean(x$mst.violations), mean(x$sst.violations)),
-    c(max(x$wst.violations), max(x$mst.violations), max(x$sst.violations)))
- 
-  ttran <- cbind(tran, ttab)
-  rownames(ttran) <- c("weak", "moderate", "strong")
-  colnames(ttran) <- c("violations", "error.ratio", "mean.dev", "max.dev")
-
-  print(ttran, digits=digits)
-
-# old:
-#  printCoefmat(ttran, digits = digits, signif.stars = NULL,
-#    zap.ind = 1, tst.ind = 0, cs.ind = 2:4, ...)
-
-  cat("---\nNumber of Tests: ", ntst, "\n")
-  cat("\n")
-  invisible(x)
-}
 
 
 cov.u <- function(object){

@@ -2,7 +2,10 @@ eba.order <- function(M1, M2, A = 1:I, s = c(rep(1/J, J), 1), constrained=TRUE){
   # See OptiPt
   # M1, M2: paired-comparison matrices in both within-pair orders
   # author: Florian Wickelmaier (wickelmaier@web.de)
-  # last mod: 27/Sep/2007
+  #
+  # Fix warning: take sqrt of last element of diag(solve(hes)) only 
+  #
+  # last mod: 21/Jan/2009
 
   I <- ncol(M1)        # number of alternatives/stimuli
   J <- max(unlist(A))  # number of eba parameters
@@ -37,7 +40,7 @@ eba.order <- function(M1, M2, A = 1:I, s = c(rep(1/J, J), 1), constrained=TRUE){
   cova <- solve(rbind(cbind(hes[-(J+1),-(J+1)], 1), c(rep(1, J), 0)))[1:J,1:J]
   ## Add the SE of the order effect to the se vector
   # se <- sqrt(diag(cova))  # standard error
-  se <- c(sqrt(diag(cova)), sqrt(diag(solve(hes)))[J+1]) # standard error
+  se <- c(sqrt(diag(cova)), sqrt( diag(solve(hes))[J+1] )) # standard error
   ci <- qnorm(.975)*se    # 95% confidence interval
   logL.eba <- -out$min    # likelihood of the specified model
 

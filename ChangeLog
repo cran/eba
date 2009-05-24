@@ -1,3 +1,15 @@
+Changes in 1.5-3
+
+  * strans: report the triples that violate transitivities, perform
+    likelihood ratio tests of significance of WST violations
+  * print.strans: update to accommodate new results from strans
+  * eba.order.R: fix warning that occurred when taking square root of
+    diagonal of Hessian; rather: sqrt of last element only
+  * strans.Rd: update details, value, references
+  * boot.Rd: delete unmatched right brace on line 32 that caused a CRAN
+    check warning
+  * DESCRIPTION (Version, Date): 1.5-3
+
 Changes in 1.5-2
 
   * linear2btl.R (new function): transforms linear model coefficients to BTL

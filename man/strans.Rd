@@ -53,8 +53,9 @@
   \item{pcm}{the permuted square matrix of relative choice frequencies}
   \item{ranking}{the ranking of the objects, which corresponds to the colnames
     of pcm}
-  \item{chkdf}{data.frame}
-  \item{viol.tab}{data.frame reporting for each triple which type of
+  \item{chkdf}{data.frame reporting the choice proportions for each triple in
+    each permutation}
+  \item{violdf}{data.frame reporting for each triple which type of
     transitivity holds or does not hold}
   \item{wst.fit}{likelihood ratio test of WST (see details)}
   \item{wst.mat}{restricted matrix that satisfies WST}
@@ -72,9 +73,9 @@
 }
 \seealso{\code{\link{eba}}, \code{\link{circular}}, \code{\link{kendall.u}}.}
 \examples{
-data(celebrities)             # absolute choice frequencies
-strans(celebrities)           # WST and MST hold, but not SST
-strans(celebrities)$pcm       # re-ordered relative frequencies
-strans(celebrities)$viol.tab  # log transitivity violations
+data(celebrities)           # absolute choice frequencies
+strans(celebrities)         # WST and MST hold, but not SST
+strans(celebrities)$pcm     # re-ordered relative frequencies
+strans(celebrities)$violdf  # log transitivity violations
 }
 \keyword{models}

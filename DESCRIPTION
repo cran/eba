@@ -1,6 +1,6 @@
 Package: eba
-Version: 1.5-3
-Date: 2009-05-24
+Version: 1.5-4
+Date: 2009-08-25
 Title: Elimination-By-Aspects (EBA) Models
 Author: Florian Wickelmaier <wickelmaier@web.de>
 Maintainer: Florian Wickelmaier <wickelmaier@web.de>
@@ -13,6 +13,6 @@ Description: Fitting and testing multi-attribute probabilistic choice
 License: GPL (>= 2)
 URL: http://www.r-project.org,
         http://homepages.uni-tuebingen.de/florian.wickelmaier
-Packaged: Sun May 24 17:18:57 2009; siifw01
+Packaged: Tue Aug 25 17:21:53 2009; siifw01
 Repository: CRAN
-Date/Publication: 2009-05-24 18:44:16
+Date/Publication: 2009-08-25 17:33:17

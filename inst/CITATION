@@ -1,0 +1,20 @@
+
+citEntry(entry="Article",
+  title = "A {M}atlab function to estimate choice model parameters
+    from paired-comparison data",
+  author = personList(as.person("Florian Wickelmaier"),
+                      as.person("Christian Schmid")),
+  journal = "Behavior Research Methods, Instruments, and Computers",
+  year    = "2004",
+  volume  = "36",
+  number  = "1",
+  pages   = "29--40",
+
+  textVersion =
+  paste("Wickelmaier, F. and Schmid, C. (2004).",
+        "A Matlab function to estimate choice model parameters
+         from paired-comparison data.",
+        "Behavior Research Methods, Instruments, and Computers,
+         36(1), 29-40."),
+  header = "Please cite the eba package by the following reference:"
+)

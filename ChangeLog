@@ -1,6 +1,12 @@
+Changes in 1.5-4
+
+  * CITATION: add reference to BRMIC paper
+  * strans.Rd: update value, examples
+  * DESCRIPTION (Version, Date): 1.5-4
+
 Changes in 1.5-3
 
-  * strans: report the triples that violate transitivities, perform
+  * strans.R: report the triples that violate transitivities, perform
     likelihood ratio tests of significance of WST violations
   * print.strans: update to accommodate new results from strans
   * eba.order.R: fix warning that occurred when taking square root of

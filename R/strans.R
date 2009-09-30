@@ -4,14 +4,16 @@ strans <- function(M){
   #           21/Aug/2007 log the triples that violate transitivity
   #           14/Feb/2009 re-work strans: chkdf, viol.tab, re-ordered pcm
   #           18/Feb/2009 approx. LRT of WST
+  #           30/sep/2009 replace viol.tab by violdf
+  #                       obj.names for I > 26
   # author: Florian Wickelmaier (wickelmaier@web.de)
 
   I <- sqrt(length(as.matrix(M)))    # number of stimuli
   R <- as.matrix( M / (M + t(M)) )   # pcm rel. freq.
   n <- (M + t(M))[lower.tri(R)]      # number of obs per pair
   R[which(is.nan(R), arr.ind=TRUE)] <- 0  # replace diag (and missing cells)
-  if(length(colnames(M))) obj.names <- colnames(M)
-    else obj.names <- letters[1:I]
+  obj.names <- if(!is.null(colnames(M))) colnames(M)
+    else make.unique(rep(letters, length.out=I), sep="")
 
   triple.count <- 1
   triple <- perm <- p12 <- p23 <- p13 <- NULL
@@ -46,14 +48,14 @@ strans <- function(M){
   predf <- predf[order(predf$p13, decreasing=TRUE),]
   
   ## Reduce predf to a single entry per triple
-  viol.tab <- predf[gsub("^.+\\.(.+)$", "\\1",
+  violdf <- predf[gsub("^.+\\.(.+)$", "\\1",
     names(sapply(   # get the rownames of chkdf
       split(rowSums(predf[,c("wst","mst","sst")]), predf$triple),  # split
     which.max))),]  # which permutation satisfies the most transitivities?
 
-  wv <- .5 - viol.tab[!viol.tab$wst, "p13"]                   # deviation from
-  mv <- with(viol.tab[!viol.tab$mst,], pmin(p12, p23) - p13)  #   minimum
-  sv <- with(viol.tab[!viol.tab$sst,], pmax(p12, p23) - p13)  #   permis prob
+  wv <- .5 - violdf[!violdf$wst, "p13"]                   # deviation from
+  mv <- with(violdf[!violdf$mst,], pmin(p12, p23) - p13)  #   minimum
+  sv <- with(violdf[!violdf$sst,], pmax(p12, p23) - p13)  #   permis prob
 
   # Re-order R such that (as much as possible given violations) entries
   # increase from left to right and from bottom to top
@@ -80,10 +82,10 @@ strans <- function(M){
     pval <- 1 - pchisq(G2, df)
   )
 
-  z <- list(weak=sum(!viol.tab$wst), moderate=sum(!viol.tab$mst),
-    strong=sum(!viol.tab$sst), n.tests=triple.count - 1,
+  z <- list(weak=sum(!violdf$wst), moderate=sum(!violdf$mst),
+    strong=sum(!violdf$sst), n.tests=triple.count - 1,
     wst.violations=wv, mst.violations=mv, sst.violations=sv,
-    pcm=R, ranking=idx, chkdf=chkdf, viol.tab=viol.tab, wst.fit=wst.fit,
+    pcm=R, ranking=idx, chkdf=chkdf, violdf=violdf, wst.fit=wst.fit,
     wst.mat=wst.mat)
   class(z) <- "strans"
   z

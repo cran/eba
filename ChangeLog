@@ -1,3 +1,8 @@
+Changes in 1.5-5
+
+  * strans.R (bug fix): replace viol.tab by violdf, better obj.names
+  * DESCRIPTION (Version, Date): 1.5-5
+
 Changes in 1.5-4
 
   * CITATION: add reference to BRMIC paper

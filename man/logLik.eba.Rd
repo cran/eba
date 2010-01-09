@@ -24,7 +24,7 @@
 }
 \examples{
 data(heaviness)
-btl1 <- eba(heaviness[,,"order1"])
+btl1 <- eba(heaviness[,,order=1])
 logLik(btl1)
 AIC(btl1)
 }

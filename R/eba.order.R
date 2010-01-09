@@ -1,11 +1,17 @@
-eba.order <- function(M1, M2, A = 1:I, s = c(rep(1/J, J), 1), constrained=TRUE){
+eba.order <- function(M1, M2 = NULL, A = 1:I, s = c(rep(1/J, J), 1),
+  constrained=TRUE){
   # See OptiPt
   # M1, M2: paired-comparison matrices in both within-pair orders
   # author: Florian Wickelmaier (wickelmaier@web.de)
   #
   # Fix warning: take sqrt of last element of diag(solve(hes)) only 
   #
-  # last mod: 21/Jan/2009
+  # last mod: 07/Jan/2010
+
+  if(is.null(M2)){  # support 3d array
+    M2 <- M1[,,2]
+    M1 <- M1[,,1]
+  }
 
   I <- ncol(M1)        # number of alternatives/stimuli
   J <- max(unlist(A))  # number of eba parameters
@@ -53,7 +59,10 @@ eba.order <- function(M1, M2, A = 1:I, s = c(rep(1/J, J), 1), constrained=TRUE){
   fitted1 <- t(fitted1); fitted2 = t(fitted2)
   fitted1[lower.tri(fitted1)] <- n1/(1+idx1%*%eba.p/(p["order"]*idx0%*%eba.p))
   fitted2[lower.tri(fitted2)] <- n2/(1+p["order"]*idx1%*%eba.p/idx0%*%eba.p)
-  dimnames(fitted1) <- dimnames(fitted2) <- dimnames(M1)
+  fitted <- array(c(fitted1, fitted2), c(nrow(fitted1), ncol(fitted1), 2))
+  dimnames(fitted) <- list(">"=rownames(M1), "<"=colnames(M1),
+    order=c("1","2"))
+
   # predicted probabilities
   mu <- as.numeric( c( 1 / (1 + p["order"]*idx0%*%eba.p / idx1%*%eba.p),
                        1 / (1 + idx0%*%eba.p / (p["order"]*idx1%*%eba.p)) ))
@@ -69,8 +78,7 @@ eba.order <- function(M1, M2, A = 1:I, s = c(rep(1/J, J), 1), constrained=TRUE){
   for(i in 1:I) u = c(u, sum(p[A[[i]]]))
   names(u) <- colnames(M1)
 
-  z <- list(estimate=p, se=se, ci95=ci,
-           fitted1=fitted1, fitted2=fitted2,
+  z <- list(estimate=p, se=se, ci95=ci, fitted=fitted,
            logL.eba=logL.eba, logL.sat=logL.sat, goodness.of.fit=gof,
            u.scale=u, hessian=-hes, cov.p=cova, idx1=idx1, idx0=idx0,
            chi.alt=chi.alt, A=A, y1=y1, y0=y0, n=n, mu=mu, M1=M1, M2=M2)

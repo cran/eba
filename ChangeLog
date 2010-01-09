@@ -1,3 +1,12 @@
+Changes in 1.5-6
+
+  * simulate.eba (new function): simulate responses from EBA model
+  * pcX: per default omits reference category
+  * eba.order.R: eba.order(M1, M2=NULL, ...) accepts a 3d array
+  * celebrities, heaviness, pork: more informative dimnames
+  * linear2btl.Rd: add weighted least squares example
+  * DESCRIPTION (Version, Date): 1.5-6
+
 Changes in 1.5-5
 
   * strans.R (bug fix): replace viol.tab by violdf, better obj.names

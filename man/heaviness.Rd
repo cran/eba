@@ -13,32 +13,31 @@
 \format{
   A 3d array consisting of two square matrices:
   \describe{
-    \item{\code{heaviness[,,"order1"]}}{holds the choices where the row
+    \item{\code{heaviness[,,order=1]}}{holds the choices where the row
       stimulus was presented first for each pair (in the upper triangle, and
       vice versa in the lower triangle).}
-    \item{\code{heaviness[,,"order2"]}}{holds the choices where the column
+    \item{\code{heaviness[,,order=2]}}{holds the choices where the column
       stimulus was presented first for each pair (in the upper triangle, and
       vice versa in the lower triangle).}
   }
 }
 \source{
-  Beaver, R.J., Gokhale, D.V. (1975).
-  A model to incorporate within-pair order effects in
-  paired comparisons.
+  Beaver, R.J., & Gokhale, D.V. (1975).
+  A model to incorporate within-pair order effects in paired comparisons.
   \emph{Communications in Statistics}, \bold{4}, 923--939.
 }
 \examples{
 data(heaviness)
 ## 6 subjects chose 90g over 100g, when 90g was presented first.
-heaviness["90g", "100g", "order1"]
+heaviness["90g", "100g", order=1]
 
 ## 44 subjects chose 100g over 90g, when 90g was presented first.
-heaviness["100g", "90g", "order1"]
+heaviness["100g", "90g", order=1]
 
 ## 14 subjects chose 90g over 100g, when 90g was presented second.
-heaviness["90g", "100g", "order2"]
+heaviness["90g", "100g", order=2]
 
 ## 36 subjects chose 100g over 90g, when 90g was presented second.
-heaviness["100g", "90g", "order2"]
+heaviness["100g", "90g", order=2]
 }
 \keyword{datasets}

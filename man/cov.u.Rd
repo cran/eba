@@ -1,8 +1,8 @@
 \name{cov.u}
 \alias{cov.u}
-\title{Covariance of the u-scale}
+\title{Covariance Matrix of the Utility Scale}
 \description{
-  Computes the covariance matrix of the u-scale from the covariance
+  Computes the covariance matrix of the utility scale from the covariance
   matrix of EBA parameters.
 }
 \usage{cov.u(object)}
@@ -15,7 +15,7 @@
   is used for the computations.
 }
 \value{
-  The covariance matrix of the u-scale.
+  The covariance matrix of the utility scale.
 }
 \seealso{
   \code{\link{eba}}, \code{\link{wald.test}}.

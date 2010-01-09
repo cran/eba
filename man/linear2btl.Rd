@@ -1,6 +1,6 @@
 \name{linear2btl}
 \alias{linear2btl}
-\title{Linear Coefficients To BTL Estimates}
+\title{Linear Coefficients to BTL Estimates}
 \description{
   Transforms linear model coefficients to BTL parameter estimates.
 }
@@ -12,13 +12,13 @@
     FALSE}
 }
 \details{
-  The design matrix used by \code{lm} or \code{glm} usually results from
+  The design matrix used by \code{glm} or \code{lm} usually results from
   a call to \code{\link{pcX}}. It is assumed that the reference category is
   the first level.
 
   The covariance matrix is estimated by employing the delta method.
 
-  See Imrey, Johnson & Koch (1976) for more details.
+  See Imrey, Johnson, & Koch (1976) for more details.
 }
 \value{
   \item{btl.parameters}{a matrix; the first column holds the BTL parameter
@@ -42,8 +42,12 @@ data(celebrities)
 y1 <- t(celebrities)[lower.tri(celebrities)]
 y0 <- celebrities[lower.tri(celebrities)]
 
-## Fit BTL model using glm
-btl.glm <- glm(cbind(y1, y0) ~ pcX(9)[,-1] - 1, binomial)
+## Fit BTL model using glm (maximum likelihood)
+btl.glm <- glm(cbind(y1, y0) ~ pcX(9) - 1, binomial)
 linear2btl(btl.glm)
+
+## Fit BTL model using lm (weighted least squares)
+btl.lm <- lm(log(y1/y0) ~ pcX(9) - 1, weights=y1*y0/(y1 + y0))
+linear2btl(btl.lm)
 }
 \keyword{models}

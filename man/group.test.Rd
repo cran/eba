@@ -57,14 +57,14 @@
   \emph{Food Quality and Preference}, \bold{11}, 63--70.
 
   Choisel, S., & Wickelmaier, F. (2007). Evaluation of multichannel
-  reproduced sound: scaling auditory attributes underlying listener
+  reproduced sound: Scaling auditory attributes underlying listener
   preference.
   \emph{Journal of the Acoustical Society of America}, \bold{121},
   388--400.
 }
 \seealso{\code{\link{eba}}, \code{\link{wald.test}}.}
 \examples{
-data(pork)  # Is there a difference between Judge 1 and Judge 2?
+data(pork)          # Is there a difference between Judge 1 and Judge 2?
 groups <- array(c(apply(pork[,,1:5], 1:2, sum),
                   apply(pork[,,6:10], 1:2, sum)), c(3,3,2))
 group.test(groups)  # Yes, there is.

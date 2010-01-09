@@ -11,8 +11,8 @@
   \item{object}{an object of class \code{eba}, typically the result of a
     call to \code{\link{eba}}}
   \item{C}{a matrix of contrasts, specifying the linear hypotheses}
-  \item{u.scale}{logical, if TRUE the test is performed on the u-scale, if
-                 FALSE the test is performed on the EBA parameters directly}
+  \item{u.scale}{logical, if TRUE the test is performed on the utility scale,
+    if FALSE the test is performed on the EBA parameters directly}
 }
 \details{
   The Wald test statistic,

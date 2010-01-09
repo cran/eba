@@ -1,7 +1,7 @@
 \name{thurstone}
 \alias{thurstone}
 \alias{print.thurstone}
-\title{Thurstone-Mosteller model (Case V)}
+\title{Thurstone-Mosteller Model (Case V)}
 \description{
   Fits a Thurstone-Mosteller model (Case V) by maximum likelihood.
 }

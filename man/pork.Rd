@@ -10,7 +10,7 @@
   repetitions.  The data are stored in a 3d array, the
   first five matrices of which correspond to the five
   repetitions of the first judge, the last five to the
-  repetitions of the second judge. Row stimuli are
+  repetitions of the second judge.  Row stimuli are
   chosen (preferred) over column stimuli.
 }
 \usage{data(pork)}

@@ -69,9 +69,9 @@ OptiPt(M, A = 1:I, s = rep(1/J, J), constrained = TRUE)
   \item{goodness.of.fit}{the goodness of fit statistic including the
     likelihood ratio fitted vs. saturated model (-2logL), the degrees of
     freedom, and the p-value of the corresponding chi-square distribution}
-  \item{u.scale}{the u-scale of the stimuli; one u-scale value is defined
-    as the sum of aspect values (parameters) that characterize a given
-    stimulus}
+  \item{u.scale}{the utility scale of the stimuli; one utility scale value is
+    defined as the sum of aspect values (parameters) that characterize a
+    given stimulus}
   \item{hessian}{the Hessian matrix of the likelihood function}
   \item{cov.p}{the covariance matrix of the model parameters}
   \item{chi.alt}{the Pearson chi-square goodness of fit statistic}
@@ -102,6 +102,7 @@ OptiPt(M, A = 1:I, s = rep(1/J, J), constrained = TRUE)
   \code{\link{strans}}, \code{\link{cov.u}}, \code{\link{wald.test}},
   \code{\link{group.test}}, \code{\link{plot.eba}},
   \code{\link{residuals.eba}}, \code{\link{logLik.eba}},
+  \code{\link{simulate.eba}},
   \code{\link{kendall.u}}, \code{\link{circular}}, \code{\link{thurstone}},
   \code{\link{nlm}}.
 }

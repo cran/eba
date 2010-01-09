@@ -1,7 +1,7 @@
 \name{circular}
 \alias{circular}
 \alias{print.circular}
-\title{Circular triads (intransitive cycles)}
+\title{Circular Triads (Intransitive Cycles)}
 \description{
   Number of circular triads and indices of inconsistency.
 }

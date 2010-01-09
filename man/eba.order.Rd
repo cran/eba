@@ -10,20 +10,21 @@
 \alias{logLik.eba.order}
 \alias{plot.eba.order}
 \alias{residuals.eba.order}
-\title{Elimination-By-Aspects (EBA) Models with order-effect}
+\title{Elimination-By-Aspects (EBA) Models with Order-Effect}
 \description{
   Fits a (multi-attribute) probabilistic choice model that
   accounts for the effect of the presentation order within a pair.
 }
 \usage{
-eba.order(M1, M2, A = 1:I, s = c(rep(1/J, J), 1), constrained = TRUE)
+eba.order(M1, M2 = NULL, A = 1:I, s = c(rep(1/J, J), 1), constrained = TRUE)
 
 \method{summary}{eba.order}(object, \dots)
 }
 \arguments{
   \item{M1, M2}{two square matrices or data frames consisting of absolute
     choice frequencies in both within-pair orders; row stimuli are chosen
-    over column stimuli}
+    over column stimuli. If M2 is empty (default), M1 is assumed to be a
+    3d array containing both orders}
   \item{A}{see \code{\link{eba}}}
   \item{s}{the starting vector with default \code{1/J} for all \code{J}
     aspect parameters, and \code{1} for the order effect}
@@ -70,13 +71,13 @@ eba.order(M1, M2, A = 1:I, s = c(rep(1/J, J), 1), constrained = TRUE)
   \item{goodness.of.fit}{the goodness of fit statistic including the
     likelihood ratio fitted vs. saturated model (-2logL), the degrees of
     freedom, and the p-value of the corresponding chi-square distribution}
-  \item{u.scale}{the u-scale of the stimuli; one u-scale value is defined
-    as the sum of aspect values (parameters) that characterize a given
-    stimulus}
+  \item{u.scale}{the utility scale of the stimuli; one utility scale value is
+    defined as the sum of aspect values (parameters) that characterize a
+    given stimulus}
   \item{hessian}{the Hessian matrix of the likelihood function}
   \item{cov.p}{the covariance matrix of the model parameters}
   \item{chi.alt}{the Pearson chi-square goodness of fit statistic}
-  \item{fitted}{the fitted paired-comparison matrix}
+  \item{fitted}{3d array of the fitted paired-comparison matrices}
   \item{y1}{the data vector of the upper triangle matrices}
   \item{y0}{the data vector of the lower triangle matrices}
   \item{n}{the number of observations per pair (\code{y1 + y0})}
@@ -102,9 +103,9 @@ eba.order(M1, M2, A = 1:I, s = c(rep(1/J, J), 1), constrained = TRUE)
   \code{\link{residuals.eba}}, \code{\link{logLik.eba}}.
 }
 \examples{
-data(heaviness)  # weights judging data
-ebao1 <- eba.order(heaviness[,,1], heaviness[,,2])  # Davidson-Beaver model
-summary(ebao1)   # goodness of fit
-plot(ebao1)      # residuals versus predicted values
+data(heaviness)                # weights judging data
+ebao1 <- eba.order(heaviness)  # Davidson-Beaver model
+summary(ebao1)                 # goodness of fit
+plot(ebao1)                    # residuals versus predicted values
 }
 \keyword{models}

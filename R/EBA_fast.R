@@ -22,9 +22,11 @@ library(nlme)  # needed for fdHess()
 #   vcov.eba       vcov function for eba models
 #
 # 2009/MAY/24: moved functions strans and print.strans to extra file
+#
+# 2010/JAN/07: new function simulate.eba
 
 
-OptiPt <- function(M, A = 1:I, s = rep(1/J, J), constrained=TRUE){
+OptiPt <- function(M, A=1:I, s=rep(1/J, J), constrained=TRUE){
   # parameter estimation for BTL/Pretree/EBA models
   # M: paired-comparison matrix
   # A: model specification list(c(1,6), c(2,6), c(3,7),...)
@@ -215,7 +217,7 @@ cov.u <- function(object){
 }
 
 
-pcX <- function(nstimuli){
+pcX <- function(nstimuli, omitRef=TRUE){
   # paired comparison design matrix
   X <- matrix(0, choose(nstimuli, 2), nstimuli)
   count <- 1
@@ -226,11 +228,12 @@ pcX <- function(nstimuli){
       count <- count + 1
     }
   }
-  X
+  if(omitRef) X[,-1]
+  else X
 }
 
 
-group.test <- function(groups, A = 1:I, s = rep(1/J,J), constrained=TRUE){
+group.test <- function(groups, A=1:I, s=rep(1/J,J), constrained=TRUE){
   # groups: 3d array of group matrices (one matrix per group)
   # BUG FIX: combinatorial constant is added to the pooled models!
 
@@ -319,7 +322,7 @@ print.group.test <- function(x, digits=max(3,getOption("digits")-3),
 }
 
 
-wald.test <- function(object, C, u.scale = TRUE){
+wald.test <- function(object, C, u.scale=TRUE){
   # Wald test of linear hypothesis Cp = 0 for EBA models
   # u.scale=TRUE: test on the u.scale values
   # u.scale=FALSE: test on the EBA parameters
@@ -343,7 +346,7 @@ wald.test <- function(object, C, u.scale = TRUE){
 }
 
 
-print.wald.test <- function(x, digits = max(3,getOption("digits")-4), ...){
+print.wald.test <- function(x, digits=max(3,getOption("digits")-4), ...){
   cat("\nWald Test: Cp = 0\n\n")
   cat("C:\n")
   print(x$C)
@@ -353,7 +356,7 @@ print.wald.test <- function(x, digits = max(3,getOption("digits")-4), ...){
 }
 
 
-residuals.eba <- function (object, type = c("deviance", "pearson"), ...){
+residuals.eba <- function (object, type=c("deviance", "pearson"), ...){
 
   dev.resids <- function(y, mu, wt)
     2 * wt * (y * log(ifelse(y == 0, 1, y/mu)) +
@@ -376,15 +379,15 @@ residuals.eba <- function (object, type = c("deviance", "pearson"), ...){
 }
 
 
-plot.eba <- function(x, xlab = "Predicted choice probabilities",
-  ylab = "Deviance residuals", ...){
+plot.eba <- function(x, xlab="Predicted choice probabilities",
+  ylab="Deviance residuals", ...){
   plot(x$mu, resid(x), xlab = xlab, ylab = ylab, ...)
   abline(h = 0, lty = 2)
   panel.smooth(x$mu, resid(x))
 }
 
 
-anova.eba <- function (object, ..., test = c("Chisq", "none")){
+anova.eba <- function (object, ..., test=c("Chisq", "none")){
   # Adapted form anova.polr by Brian Ripley
   # Works also for eba.order
 
@@ -431,3 +434,23 @@ anova.eba <- function (object, ..., test = c("Chisq", "none")){
 
 
 vcov.eba <- function(object, ...) object$cov.p
+
+
+simulate.eba <- function(object, nsim, seed, pool=TRUE, ...){
+  ## Simulate responses from eba model
+
+  if(pool){
+    n  <- length(object$mu)
+    y1 <- rbinom(n, size=object$n, prob=object$mu)
+    y0 <- object$n - y1
+
+    mat <- matrix(0, nrow(object$fitted), ncol(object$fitted))
+    mat[lower.tri(mat)] <- y1
+    mat <- t(mat)
+    mat[lower.tri(mat)] <- y0
+    dimnames(mat) <- dimnames(object$fitted)
+  }else{
+    stop("individual response simulation not yet implemented")
+  }
+  mat
+}

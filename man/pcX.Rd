@@ -4,18 +4,21 @@
 \description{
   Computes a paired-comparison design matrix.
 }
-\usage{pcX(nstimuli)}
+\usage{pcX(nstimuli, omitRef = TRUE)}
 \arguments{
   \item{nstimuli}{number of stimuli in the paired-comparison design}
+  \item{omitRef}{logical, if TRUE (default), the first column corresponding
+    to the reference category is omitted}
 }
 \details{
   The design matrix can be used when fitting a Bradley-Terry-Luce (BTL)
-  model or a Thurstone-Mosteller (TM) model by means of \code{\link{glm}}.
+  model or a Thurstone-Mosteller (TM) model by means of \code{\link{glm}}
+  or \code{\link{lm}}.
 
   See Critchlow & Fligner (1991) for more details.
 }
 \value{
-  A matrix having \code{(nstimuli-1)*nstimuli/2} rows and
+  A matrix having \code{(nstimuli - 1)*nstimuli/2} rows and
   \code{nstimuli} columns.
 }
 \references{

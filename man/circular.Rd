@@ -21,8 +21,11 @@
   number of stimuli or objects judged.
 
   The null hypothesis in the chi-square test is that the inconsistencies
-  in the paired-comparison judgments are by chance. The chi-square
-  approximation might be incorrect if \eqn{n < 8}.
+  in the paired-comparison judgments are by chance. The sampling
+  distribution, however, is measured from lower to higher values of \code{T},
+  so that the probability that \code{T} will be exceeded is the complement
+  of the probability for \code{chi2}. The chi-square approximation might be
+  incorrect if \eqn{n < 8}.
 }
 \value{
   \item{T}{number of circular triads}
@@ -31,17 +34,21 @@
   \item{chi2}{the chi-square statistic for a test that the consistency is
     by chance}
   \item{df}{the degrees of freedom}
-  \item{pval}{the p-value of the test}
+  \item{pval}{one minus the p-value for \code{chi2} (see Details)}
 }
 \references{
   David, H. (1988). \emph{The method of paired comparisons}. 
   London: Griffin.
+
+  Kendall, M.G., & Smith, B.B. (1940). On the method of paired comparisons. 
+  \emph{Biometrika}, \bold{31}, 324--345.
 }
 \seealso{
   \code{\link{eba}}, \code{\link{strans}}, \code{\link{kendall.u}}.
 }
 \examples{
-## A dog's preferences for six samples of food
+# A dog's preferences for six samples of food: meat, biscuit, chocolate,
+# apple, pear, and cheese (Kendall & Smith, 1940, p. 326)
 mat <- matrix(c(0, 1, 1, 0, 1, 1,
                 0, 0, 0, 1, 1, 0,
                 0, 1, 0, 1, 1, 1,

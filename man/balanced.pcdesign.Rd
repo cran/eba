@@ -14,9 +14,9 @@
   and second member of a pair. When \code{nstimuli} is even, the presentation
   order is balanced as much as possible.
 
-  In order to balance the within-pair presentation order over a sample of
-  subjects, subjects should be equally assigned to \code{listA} and
-  \code{listB}.
+  Subjects should be equally assigned to \code{listA} and \code{listB}
+  for the purpose of balancing the within-pair presentation order across a
+  sample of subjects.
 
   Pairs should be re-randomized for each subject.
 }
@@ -37,7 +37,7 @@
 ## Create balanced design for 6 stimuli
 bp <- balanced.pcdesign(6)
 
-## Replicate each with-pair order 10 times and re-randomize
+## Replicate each within-pair order 10 times and re-randomize
 cbind(replicate(10, sample(bp$listA)), replicate(10, sample(bp$listB)))
 }
 \keyword{models}

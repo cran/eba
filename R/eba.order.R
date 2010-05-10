@@ -6,7 +6,7 @@ eba.order <- function(M1, M2 = NULL, A = 1:I, s = c(rep(1/J, J), 1),
   #
   # Fix warning: take sqrt of last element of diag(solve(hes)) only 
   #
-  # last mod: 07/Jan/2010
+  # last mod: 10/May/2010
 
   if(is.null(M2)){  # support 3d array
     M2 <- M1[,,2]
@@ -40,7 +40,7 @@ eba.order <- function(M1, M2 = NULL, A = 1:I, s = c(rep(1/J, J), 1),
 
   p <- out$est  # optimized parameters
   names(p) <- c(1:J, 'order')
-  hes <- fdHess(p, L.order, y1, n, idx1, idx0)$H  # numerical Hessian
+  hes <- nlme::fdHess(p, L.order, y1, n, idx1, idx0)$H  # numerical Hessian
   ## Discard the order effect here
   # cova <- solve(rbind(cbind(hes, 1), c(rep(1, J+1),0)))[1:(J+1),1:(J+1)]
   cova <- solve(rbind(cbind(hes[-(J+1),-(J+1)], 1), c(rep(1, J), 0)))[1:J,1:J]

@@ -1,5 +1,3 @@
-library(nlme)  # needed for fdHess()
-
 # 2004/MAY/04: removing cov2cor (it's there anyway)
 #              changing 'print.coefmat' to 'printCoefmat'
 #              'print.matrix' doesn't work anymore (for strans)
@@ -24,6 +22,8 @@ library(nlme)  # needed for fdHess()
 # 2009/MAY/24: moved functions strans and print.strans to extra file
 #
 # 2010/JAN/07: new function simulate.eba
+#
+# 2010/MAY/10: replace fdHess() by nlme::fdHess()
 
 
 OptiPt <- function(M, A=1:I, s=rep(1/J, J), constrained=TRUE){
@@ -65,7 +65,7 @@ OptiPt <- function(M, A=1:I, s=rep(1/J, J), constrained=TRUE){
 
   p <- out$est  # optimized parameters
   names(p) <- 1:J
-  hes <- fdHess(p, L, y1, n, idx1, idx0)$H  # numerical Hessian
+  hes <- nlme::fdHess(p, L, y1, n, idx1, idx0)$H  # numerical Hessian
   cova <- solve(rbind(cbind(hes, 1), c(rep(1, J), 0)))[1:J,1:J]
   se <- sqrt(diag(cova))  # standard error
   ci <- qnorm(.975) * se  # 95% confidence interval
@@ -356,7 +356,7 @@ print.wald.test <- function(x, digits=max(3,getOption("digits")-4), ...){
 }
 
 
-residuals.eba <- function (object, type=c("deviance", "pearson"), ...){
+residuals.eba <- function(object, type=c("deviance", "pearson"), ...){
 
   dev.resids <- function(y, mu, wt)
     2 * wt * (y * log(ifelse(y == 0, 1, y/mu)) +

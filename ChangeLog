@@ -1,6 +1,15 @@
+Changes in 1.5-7
+
+  * BUG FIX: p-value in circular.R was incorrect (reported by
+    Wolfgang Ellermeier)
+  * drugrisk (new data set): perceived health risk of drugs
+  * circular.R: remove diagonal before counting circular triads
+  * DESCRIPTION: change depends on nlme to imports nlme
+  * DESCRIPTION (Version, Date): 1.5-7
+
 Changes in 1.5-6
 
-  * simulate.eba (new function): simulate responses from EBA model
+  * simulate.eba (new function): simulate responses from EBA models
   * pcX: per default omits reference category
   * eba.order.R: eba.order(M1, M2=NULL, ...) accepts a 3d array
   * celebrities, heaviness, pork: more informative dimnames

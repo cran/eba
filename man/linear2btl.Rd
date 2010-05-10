@@ -4,7 +4,7 @@
 \description{
   Transforms linear model coefficients to BTL parameter estimates.
 }
-\usage{linear2btl(object, order=FALSE)}
+\usage{linear2btl(object, order = FALSE)}
 \arguments{
   \item{object}{an object of class \code{glm} or \code{lm} specifying a BTL
     model}

@@ -16,7 +16,7 @@
 \format{A square data frame with a diagonal of zeros.}
 \source{
   Rumelhart, D.L., & Greeno, J.G. (1971).
-  Similarity between stimuli: an experimental test of the
+  Similarity between stimuli: An experimental test of the
   Luce and Restle choice models.
   \emph{Journal of Mathematical Psychology}, \bold{8}, 370--381.
 }

@@ -1,13 +1,15 @@
+# 03/Mar/2011 Bug fix: pcX(nrow(M)) instead of pcX(nrow(M))[,-1] in thurstone
+
 thurstone <- function(M){
   # Fit Thurstone-Mosteller model (Case V) using glm
   # M: paired-comparison matrix (absolute frequencies)
   # author: Florian Wickelmaier (wickelmaier@web.de)
-  # last mod: 19/Mar/2008
+  # last mod: 03/Mar/2011
 
   y1 <- t(M)[lower.tri(M)]
   y0 <- M[lower.tri(M)]
 
-  tm.glm <- glm(cbind(y1, y0) ~ pcX(nrow(M))[,-1] - 1, binomial(probit))
+  tm.glm <- glm(cbind(y1, y0) ~ pcX(nrow(M)) - 1, binomial(probit))
   estimate <- unname(c(0, coef(tm.glm)))
 
   gof <- c("-2logL" = deviance(tm.glm), df = tm.glm$df.residual,

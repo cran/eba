@@ -10,7 +10,7 @@
 \alias{logLik.eba.order}
 \alias{plot.eba.order}
 \alias{residuals.eba.order}
-\title{Elimination-By-Aspects (EBA) Models with Order-Effect}
+\title{Elimination-by-Aspects (EBA) Models with Order-Effect}
 \description{
   Fits a (multi-attribute) probabilistic choice model that
   accounts for the effect of the presentation order within a pair.
@@ -62,18 +62,17 @@ eba.order(M1, M2 = NULL, A = 1:I, s = c(rep(1/J, J), 1), constrained = TRUE)
   EBA models.
 }
 \value{
-  \item{estimate}{a vector of parameter estimates, the last component holds
-    the order-effect estimate}
-  \item{se}{a vector of standard errors of the parameter estimates}
-  \item{ci95}{a vector of 95\% confidence intervals for the parameters}
+  \item{coefficients}{a vector of parameter estimates, the last component
+    holds the order-effect estimate}
+  \item{estimate}{same as \code{coefficients}}
   \item{logL.eba}{the log-likelihood of the fitted model}
   \item{logL.sat}{the log-likelihood of the saturated (binomial) model}
   \item{goodness.of.fit}{the goodness of fit statistic including the
     likelihood ratio fitted vs. saturated model (-2logL), the degrees of
     freedom, and the p-value of the corresponding chi-square distribution}
-  \item{u.scale}{the utility scale of the stimuli; one utility scale value is
-    defined as the sum of aspect values (parameters) that characterize a
-    given stimulus}
+  \item{u.scale}{the unnormalized utility scale of the stimuli; each utility
+    scale value is defined as the sum of aspect values (parameters) that
+    characterize a given stimulus}
   \item{hessian}{the Hessian matrix of the likelihood function}
   \item{cov.p}{the covariance matrix of the model parameters}
   \item{chi.alt}{the Pearson chi-square goodness of fit statistic}
@@ -87,8 +86,8 @@ eba.order(M1, M2 = NULL, A = 1:I, s = c(rep(1/J, J), 1), constrained = TRUE)
 \author{Florian Wickelmaier}
 \references{
   Davidson, R.R., & Beaver, R.J. (1977).
-  On extending the Bradley-Terry model to incorporate
-  within-pair order effects.
+  On extending the Bradley-Terry model to incorporate within-pair order
+  effects.
   \emph{Biometrics}, \bold{33}, 693--702.
 
   Wickelmaier, F., & Choisel, S. (2006).
@@ -107,5 +106,6 @@ data(heaviness)                # weights judging data
 ebao1 <- eba.order(heaviness)  # Davidson-Beaver model
 summary(ebao1)                 # goodness of fit
 plot(ebao1)                    # residuals versus predicted values
+confint(ebao1)                 # confidence intervals for parameters
 }
 \keyword{models}

@@ -24,16 +24,26 @@
 # 2010/JAN/07: new function simulate.eba
 #
 # 2010/MAY/10: replace fdHess() by nlme::fdHess()
+#
+# 2011/FEB/28: new zap.ind, tst.ind in printCoefmat in print.summary.eba and
+#              in print.group.test
+#
+# 2011/MAR/01:
+#   removed dependencies on $estimate and $se components in objects or class
+#     eba
+#   used seq_along and seq_len where possible
+#   uscale: utility scale extractor function
+#   cov.u gains norm argument for normalized scale values
 
 
-OptiPt <- function(M, A=1:I, s=rep(1/J, J), constrained=TRUE){
+OptiPt <- function(M, A = 1:I, s = rep(1/J, J), constrained = TRUE){
   # parameter estimation for BTL/Pretree/EBA models
   # M: paired-comparison matrix
   # A: model specification list(c(1,6), c(2,6), c(3,7),...)
   # s: starting vector (optional)
   # constrained: constrain parameters to be positive
   # author: Florian Wickelmaier (wickelmaier@web.de)
-  # last mod: 18/NOV/2003, 15/MAR/2007
+  #
   # Reference: Wickelmaier, F. & Schmid, C. (2004). A Matlab function
   #   to estimate choice-model parameters from paired-comparison data.
   #   Behavior Research Methods, Instruments, and Computers, 36, 29--40.
@@ -42,9 +52,9 @@ OptiPt <- function(M, A=1:I, s=rep(1/J, J), constrained=TRUE){
   J <- max(unlist(A))  # number of eba parameters
 
   idx1 <- idx0 <- matrix(0, I*(I-1)/2, J)  # index matrices
-  rdx <- 1
-  for(i in 1:(I-1)){                         
-    for(j in (i+1):I){
+  rdx  <- 1
+  for(i in seq_len(I - 1)){           # for(i in 1:(I-1)){
+    for(j in (i + 1):I){
       idx1[rdx, setdiff(A[[i]], A[[j]])] <- 1
       idx0[rdx, setdiff(A[[j]], A[[i]])] <- 1
       rdx <- rdx + 1
@@ -53,46 +63,48 @@ OptiPt <- function(M, A=1:I, s=rep(1/J, J), constrained=TRUE){
 
   y1 <- t(M)[lower.tri(t(M))]  # response vectors
   y0 <- M[lower.tri(M)]
-  n <- y1 + y0
+  n  <- y1 + y0
   names(y1) <- names(y0) <- names(n) <- NULL
-  logL.sat <- sum(dbinom(y1, n, y1/n, log=TRUE))  # logLik of the sat. model
+  logL.sat  <- sum(dbinom(y1, n, y1/n, log=TRUE))  # logLik of the sat. model
 
   if(constrained){  # minimization
     out <- nlm(L.constrained, s, y1=y1, m=n, i1=idx1, i0=idx0)  # constrained
   }else{
-    out <- nlm(L, s, y1=y1, m=n, i1=idx1, i0=idx0)  # unconstrained
+    out <- nlm(L, s, y1=y1, m=n, i1=idx1, i0=idx0)            # unconstrained
   }
 
-  p <- out$est  # optimized parameters
+  p <- out$estimate  # optimized parameters
   names(p) <- 1:J
-  hes <- nlme::fdHess(p, L, y1, n, idx1, idx0)$H  # numerical Hessian
-  cova <- solve(rbind(cbind(hes, 1), c(rep(1, J), 0)))[1:J,1:J]
-  se <- sqrt(diag(cova))  # standard error
-  ci <- qnorm(.975) * se  # 95% confidence interval
-  logL.eba <- -out$min  # likelihood of the specified model
+  hes  <- nlme::fdHess(p, L, y1, n, idx1, idx0)$H  # numerical Hessian
+  cova <- solve(rbind(cbind(hes, 1), c(rep(1, J), 0)))[1:J, 1:J]
+  dimnames(cova) <- list(names(p), names(p))
+  # se   <- sqrt(diag(cova))                 # standard error
+  # ci   <- qnorm(.975) * se                 # 95% confidence interval
+  logL.eba <- -out$min                     # likelihood of the specified model
 
-  fitted <- matrix(0, I, I)  # fitted PCM
-  fitted[lower.tri(fitted)] <- n/(1+idx0%*%p/idx1%*%p)
-  mu <- as.numeric( 1/(1+idx0%*%p/idx1%*%p) )  # predicted probabilities
+  fitted <- matrix(0, I, I)                        # fitted PCM
+  fitted[lower.tri(fitted)] <- n/(1 + idx0%*%p / idx1%*%p)
+  mu <- as.numeric(1/(1 + idx0%*%p / idx1%*%p))    # predicted probabilities
   fitted <- t(fitted)
-  fitted[lower.tri(fitted)] <- n/(1+idx1%*%p/idx0%*%p)
+  fitted[lower.tri(fitted)] <- n/(1 + idx1%*%p / idx0%*%p)
   dimnames(fitted) <- dimnames(M)
 
-  chi <- 2 * (logL.sat - logL.eba)  # goodness-of-fit statistic
-  df <- I*(I-1)/2 - (J-1)
+  chi  <- 2 * (logL.sat - logL.eba)  # goodness-of-fit statistic
+  df   <- I*(I - 1)/2 - (J - 1)
   pval <- 1 - pchisq(chi, df)
-  gof <- c(chi, df, pval)
+  gof  <- c(chi, df, pval)
   names(gof) <- c("-2logL", "df", "pval")
-  chi.alt <- sum((M - fitted)^2 / fitted, na.rm=TRUE)
+  chi.alt    <- sum((M - fitted)^2 / fitted, na.rm=TRUE)
 
   u <- numeric()  # scale values
-  for(i in 1:I) u <- c(u, sum(p[A[[i]]]))
+  # for(i in 1:I) u <- c(u, sum(p[A[[i]]]))
+  for(i in seq_len(I)) u <- c(u, sum(p[A[[i]]]))
   names(u) <- colnames(M)
 
-  z <- list(estimate=p, se=se, ci95=ci, fitted=fitted, logL.eba=logL.eba,
-            logL.sat=logL.sat, goodness.of.fit=gof, u.scale=u,
-            hessian=-hes, cov.p=cova, chi.alt=chi.alt, A=A, y1=y1, y0=y0,
-            n=n, mu=mu)
+  z <- list(coefficients=p, estimate=p, fitted=fitted, # se=se, ci95=ci,
+            logL.eba=logL.eba, logL.sat=logL.sat, goodness.of.fit=gof,
+            u.scale=u, hessian=-hes, cov.p=cova, chi.alt=chi.alt, A=A, y1=y1,
+            y0=y0, n=n, mu=mu)
   class(z) <- "eba"
   z
 }
@@ -102,15 +114,15 @@ eba <- OptiPt  # wrapper for OptiPt
 
 
 summary.eba <- function(object, ...){
-  object -> x
-  I <- length(x$A)
-  J <- length(x$estimate)
-  y <- c(x$y1, x$y0)
-  coef <- x$estimate
-  s.err <- x$se
+  x      <- object
+  I      <- length(x$A)
+  J      <- length(coef(x))      # length(x$estimate)
+  y      <- c(x$y1, x$y0)
+  coef   <- coef(x)              # x$estimate
+  s.err  <- sqrt(diag(vcov(x)))  # x$se
   tvalue <- coef / s.err
   pvalue <- 2 * pnorm(-abs(tvalue))
-  dn <- c("Estimate", "Std. Error")
+  dn     <- c("Estimate", "Std. Error")
   coef.table <- cbind(coef, s.err, tvalue, pvalue)
   dimnames(coef.table) <- list(names(coef), c(dn, "z value", "Pr(>|z|)"))
 
@@ -156,12 +168,12 @@ summary.eba <- function(object, ...){
 
 print.eba <- function(x, digits=max(3, getOption("digits")-3),
   na.print="", ...){
-  cat("\nEBA models\n\n")
+  cat("\nElimination by aspects (EBA) models\n\n")
   cat("Parameter estimates:\n")
-  print.default(format(x$estimate, digits = digits), print.gap = 2,
+  print.default(format(coef(x), digits = digits), print.gap = 2,
       quote = FALSE)
   chi2 <- x$goodness.of.fit[1]
-  df <- x$goodness.of.fit[2]
+  df   <- x$goodness.of.fit[2]
   pval <- x$goodness.of.fit[3]
   cat("\nGoodness of fit (-2 log likelihood ratio):\n")
   cat("\tChi2(", df, ") = ", format(chi2, digits=digits), ", p = ",
@@ -182,7 +194,7 @@ print.summary.eba <- function(x, digits=max(3, getOption("digits")-3),
   printCoefmat(x$coef, digits = digits, signif.stars = signif.stars, ...)
   cat("\nModel tests:\n")
   printCoefmat(x$tests, digits = digits, signif.stars = signif.stars,
-    zap.ind = c(1,2), ...)
+    zap.ind = 1:2, tst.ind = 3:5, ...)
   cat("\nAIC: ",format(x$aic,digits=max(4,digits+1)),"\n")
   cat("Pearson Chi2:",format(x$chi.alt,digits=digits))
   cat("\n")
@@ -197,31 +209,64 @@ L.constrained <- function(p, y1, m, i1, i0)  # constrain search space
   ifelse(all(p > 0), -sum(dbinom(y1, m, 1/(1+i0%*%p/i1%*%p), log=TRUE)), 1e20)
 
 
-cov.u <- function(object){
-  # covariance matrix of the u scale
-  object -> x
-  A <- x$A
+uscale <- function(object, norm = "sum", log = FALSE){
+  ## Extract utility scale from eba object
+  
+  uscale <- object$u.scale
+
+  if(is.null(norm))
+    uscale <- uscale
+  else if(norm == "sum")
+    uscale <- uscale/sum(uscale)
+  else if(as.numeric(norm) %in% seq_along(uscale))
+    uscale <- uscale/uscale[as.numeric(norm)]
+  else
+    stop(sprintf(
+         "normalization has to be 'sum' or a number form 1 to %i or 'NULL'",
+         length(uscale)))
+
+  if(log) log(uscale) else uscale
+}
+
+
+cov.u <- function(object, norm = "sum"){
+  ## Covariance matrix of the utility scale
+
+  x     <- object
+  A     <- x$A
   cov.p <- x$cov.p
   cov.u <- matrix(0, length(A), length(A))
-  for(i in 1:length(A)){
-    for(j in 1:length(A)){
+  for(i in seq_along(A)){                  # for(i in 1:length(A)){
+    for(j in seq_along(A)){                #   for(j in 1:length(A)){
       cell <- 0
-      for(k in 1:length(A[[i]]))
-        for(l in 1:length(A[[j]]))
+      for(k in seq_along(A[[i]]))          #     for(k in 1:length(A[[i]]))
+        for(l in seq_along(A[[j]]))        #       for(l in 1:length(A[[j]]))
           cell <- cell + cov.p[A[[i]][k], A[[j]][l]]
       cov.u[i, j] <- cell
     }
   }
   colnames(cov.u) <- rownames(cov.u) <- names(x$u.scale)
-  cov.u
+
+  ## Normalization
+  if(is.null(norm))
+    cov.u
+  else if(norm == "sum")
+    cov.u/sum(x$u.scale)^2
+  else if(as.numeric(norm) %in% seq_len(nrow(cov.u)))
+    cov.u/x$u.scale[as.numeric(norm)]^2
+  else
+    stop(sprintf(
+         "normalization has to be 'sum' or a number form 1 to %i or 'NULL'",
+         length(uscale)))
 }
 
 
 pcX <- function(nstimuli, omitRef=TRUE){
-  # paired comparison design matrix
+  ## Paired comparison design matrix
+
   X <- matrix(0, choose(nstimuli, 2), nstimuli)
   count <- 1
-  for(i in 1:(nstimuli - 1)){
+  for(i in seq_len(nstimuli - 1)){     # for(i in 1:(nstimuli - 1)){
     for(j in (i + 1):nstimuli){
       X[count, i] <- 1
       X[count, j] <- -1
@@ -244,22 +289,25 @@ group.test <- function(groups, A=1:I, s=rep(1/J,J), constrained=TRUE){
 
   eba.p <- OptiPt(pool, A, s, constrained)  # EBA for pooled data
   ebas <- NULL  # list of eba models (one per group)
-  for(i in 1:ngroups) ebas[[i]] <- OptiPt(groups[,,i], A, s, constrained)
+  for(i in seq_len(ngroups))
+    ebas[[i]] <- OptiPt(groups[,,i], A, s, constrained)
 
   C1 <- sum(log(choose(eba.p$n, eba.p$y1)))
   C2 <- 0
-  for(i in 1:ngroups) C2 <- C2 + sum(log(choose(ebas[[i]]$n, ebas[[i]]$y1)))
+  for(i in seq_len(ngroups))
+    C2 <- C2 + sum(log(choose(ebas[[i]]$n, ebas[[i]]$y1)))
   C <- C2 - C1  # combinatorial constant
 
   logL.eba.group <- 0
   y <- n <- NULL
-  for(i in 1:ngroups){
+  for(i in seq_len(ngroups)){          # for(i in 1:ngroups){
     logL.eba.group <- logL.eba.group + ebas[[i]]$logL.eba
     y <- c(y, c(ebas[[i]]$y1, ebas[[i]]$y0))
     n <- c(n, ebas[[i]]$n)
   }
   logL.sat.group <- 0
-  for(i in 1:ngroups) logL.sat.group <- logL.sat.group + ebas[[i]]$logL.sat
+  for(i in seq_len(ngroups))
+    logL.sat.group <- logL.sat.group + ebas[[i]]$logL.sat
 
   tests <- rbind(
    # mean poisson model vs. saturated poisson group model (on y)
@@ -316,7 +364,7 @@ print.group.test <- function(x, digits=max(3,getOption("digits")-3),
   cat("\nTesting for group effects in EBA models:\n")
   cat("\n")
   printCoefmat(x$tests, digits = digits, signif.stars = signif.stars,
-    zap.ind = c(1,2), ...)
+    zap.ind = 1:2, tst.ind = 3:5, ...)
   cat("\n")
   invisible(x)
 }
@@ -328,19 +376,19 @@ wald.test <- function(object, C, u.scale=TRUE){
   # u.scale=FALSE: test on the EBA parameters
 
   if(u.scale){
-    p <- object$u.scale
-    COV <- cov.u(object)
+    p   <- uscale(object, norm=NULL)   # object$u.scale
+    COV <-  cov.u(object, norm=NULL)
   }else{
-    p <- object$estimate
-    COV <- object$cov.p
+    p   <- coef(object)                # object$estimate
+    COV <- vcov(object)                # object$cov.p
   }
-  if(!is.matrix(C)) stop("C is not a matrix.")
+  if(!is.matrix(C)) stop("C is not a matrix")
   if(dim(C)[2] != length(p))
-    stop("Column number of C and length of p do not agree.")
+    stop("column number of C and length of p do not agree")
   if(u.scale) colnames(C) <- names(object$u.scale)
 
   W <- t(C%*%p) %*% solve( C%*%COV%*%t(C) ) %*% (C%*%p)
-  z <- list(W=W, df=qr(C)$rank, pval=1-pchisq(W,qr(C)$rank), C=C)
+  z <- list(W=W, df=qr(C)$rank, pval=1 - pchisq(W, qr(C)$rank), C=C)
   class(z) <- "wald.test"
   z
 }
@@ -403,8 +451,8 @@ anova.eba <- function (object, ..., test=c("Chisq", "none")){
   s <- order(dflis, decreasing = TRUE)
   mlist <- mlist[s]
 
-# if (any(!sapply(mlist, inherits, "eba")))
-#     stop('not all objects are of class "eba"')
+  # if (any(!sapply(mlist, inherits, "eba")))
+  #     stop('not all objects are of class "eba"')
   ## All models must be either eba or eba.order.
   if(any(!sapply(mlist, inherits, "eba")) &
      any(!sapply(mlist, inherits, "eba.order")))
@@ -436,7 +484,7 @@ anova.eba <- function (object, ..., test=c("Chisq", "none")){
 vcov.eba <- function(object, ...) object$cov.p
 
 
-simulate.eba <- function(object, nsim, seed, pool=TRUE, ...){
+simulate.eba <- function(object, nsim, seed, pool = TRUE, ...){
   ## Simulate responses from eba model
 
   if(pool){
@@ -454,3 +502,4 @@ simulate.eba <- function(object, nsim, seed, pool=TRUE, ...){
   }
   mat
 }
+

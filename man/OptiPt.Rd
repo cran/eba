@@ -8,7 +8,7 @@
 \alias{print.eba}
 \alias{L}
 \alias{L.constrained}
-\title{Elimination-By-Aspects (EBA) Models}
+\title{Elimination-by-Aspects (EBA) Models}
 \description{
   Fits a (multi-attribute) probabilistic choice model by maximum likelihood.
 }
@@ -61,17 +61,16 @@ OptiPt(M, A = 1:I, s = rep(1/J, J), constrained = TRUE)
   tests reported by \code{summary.eba}.
 }
 \value{
-  \item{estimate}{a vector of parameter estimates}
-  \item{se}{a vector of standard errors of the parameter estimates}
-  \item{ci95}{a vector of 95\% confidence intervals for the parameters}
+  \item{coefficients}{a vector of parameter estimates}
+  \item{estimate}{same as \code{coefficients}}
   \item{logL.eba}{the log-likelihood of the fitted model}
   \item{logL.sat}{the log-likelihood of the saturated (binomial) model}
   \item{goodness.of.fit}{the goodness of fit statistic including the
     likelihood ratio fitted vs. saturated model (-2logL), the degrees of
     freedom, and the p-value of the corresponding chi-square distribution}
-  \item{u.scale}{the utility scale of the stimuli; one utility scale value is
-    defined as the sum of aspect values (parameters) that characterize a
-    given stimulus}
+  \item{u.scale}{the unnormalized utility scale of the stimuli; each utility
+    scale value is defined as the sum of aspect values (parameters) that
+    characterize a given stimulus}
   \item{hessian}{the Hessian matrix of the likelihood function}
   \item{cov.p}{the covariance matrix of the model parameters}
   \item{chi.alt}{the Pearson chi-square goodness of fit statistic}
@@ -88,19 +87,19 @@ OptiPt(M, A = 1:I, s = rep(1/J, J), constrained = TRUE)
   \emph{Behavior Research Methods, Instruments, and Computers},
   \bold{36}, 29--40.
 
-  Bradley, R.A. (1984). Paired comparisons: some basic procedures and
+  Bradley, R.A. (1984). Paired comparisons: Some basic procedures and
   examples. In P.R. Krishnaiah & P.K. Sen (eds.),
   \emph{Handbook of Statistics, Volume 4}. Amsterdam: Elsevier.
 
-  Tversky, A. (1972). Elimination by aspects: a theory of choice.
+  Tversky, A. (1972). Elimination by aspects: A theory of choice.
   \emph{Psychological Review}, \bold{79}, 281--299.
 
   Tversky, A., & Sattath, S. (1979). Preference trees.
   \emph{Psychological Review}, \bold{86}, 542--573.
 }
 \seealso{
-  \code{\link{strans}}, \code{\link{cov.u}}, \code{\link{wald.test}},
-  \code{\link{group.test}}, \code{\link{plot.eba}},
+  \code{\link{strans}}, \code{\link{uscale}}, \code{\link{cov.u}},
+  \code{\link{group.test}}, \code{\link{wald.test}}, \code{\link{plot.eba}},
   \code{\link{residuals.eba}}, \code{\link{logLik.eba}},
   \code{\link{simulate.eba}},
   \code{\link{kendall.u}}, \code{\link{circular}}, \code{\link{thurstone}},
@@ -113,12 +112,17 @@ A <- list(c(1,10), c(2,10), c(3,10), c(4,11), c(5,11), c(6,11),
           c(7,12), c(8,12), c(9,12))  # the structure of aspects
 eba1 <- eba(celebrities, A)           # fit a preference tree model
 
-summary(eba1)      # goodness of fit
-plot(eba1)         # residuals versus predicted values
-anova(btl1, eba1)  # model comparison based on likelihoods
+summary(eba1)                         # goodness of fit
+plot(eba1)                            # residuals versus predicted values
+anova(btl1, eba1)                     # model comparison based on likelihoods
+confint(eba1)                         # confidence intervals for parameters
+uscale(eba1)                          # utility scale
 
-ci <- 1.96 * sqrt(diag(cov.u(eba1)))    # 95\% CI for preference scale values
-a <- barplot(eba1$u, ylim = c(0, .35))  # plot the scale
-arrows(a, eba1$u-ci, a, eba1$u+ci, .05, 90, 3)  # error bars
+ci <- 1.96 * sqrt(diag(cov.u(eba1)))      # 95\% CI for utility scale values
+dotchart(uscale(eba1), xlim=c(0, .3), main="Choice among celebrities",
+  xlab="Utility scale value (EBA model)", pch=16)           # plot the scale
+arrows(uscale(eba1)-ci, 1:9, uscale(eba1)+ci, 1:9, .05, 90, 3)  # error bars
+abline(v=1/9, lty=2)                      # indifference line
+mtext("(Rumelhart & Greeno, 1971)", line=.5)
 }
 \keyword{models}

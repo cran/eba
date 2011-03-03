@@ -1,4 +1,4 @@
-## Miscellaneous methods that must be defined last in the library
+## Miscellaneous methods that must be defined last
 
 print.eba.order <- print.eba
 

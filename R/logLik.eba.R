@@ -1,4 +1,4 @@
-## log-likelihood for eba objects
+## Log-likelihood for eba objects
 logLik.eba <- function(object, ...)
 {
     if(length(list(...)))

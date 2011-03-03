@@ -13,10 +13,10 @@
 \format{
   A 3d array consisting of two square matrices:
   \describe{
-    \item{\code{heaviness[,,order=1]}}{holds the choices where the row
+    \item{\code{heaviness[,,order = 1]}}{holds the choices where the row
       stimulus was presented first for each pair (in the upper triangle, and
       vice versa in the lower triangle).}
-    \item{\code{heaviness[,,order=2]}}{holds the choices where the column
+    \item{\code{heaviness[,,order = 2]}}{holds the choices where the column
       stimulus was presented first for each pair (in the upper triangle, and
       vice versa in the lower triangle).}
   }
@@ -39,5 +39,27 @@ heaviness["90g", "100g", order=2]
 
 ## 36 subjects chose 100g over 90g, when 90g was presented second.
 heaviness["100g", "90g", order=2]
+
+## Bradley-Terry-Luce (BTL) model for each within-pair order
+btl1 <- eba(heaviness[,,1])
+btl2 <- eba(heaviness[,,2])
+
+xval <- seq(90, 110, 5)
+plot(uscale(btl1) ~ xval, type="n", log="y",
+  xlab="Weight of lead shot filled bottle (in g)",
+  ylab="Estimated perceived heaviness (BTL model)",
+  main="Weights judging experiment")
+mtext("(Beaver & Gokhale, 1975)", line=.5)
+
+arrows(xval, uscale(btl1) - 1.96*sqrt(diag(cov.u(btl1))),
+       xval, uscale(btl1) + 1.96*sqrt(diag(cov.u(btl1))), .05, 90, 3, "grey")
+arrows(xval, uscale(btl2) - 1.96*sqrt(diag(cov.u(btl2))),
+       xval, uscale(btl2) + 1.96*sqrt(diag(cov.u(btl2))), .05, 90, 3, "grey")
+
+points(uscale(btl1) ~ xval, type="b", pch=16)
+points(uscale(btl2) ~ xval, type="b", lty=2, pch=21, bg="white")
+
+text(90.3, .01, "Lower weight judged first",  adj=0)
+text(90.3, .08, "Higher weight judged first", adj=0)
 }
 \keyword{datasets}

@@ -2,7 +2,7 @@
 \alias{boot}
 \alias{eba.boot}
 \alias{eba.boot.constrained}
-\title{Bootstrap for Elimination-By-Aspects (EBA) Models}
+\title{Bootstrap for Elimination-by-Aspects (EBA) Models}
 \description{
   Performs a bootstrap by resampling the individual data matrices.
 }

@@ -1,10 +1,10 @@
 \name{wald.test}
 \alias{wald.test}
 \alias{print.wald.test}
-\title{Testing Linear Hypotheses}
+\title{Testing Linear Hypotheses in Elimination-by-Aspects (EBA) Models}
 \description{
-  Tests linear hypotheses of the form \eqn{Cp = 0} in EBA models using
-  the Wald test.
+  Tests linear hypotheses of the form \eqn{Cp = 0} in elimination-by-aspects
+  (EBA) models using the Wald test.
 }
 \usage{wald.test(object, C, u.scale = TRUE)}
 \arguments{
@@ -30,7 +30,8 @@
   \item{pval}{the p-value of the test}
 }
 \seealso{
-  \code{\link{eba}}, \code{\link{group.test}}, \code{\link{cov.u}}.
+  \code{\link{eba}}, \code{\link{group.test}}, \code{\link{uscale}},
+  \code{\link{cov.u}}.
 }
 \examples{
 data(celebrities)  # absolute choice frequencies
@@ -38,7 +39,7 @@ A <- list(c(1,10), c(2,10), c(3,10), c(4,11), c(5,11), c(6,11),
           c(7,12), c(8,12), c(9,12))  # the structure of aspects
 eba1 <- eba(celebrities, A)  # fit a preference tree
 
-## Test whether JU, CY, and AJF have equal preference scale values
+## Test whether JU, CY, and AJF have equal utility scale values
 C1 <- matrix(c(0,0,0,1,-1,0,0,0,0,
                0,0,0,1,0,-1,0,0,0), 2, 9, TRUE)
 wald.test(eba1, C1)

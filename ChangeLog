@@ -1,3 +1,17 @@
+Changes in 1.6-0
+
+  * BUG FIX: use correct design matrix in thurstone.R
+  * uscale (new function): utility scale extractor function for eba objects
+  * cov.u: gains a norm argument for normalized utility scale values
+  * EBA_fast.R, eba.order.R: objects of class eba and eba.order gain a
+    coefficients component, so coef and confint methods are available; and
+    they lose their obsolete se and ci95 components
+  * OptiPt.Rd (examples): new plot, confint
+  * heaviness.Rd (examples): new plot
+  * drugrisk (examples): new plot
+  * simulate.eba.Rd (examples): update
+  * DESCRIPTION (Version, Date): 1.6-0
+
 Changes in 1.5-7
 
   * BUG FIX: p-value in circular.R was incorrect (reported by

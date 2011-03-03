@@ -1,8 +1,9 @@
 \name{linear2btl}
 \alias{linear2btl}
-\title{Linear Coefficients to BTL Estimates}
+\title{Linear Coefficients to Bradley-Terry-Luce (BTL) Estimates}
 \description{
-  Transforms linear model coefficients to BTL parameter estimates.
+  Transforms linear model coefficients to Bradley-Terry-Luce (BTL) model
+  parameter estimates.
 }
 \usage{linear2btl(object, order = FALSE)}
 \arguments{

@@ -29,8 +29,8 @@
   \code{\link{plot.eba}}.}
 \examples{
 data(celebrities)                # absolute choice frequencies
-btl1 <- eba(celebrities)         # fit BTL model
-sum( resid(btl1)^2 )             # deviance
-sum( resid(btl1, "pearson")^2 )  # Pearson chi2
+btl1 <- eba(celebrities)         # fit Bradley-Terry-Luce model
+sum( resid(btl1)^2 )             # deviance G2
+sum( resid(btl1, "pearson")^2 )  # Pearson X2
 }
 \keyword{models}

@@ -30,9 +30,10 @@
 }
 \examples{
 data(celebrities)                     # absolute choice frequencies
-A <- list(c(1,10), c(2,10), c(3,10), c(4,11), c(5,11), c(6,11),
+A <- list(c(1,10), c(2,10), c(3,10),
+          c(4,11), c(5,11), c(6,11),
           c(7,12), c(8,12), c(9,12))  # the structure of aspects
-eba1 <- eba(celebrities, A)           # fit EBA model
+eba1 <- eba(celebrities, A)           # fit elimination-by-aspects model
 
 ## Perform parametric bootstrap
 LR.stat <- replicate(200, eba(simulate(eba1), A)$good[1])

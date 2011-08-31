@@ -39,12 +39,14 @@ OptiPt(M, A = 1:I, s = rep(1/J, J), constrained = TRUE)
 }
 \details{
   \code{eba} is a wrapper function for \code{OptiPt}.  Both functions
-  can be used interchangeably.
+  can be used interchangeably.  See Wickelmaier & Schmid (2004) for further
+  details.
 
   The probabilistic choice models that can be fitted to paired-comparison
-  data are the Bradley-Terry-Luce (BTL) model, preference tree (Pretree)
-  models, and elimination-by-aspects (EBA) models, the former being special
-  cases of the latter.
+  data are the Bradley-Terry-Luce (BTL) model (Bradley, 1984; Luce, 1959),
+  preference tree (Pretree) models (Tversky & Sattath, 1979), and
+  elimination-by-aspects (EBA) models (Tversky, 1972), the former being
+  special cases of the latter.
 
   \code{A} is usually a list of vectors, the first element of each being
   a number from 1 to \code{I}; additional elements specify the aspects shared
@@ -52,10 +54,10 @@ OptiPt(M, A = 1:I, s = rep(1/J, J), constrained = TRUE)
   stimuli.  When fitting a BTL model, \code{A} reduces to \code{1:I} (the
   default), i.e. there is only one aspect per stimulus.
 
-  The maximum likelihood estimation of the parameter values is
-  carried out by \code{nlm}.  The Hessian matrix, however, is
-  approximated by \code{fdHess{nlme}}.  The likelihood functions
-  \code{L.constrained} and \code{L} are called automatically.
+  The maximum likelihood estimation of the parameters is carried out by
+  \code{nlm}.  The Hessian matrix, however, is approximated by
+  \code{fdHess{nlme}}.  The likelihood functions \code{L.constrained} and
+  \code{L} are called automatically.
 
   See \code{\link{group.test}} for details on the likelihood ratio
   tests reported by \code{summary.eba}.
@@ -82,20 +84,23 @@ OptiPt(M, A = 1:I, s = rep(1/J, J), constrained = TRUE)
 }
 \author{Florian Wickelmaier}
 \references{
-  Wickelmaier, F., & Schmid, C. (2004). A Matlab function to estimate
-  choice model parameters from paired-comparison data.
-  \emph{Behavior Research Methods, Instruments, and Computers},
-  \bold{36}, 29--40.
-
   Bradley, R.A. (1984). Paired comparisons: Some basic procedures and
   examples. In P.R. Krishnaiah & P.K. Sen (eds.),
   \emph{Handbook of Statistics, Volume 4}. Amsterdam: Elsevier.
+
+  Luce, R.D. (1959). \emph{Individual choice behavior: A theoretical
+  analysis}. New York: Wiley.
 
   Tversky, A. (1972). Elimination by aspects: A theory of choice.
   \emph{Psychological Review}, \bold{79}, 281--299.
 
   Tversky, A., & Sattath, S. (1979). Preference trees.
   \emph{Psychological Review}, \bold{86}, 542--573.
+
+  Wickelmaier, F., & Schmid, C. (2004). A Matlab function to estimate
+  choice model parameters from paired-comparison data.
+  \emph{Behavior Research Methods, Instruments, and Computers},
+  \bold{36}, 29--40.
 }
 \seealso{
   \code{\link{strans}}, \code{\link{uscale}}, \code{\link{cov.u}},
@@ -107,10 +112,11 @@ OptiPt(M, A = 1:I, s = rep(1/J, J), constrained = TRUE)
 }
 \examples{
 data(celebrities)                     # absolute choice frequencies
-btl1 <- eba(celebrities)              # fit a Bradley-Terry-Luce model
-A <- list(c(1,10), c(2,10), c(3,10), c(4,11), c(5,11), c(6,11),
+btl1 <- eba(celebrities)              # fit Bradley-Terry-Luce model
+A <- list(c(1,10), c(2,10), c(3,10),
+          c(4,11), c(5,11), c(6,11),
           c(7,12), c(8,12), c(9,12))  # the structure of aspects
-eba1 <- eba(celebrities, A)           # fit a preference tree model
+eba1 <- eba(celebrities, A)           # fit elimination-by-aspects model
 
 summary(eba1)                         # goodness of fit
 plot(eba1)                            # residuals versus predicted values

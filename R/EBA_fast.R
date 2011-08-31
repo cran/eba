@@ -78,8 +78,6 @@ OptiPt <- function(M, A = 1:I, s = rep(1/J, J), constrained = TRUE){
   hes  <- nlme::fdHess(p, L, y1, n, idx1, idx0)$H  # numerical Hessian
   cova <- solve(rbind(cbind(hes, 1), c(rep(1, J), 0)))[1:J, 1:J]
   dimnames(cova) <- list(names(p), names(p))
-  # se   <- sqrt(diag(cova))                 # standard error
-  # ci   <- qnorm(.975) * se                 # 95% confidence interval
   logL.eba <- -out$min                     # likelihood of the specified model
 
   fitted <- matrix(0, I, I)                        # fitted PCM
@@ -89,21 +87,20 @@ OptiPt <- function(M, A = 1:I, s = rep(1/J, J), constrained = TRUE){
   fitted[lower.tri(fitted)] <- n/(1 + idx1%*%p / idx0%*%p)
   dimnames(fitted) <- dimnames(M)
 
-  chi  <- 2 * (logL.sat - logL.eba)  # goodness-of-fit statistic
+  G2   <- 2 * (logL.sat - logL.eba)  # G2 goodness-of-fit statistic
   df   <- I*(I - 1)/2 - (J - 1)
-  pval <- 1 - pchisq(chi, df)
-  gof  <- c(chi, df, pval)
+  pval <- 1 - pchisq(G2, df)
+  gof  <- c(G2, df, pval)
   names(gof) <- c("-2logL", "df", "pval")
-  chi.alt    <- sum((M - fitted)^2 / fitted, na.rm=TRUE)
+  X2   <- sum((M - fitted)^2 / fitted, na.rm=TRUE)
 
   u <- numeric()  # scale values
-  # for(i in 1:I) u <- c(u, sum(p[A[[i]]]))
   for(i in seq_len(I)) u <- c(u, sum(p[A[[i]]]))
   names(u) <- colnames(M)
 
-  z <- list(coefficients=p, estimate=p, fitted=fitted, # se=se, ci95=ci,
+  z <- list(coefficients=p, estimate=p, fitted=fitted,
             logL.eba=logL.eba, logL.sat=logL.sat, goodness.of.fit=gof,
-            u.scale=u, hessian=-hes, cov.p=cova, chi.alt=chi.alt, A=A, y1=y1,
+            u.scale=u, hessian=-hes, cov.p=cova, chi.alt=X2, A=A, y1=y1,
             y0=y0, n=n, mu=mu)
   class(z) <- "eba"
   z
@@ -156,7 +153,7 @@ summary.eba <- function(object, ...){
       dev <- 2*(l.2 - l.1), 1 - pchisq(dev, df2 - df1))
   )
   rownames(tests) <- c("Overall", "EBA", "Effect", "Imbalance")
-  colnames(tests) <- c("Df1","Df2","logLik1","logLik2","Deviance","Pr(>|Chi|)")
+  colnames(tests) <- c("Df1","Df2","logLik1","logLik2","Deviance","Pr(>Chi)")
 
   aic <- -2*x$logL.eba + 2*(length(coef)-1)
   ans <- list(coefficients=coef.table, aic=aic, logL.eba=x$logL.eba,
@@ -172,11 +169,11 @@ print.eba <- function(x, digits=max(3, getOption("digits")-3),
   cat("Parameter estimates:\n")
   print.default(format(coef(x), digits = digits), print.gap = 2,
       quote = FALSE)
-  chi2 <- x$goodness.of.fit[1]
+  G2   <- x$goodness.of.fit[1]
   df   <- x$goodness.of.fit[2]
   pval <- x$goodness.of.fit[3]
   cat("\nGoodness of fit (-2 log likelihood ratio):\n")
-  cat("\tChi2(", df, ") = ", format(chi2, digits=digits), ", p = ",
+  cat("\tG2(", df, ") = ", format(G2, digits=digits), ", p = ",
       format(pval,digits=digits), "\n", sep="")
   cat("\n")
   invisible(x)
@@ -188,15 +185,15 @@ print.eba <- function(x, digits=max(3, getOption("digits")-3),
 #   na.print="", symbolic.cor=p>4, signif.stars=getOption("show.signif.stars"),
 #   ...){
 
-print.summary.eba <- function(x, digits=max(3, getOption("digits")-3),
+print.summary.eba <- function(x, digits=max(3, getOption("digits") - 3),
   na.print="", signif.stars=getOption("show.signif.stars"), ...){
   cat("\nParameter estimates:\n")
   printCoefmat(x$coef, digits = digits, signif.stars = signif.stars, ...)
   cat("\nModel tests:\n")
   printCoefmat(x$tests, digits = digits, signif.stars = signif.stars,
     zap.ind = 1:2, tst.ind = 3:5, ...)
-  cat("\nAIC: ",format(x$aic,digits=max(4,digits+1)),"\n")
-  cat("Pearson Chi2:",format(x$chi.alt,digits=digits))
+  cat("\nAIC: ", format(x$aic, digits=max(4, digits + 1)), "\n")
+  cat("Pearson X2:", format(x$chi.alt, digits=digits))
   cat("\n")
   invisible(x)
 }
@@ -346,7 +343,7 @@ group.test <- function(groups, A=1:I, s=rep(1/J,J), constrained=TRUE){
       dev <- 2 * (l.2 - l.1), 1 - pchisq(dev, df2 - df1))
   )
   rownames(tests) <- c("Overall", "EBA.g", "Group", "Effect", "Imbalance")
-  colnames(tests) <- c("Df1","Df2","logLik1","logLik2","Deviance","Pr(>|Chi|)")
+  colnames(tests) <- c("Df1","Df2","logLik1","logLik2","Deviance","Pr(>Chi)")
 
   z <- list(tests=tests)
   class(z) <- "group.test"
@@ -471,7 +468,7 @@ anova.eba <- function (object, ..., test=c("Chisq", "none")){
   out <- data.frame(Model = names(mlist), Resid.df = dfs, Deviance = lls,
                     Test = tss, Df = df, LRtest = x2, Prob = pr)
   names(out) <- c("Model", "Resid. df", "Resid. Dev", "Test",
-                  "   Df", "LR stat.", "Pr(Chi)")
+                  "   Df", "LR stat.", "Pr(>Chi)")
   rownames(out) <- 1:nt
   if (test == "none") out <- out[, 1:6]
   class(out) <- c("Anova", "data.frame")
@@ -482,6 +479,19 @@ anova.eba <- function (object, ..., test=c("Chisq", "none")){
 
 
 vcov.eba <- function(object, ...) object$cov.p
+
+
+## Log-likelihood for eba objects
+logLik.eba <- function(object, ...)
+{
+    if(length(list(...)))
+        warning("extra arguments discarded")
+    p <- length(object$estimate) - 1
+    val <- object$logL.eba
+    attr(val, "df") <- p
+    class(val) <- "logLik"
+    val
+}
 
 
 simulate.eba <- function(object, nsim, seed, pool = TRUE, ...){

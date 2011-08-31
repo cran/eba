@@ -10,7 +10,8 @@ thurstone <- function(M){
   y0 <- M[lower.tri(M)]
 
   tm.glm <- glm(cbind(y1, y0) ~ pcX(nrow(M)) - 1, binomial(probit))
-  estimate <- unname(c(0, coef(tm.glm)))
+  estimate <- c(0, coef(tm.glm))
+  names(estimate) <- colnames(M)
 
   gof <- c("-2logL" = deviance(tm.glm), df = tm.glm$df.residual,
     pval = 1 - pchisq(deviance(tm.glm), tm.glm$df.residual))
@@ -21,17 +22,17 @@ thurstone <- function(M){
 }
 
 
-print.thurstone <- function(x, digits=max(3, getOption("digits")-3),
+print.thurstone <- function(x, digits=max(3, getOption("digits") - 3),
   na.print="", ...){
   cat("\nThurstone-Mosteller model (Case V)\n\n")
   cat("Parameter estimates:\n")
   print.default(format(x$estimate, digits = digits), print.gap = 2,
       quote = FALSE)
-  chi2 <- x$goodness.of.fit[1]
-  df <- x$goodness.of.fit[2]
+  G2   <- x$goodness.of.fit[1]
+  df   <- x$goodness.of.fit[2]
   pval <- x$goodness.of.fit[3]
   cat("\nGoodness of fit (-2 log likelihood ratio):\n")
-  cat("\tChi2(", df, ") = ", format(chi2, digits=digits), ", p = ",
+  cat("\tG2(", df, ") = ", format(G2, digits=digits), ", p = ",
       format(pval,digits=digits), "\n", sep="")
   cat("\n")
   invisible(x)

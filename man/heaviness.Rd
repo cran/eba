@@ -2,12 +2,11 @@
 \alias{heaviness}
 \title{Weights Judging Data}
 \description{
-  Fifty subjects were presented with all 20 ordered pairs of
-  bottles filled with lead shot and asked to choose the
-  bottle that felt heavier.  The weight of the bottles was
-  90, 95, 100, 105, and 110 grams, respectively.  Choice
-  frequencies were aggregated across subjects for the two
-  within-pair presentation orders.
+  Fifty subjects were presented with all 20 ordered pairs of bottles filled
+  with lead shot and asked to choose the bottle that felt heavier.  The mass
+  of the bottles was 90, 95, 100, 105, and 110 grams, respectively.  Choice
+  frequencies were aggregated across subjects for the two within-pair
+  presentation orders.
 }
 \usage{data(heaviness)}
 \format{
@@ -46,7 +45,7 @@ btl2 <- eba(heaviness[,,2])
 
 xval <- seq(90, 110, 5)
 plot(uscale(btl1) ~ xval, type="n", log="y",
-  xlab="Weight of lead shot filled bottle (in g)",
+  xlab="Mass of lead shot filled bottle (in g)",
   ylab="Estimated perceived heaviness (BTL model)",
   main="Weights judging experiment")
 mtext("(Beaver & Gokhale, 1975)", line=.5)

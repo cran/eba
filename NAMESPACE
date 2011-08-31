@@ -1,0 +1,52 @@
+import("stats")
+
+importFrom("nlme", "fdHess")
+
+export(
+  "eba",
+  "uscale",
+  "cov.u",
+  "pcX",
+  "group.test",
+  "wald.test",
+  "balanced.pcdesign",
+  "boot",
+  "circular",
+  "eba.order",
+  "kendall.u",
+  "linear2btl",
+  "strans",
+  "thurstone",
+  "mbt"
+)
+
+## Methods for class eba
+S3method("summary", "eba")
+S3method("print", "eba")
+S3method("print", "summary.eba")
+S3method("residuals", "eba")
+S3method("plot", "eba")
+S3method("anova", "eba")
+S3method("vcov", "eba")
+S3method("logLik", "eba")
+S3method("simulate", "eba")
+
+## Methods for class eba.order
+S3method("summary", "eba.order")
+S3method("print", "eba.order")
+S3method("print", "summary.eba.order")
+S3method("residuals", "eba.order")
+S3method("plot", "eba.order")
+S3method("anova", "eba.order")
+S3method("vcov", "eba.order")
+S3method("logLik", "eba.order")
+
+## Misc print methods
+S3method("print", "circular")
+S3method("print", "group.test")
+S3method("print", "wald.test")
+S3method("print", "kendall.u")
+S3method("print", "mbt")
+S3method("print", "strans")
+S3method("print", "thurstone")
+

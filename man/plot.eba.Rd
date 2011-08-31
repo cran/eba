@@ -2,7 +2,7 @@
 \alias{plot.eba}
 \title{Diagnostic Plot for EBA Models}
 \description{
-  Plots EBA residuals against fitted values.
+  Plots elimination-by-aspects (EBA) model residuals against fitted values.
 }
 \usage{
 \method{plot}{eba}(x, xlab = "Predicted choice probabilities",
@@ -23,10 +23,11 @@
 ## Compare two choice models
 
 data(celebrities)                     # absolute choice frequencies
-btl1 <- eba(celebrities)              # fit BTL model
-A <- list(c(1,10), c(2,10), c(3,10), c(4,11), c(5,11), c(6,11),
+btl1 <- eba(celebrities)              # fit Bradley-Terry-Luce model
+A <- list(c(1,10), c(2,10), c(3,10),
+          c(4,11), c(5,11), c(6,11),
           c(7,12), c(8,12), c(9,12))  # the structure of aspects
-eba1 <- eba(celebrities, A)           # fit a preference tree (EBA)
+eba1 <- eba(celebrities, A)           # fit elimination-by-aspects model
 anova(btl1, eba1)                     # model comparison based on likelihoods
 
 par(mfrow = c(1,2))                   # residuals versus fitted values

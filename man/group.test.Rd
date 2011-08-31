@@ -52,15 +52,15 @@
   \item{tests}{a table displaying the likelihood ratio test statistics}
 }
 \references{
-  Duineveld, C.A.A., Arents, P., & King, B.M. (2000). Log-linear modelling of
-  paired comparison data from consumer tests.
-  \emph{Food Quality and Preference}, \bold{11}, 63--70.
-
   Choisel, S., & Wickelmaier, F. (2007). Evaluation of multichannel
   reproduced sound: Scaling auditory attributes underlying listener
   preference.
   \emph{Journal of the Acoustical Society of America}, \bold{121},
   388--400.
+
+  Duineveld, C.A.A., Arents, P., & King, B.M. (2000). Log-linear modelling of
+  paired comparison data from consumer tests.
+  \emph{Food Quality and Preference}, \bold{11}, 63--70.
 }
 \seealso{\code{\link{eba}}, \code{\link{wald.test}}.}
 \examples{

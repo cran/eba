@@ -75,21 +75,21 @@ eba.order <- function(M1, M2 = NULL, A = 1:I, s = c(rep(1/J, J), 1),
   mu <- as.numeric( c( 1 / (1 + p["order"]*idx0%*%eba.p / idx1%*%eba.p),
                        1 / (1 + idx0%*%eba.p / (p["order"]*idx1%*%eba.p)) ))
 
-  chi <- 2*(logL.sat - logL.eba)  # goodness-of-fit statistic
-  df <- I*(I-1) - (J+1-1)
-  pval <- 1 - pchisq(chi, df)
-  gof <- c(chi, df, pval)
+  G2   <- 2*(logL.sat - logL.eba)  # G2 goodness-of-fit statistic
+  df   <- I*(I - 1) - (J + 1 - 1)
+  pval <- 1 - pchisq(G2, df)
+  gof  <- c(G2, df, pval)
   names(gof) <- c("-2logL", "df", "pval")
-  chi.alt <- sum((M1-fitted1)^2/fitted1, (M2-fitted2)^2/fitted2, na.rm=TRUE)
+  X2   <- sum((M1 - fitted1)^2/fitted1, (M2 - fitted2)^2/fitted2, na.rm=TRUE)
 
   u <- numeric()  # scale values
-  for(i in 1:I) u = c(u, sum(p[A[[i]]]))
+  for(i in seq_len(I)) u = c(u, sum(p[A[[i]]]))
   names(u) <- colnames(M1)
 
-  z <- list(coefficients=p, estimate=p, fitted=fitted, # se=se, ci95=ci,
+  z <- list(coefficients=p, estimate=p, fitted=fitted,
            logL.eba=logL.eba, logL.sat=logL.sat, goodness.of.fit=gof,
            u.scale=u, hessian=-hes, cov.p=cova, idx1=idx1, idx0=idx0,
-           chi.alt=chi.alt, A=A, y1=y1, y0=y0, n=n, mu=mu, M1=M1, M2=M2)
+           chi.alt=X2, A=A, y1=y1, y0=y0, n=n, mu=mu, M1=M1, M2=M2)
   class(z) <- "eba.order"
   z
 }
@@ -193,7 +193,7 @@ summary.eba.order <- function(object, ...){
   )
   #rownames(tests) <- c("Overall", "EBA.order", "Order", "Effect", "Imbalance")
   rownames(tests) <- c("EBA.order", "Order", "Effect", "Imbalance")
-  colnames(tests) <- c("Df1","Df2","logLik1","logLik2","Deviance","Pr(>|Chi|)")
+  colnames(tests) <- c("Df1","Df2","logLik1","logLik2","Deviance","Pr(>Chi)")
 
   aic <- -2*x$logL.eba + 2*(length(coef)-1+1)
   ans <- list(coefficients=coef.table, order.effects=order.table, aic=aic,
@@ -208,7 +208,7 @@ summary.eba.order <- function(object, ...){
 #   na.print="", symbolic.cor=p>4, signif.stars=getOption("show.signif.stars"),
 #   ...){
 
-print.summary.eba.order <- function(x, digits=max(3, getOption("digits")-3),
+print.summary.eba.order <- function(x, digits=max(3, getOption("digits") - 3),
   na.print="", signif.stars=getOption("show.signif.stars"), ...){
   cat("\nParameter estimates (H0: parameter = 0):\n")
   printCoefmat(x$coef, digits = digits, signif.stars = signif.stars, ...)
@@ -217,8 +217,8 @@ print.summary.eba.order <- function(x, digits=max(3, getOption("digits")-3),
   cat("\nModel tests:\n")
   printCoefmat(x$tests, digits = digits, signif.stars = signif.stars,
     zap.ind = 1:2, tst.ind = 3:5, ...)
-  cat("\nAIC: ",format(x$aic,digits=max(4,digits+1)),"\n")
-  cat("Pearson Chi2:",format(x$chi.alt,digits=digits))
+  cat("\nAIC: ", format(x$aic,digits=max(4, digits + 1)), "\n")
+  cat("Pearson X2:", format(x$chi.alt, digits=digits))
   cat("\n")
   invisible(x)
 }

@@ -4,7 +4,7 @@ strans <- function(M){
   #           21/Aug/2007 log the triples that violate transitivity
   #           14/Feb/2009 re-work strans: chkdf, viol.tab, re-ordered pcm
   #           18/Feb/2009 approx. LRT of WST
-  #           30/sep/2009 replace viol.tab by violdf
+  #           30/Sep/2009 replace viol.tab by violdf
   #                       obj.names for I > 26
   # author: Florian Wickelmaier (wickelmaier@web.de)
 
@@ -113,7 +113,7 @@ print.strans <- function(x, digits = max(3,getOption("digits")-4), ...){
   ttran <- cbind(tran, ttab)
   rownames(ttran) <- c("Weak", "Moderate", "Strong")
   colnames(ttran) <- c("Violations", "ErrorRatio", "MeanDev", "MaxDev",
-    "Deviance", "Df", "Pr(>|Chi|)")
+    "Deviance", "Df", "Pr(>Chi)")
 
   print(ttran, digits=digits)
   cat("---\nNumber of Tests: ", ntst, "\n")

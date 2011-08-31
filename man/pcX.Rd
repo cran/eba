@@ -33,13 +33,13 @@
 }
 \examples{
 data(celebrities)        # absolute choice frequencies
-btl <- eba(celebrities)  # fit BTL model using eba
+btl <- eba(celebrities)  # fit Bradley-Terry-Luce model using eba
 summary(btl)
 
 y1 <- t(celebrities)[lower.tri(celebrities)]
 y0 <- celebrities[lower.tri(celebrities)]
 
-## Fit BTL model using glm
+## Fit Bradley-Terry-Luce model using glm
 btl.glm <- glm(cbind(y1, y0) ~ pcX(9) - 1, binomial)
 summary(btl.glm)  # BTL model does not fit these data!
 

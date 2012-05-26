@@ -4,6 +4,7 @@ importFrom("nlme", "fdHess")
 
 export(
   "eba",
+  "OptiPt",
   "uscale",
   "cov.u",
   "pcX",
@@ -17,7 +18,9 @@ export(
   "linear2btl",
   "strans",
   "thurstone",
-  "mbt"
+  "mbt",
+  "inclusion.rule",
+  "trineq"
 )
 
 ## Methods for class eba
@@ -29,6 +32,7 @@ S3method("plot", "eba")
 S3method("anova", "eba")
 S3method("vcov", "eba")
 S3method("logLik", "eba")
+S3method("nobs", "eba")
 S3method("simulate", "eba")
 
 ## Methods for class eba.order
@@ -49,4 +53,5 @@ S3method("print", "kendall.u")
 S3method("print", "mbt")
 S3method("print", "strans")
 S3method("print", "thurstone")
+S3method("print", "trineq")
 

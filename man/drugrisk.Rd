@@ -51,10 +51,10 @@ anova(btl, eba1, eba2)
 
 ## Utility scale values (BTL for females, EBA for males)
 dotchart(cbind(
-apply(drugrisk[,,1:2], 3, function(x) uscale(eba(x),     norm=1, log=TRUE)),
-apply(drugrisk[,,3:4], 3, function(x) uscale(eba(x, A2), norm=1, log=TRUE))
-), xlab="log[ Utility scale value (BTL and EBA models) ]",
-   main="Perceived health risk of drugs")
+  apply(drugrisk[,,1:2], 3, function(x) uscale(eba(x),     norm=1, log=TRUE)),
+  apply(drugrisk[,,3:4], 3, function(x) uscale(eba(x, A2), norm=1, log=TRUE))
+  ), xlab="log[ Utility scale value (BTL and EBA models) ]",
+     main="Perceived health risk of drugs")
 abline(v=0, col="grey")
 mtext("(Wickelmaier, 2008)", line=.5)
 }

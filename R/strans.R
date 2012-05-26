@@ -1,40 +1,42 @@
 strans <- function(M){
-  # Checks stochastic transitivities in a PCM (abs. freq.)
+  # Check stochastic transitivities in a paired-comparison matrix (abs. freq.)
   # last mod: 08/Oct/2003 works now for unbalanced design
   #           21/Aug/2007 log the triples that violate transitivity
   #           14/Feb/2009 re-work strans: chkdf, viol.tab, re-ordered pcm
   #           18/Feb/2009 approx. LRT of WST
   #           30/Sep/2009 replace viol.tab by violdf
   #                       obj.names for I > 26
+  #           24/May/2013 pre-allocate vectors in chkdf
   # author: Florian Wickelmaier (wickelmaier@web.de)
 
   I <- sqrt(length(as.matrix(M)))    # number of stimuli
   R <- as.matrix( M / (M + t(M)) )   # pcm rel. freq.
   n <- (M + t(M))[lower.tri(R)]      # number of obs per pair
-  R[which(is.nan(R), arr.ind=TRUE)] <- 0  # replace diag (and missing cells)
+  R[which(is.na(R), arr.ind=TRUE)] <- 0  # replace diag (and missing cells)
   obj.names <- if(!is.null(colnames(M))) colnames(M)
-    else make.unique(rep(letters, length.out=I), sep="")
+               else make.unique(rep(letters, length.out=I), sep="")
 
-  triple.count <- 1
-  triple <- perm <- p12 <- p23 <- p13 <- NULL
+  triple <- rep(seq_len(choose(I, 3)), each=6)
+  perm <- character(length(triple))
+  p12 <- p23 <- p13 <- numeric(length(triple))
 
   ## For each triple, go through the 6 permutations
+  m <- 1
   for(ii in 1:(I-2)){ for(jj in (ii+1):(I-1)){ for(kk in (jj+1):I){ # tpl loop
     for(i in c(ii, jj, kk)){  # permutation loops
       for(j in c(ii, jj, kk)){
         for(k in c(ii, jj, kk)){
           if(i != j && j != k && i != k){
-            triple <- c(triple, triple.count)
-            perm <- c(perm, paste(obj.names[i], obj.names[j], obj.names[k],
-              sep="."))
-            p12 <- c(p12, R[i,j])
-            p23 <- c(p23, R[j,k])
-            p13 <- c(p13, R[i,k])
+            perm[m] <- paste(obj.names[i], obj.names[j], obj.names[k],
+                             sep=".")
+            p12[m] <- R[i, j]
+            p23[m] <- R[j, k]
+            p13[m] <- R[i, k]
+            m <- m + 1
           }
         }
       }
     }
-    triple.count <- triple.count + 1
   } } }
   chkdf <- data.frame(triple, perm, p12, p23, p13)
 
@@ -83,7 +85,7 @@ strans <- function(M){
   )
 
   z <- list(weak=sum(!violdf$wst), moderate=sum(!violdf$mst),
-    strong=sum(!violdf$sst), n.tests=triple.count - 1,
+    strong=sum(!violdf$sst), n.tests=max(chkdf$triple),
     wst.violations=wv, mst.violations=mv, sst.violations=sv,
     pcm=R, ranking=idx, chkdf=chkdf, violdf=violdf, wst.fit=wst.fit,
     wst.mat=wst.mat)
@@ -92,7 +94,7 @@ strans <- function(M){
 }
 
 
-print.strans <- function(x, digits = max(3,getOption("digits")-4), ...){
+print.strans <- function(x, digits = max(3, getOption("digits") - 4), ...){
   # Last mod: 21/Aug/2007: replace printCoefmat by print
   #           14/Feb/2009: checks if ?st.violations is empty
 
@@ -116,7 +118,7 @@ print.strans <- function(x, digits = max(3,getOption("digits")-4), ...){
     "Deviance", "Df", "Pr(>Chi)")
 
   print(ttran, digits=digits)
-  cat("---\nNumber of Tests: ", ntst, "\n")
+  cat("---\nNumber of Tests:", ntst, "\n")
   cat("\n")
   invisible(x)
 }

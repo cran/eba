@@ -7,8 +7,8 @@
 }
 \usage{strans(M)}
 \arguments{
-  \item{M}{a square matrix or a data frame consisting of
-    absolute choice frequencies}
+  \item{M}{a square matrix or a data frame consisting of absolute choice
+    frequencies; row stimuli are chosen over column stimuli}
 }
 \details{
   The weak (WST), moderate (MST), and strong (SST) stochastic
@@ -53,9 +53,9 @@
   \item{pcm}{the permuted square matrix of relative choice frequencies}
   \item{ranking}{the ranking of the objects, which corresponds to the colnames
     of pcm}
-  \item{chkdf}{data.frame reporting the choice proportions for each triple in
+  \item{chkdf}{data frame reporting the choice proportions for each triple in
     each permutation}
-  \item{violdf}{data.frame reporting for each triple which type of
+  \item{violdf}{data frame reporting for each triple which type of
     transitivity holds or does not hold}
   \item{wst.fit}{likelihood ratio test of WST (see details)}
   \item{wst.mat}{restricted matrix that satisfies WST}
@@ -71,11 +71,12 @@
   Tversky, A. (1969). Intransitivity of preferences.
   \emph{Psychological Review}, \bold{76}, 31--48.
 }
-\seealso{\code{\link{eba}}, \code{\link{circular}}, \code{\link{kendall.u}}.}
+\seealso{\code{\link{eba}}, \code{\link{circular}}, \code{\link{kendall.u}},
+  \code{\link{trineq}}.}
 \examples{
 data(celebrities)           # absolute choice frequencies
 strans(celebrities)         # WST and MST hold, but not SST
 strans(celebrities)$pcm     # re-ordered relative frequencies
-strans(celebrities)$violdf  # log transitivity violations
+strans(celebrities)$violdf  # transitivity violations
 }
 \keyword{models}

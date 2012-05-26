@@ -6,11 +6,14 @@
   Fits a Mallows-Bradley-Terry (MBT) model by maximum likelihood.
 }
 \usage{
-mbt(data)
+mbt(data, bootstrap = FALSE, nsim = 1000, ...)
 }
 \arguments{
   \item{data}{a data frame, the first t columns containing the ranks, the
   (t + 1)th column containing the frequencies.}
+  \item{bootstrap}{logical. Return a parametric bootstrap p-value?}
+  \item{nsim}{number of bootstrap replicates.}
+  \item{...}{further aguments passed to \code{simulate}.}
 }
 \details{
   \code{mbt} provides a front end for \code{glm}.
@@ -22,8 +25,9 @@ mbt(data)
     constrained to sum to unity}
   \item{goodness.of.fit}{the goodness of fit statistic including the
     likelihood ratio fitted vs. saturated model (-2logL), the degrees of
-    freedom, and the p-value of the corresponding chi-square distribution}
-  \item{perm.idx}{a vector of indices of non-zero frequency ranks}
+    freedom, the p-value of the corresponding chi-square distribution, and
+    if \code{bootstrap} is \code{TRUE} the bootstrap p-value}
+  \item{perm.idx}{the names of the non-zero frequency ranks}
   \item{y}{the vector of rank frequencies including zeros}
   \item{mbt.glm}{the output from a call to \code{glm}}
 }
@@ -41,7 +45,7 @@ mbt(data)
   \code{\link{tartness}}, \code{\link{glm}}.
 }
 \examples{
-data(tartness)  # tartness rankings of salad dressings (Vargo, 1989)
-mbt(tartness)   # fit Mallows-Bradley-Terry model
+data(tartness)        # tartness rankings of salad dressings (Vargo, 1989)
+mbt(tartness, bootstrap=TRUE, nsim=500)  # fit Mallows-Bradley-Terry model
 }
 \keyword{models}

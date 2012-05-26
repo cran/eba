@@ -22,7 +22,7 @@
 }
 \value{
   \item{pairs}{a character array holding the balanced pairs; see David (1988)
-    for details how it is constructed}
+    for details on how it is constructed}
   \item{listA}{the vector pairs in the original within-pair order}
   \item{listB}{the vector of pairs in the inverted within-pair order}
 }

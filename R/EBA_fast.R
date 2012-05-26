@@ -48,10 +48,10 @@ OptiPt <- function(M, A = 1:I, s = rep(1/J, J), constrained = TRUE){
   #   to estimate choice-model parameters from paired-comparison data.
   #   Behavior Research Methods, Instruments, and Computers, 36, 29--40.
 
-  I <- ncol(M)  # number of alternatives/stimuli
+  I <- ncol(M)         # number of alternatives/stimuli
   J <- max(unlist(A))  # number of eba parameters
 
-  idx1 <- idx0 <- matrix(0, I*(I-1)/2, J)  # index matrices
+  idx1 <- idx0 <- matrix(0, I*(I - 1)/2, J)  # index matrices
   rdx  <- 1
   for(i in seq_len(I - 1)){           # for(i in 1:(I-1)){
     for(j in (i + 1):I){
@@ -75,7 +75,7 @@ OptiPt <- function(M, A = 1:I, s = rep(1/J, J), constrained = TRUE){
 
   p <- out$estimate  # optimized parameters
   names(p) <- 1:J
-  hes  <- nlme::fdHess(p, L, y1, n, idx1, idx0)$H  # numerical Hessian
+  hes  <- nlme::fdHess(p, L, y1, n, idx1, idx0)$Hessian  # numerical Hessian
   cova <- solve(rbind(cbind(hes, 1), c(rep(1, J), 0)))[1:J, 1:J]
   dimnames(cova) <- list(names(p), names(p))
   logL.eba <- -out$min                     # likelihood of the specified model
@@ -101,7 +101,7 @@ OptiPt <- function(M, A = 1:I, s = rep(1/J, J), constrained = TRUE){
   z <- list(coefficients=p, estimate=p, fitted=fitted,
             logL.eba=logL.eba, logL.sat=logL.sat, goodness.of.fit=gof,
             u.scale=u, hessian=-hes, cov.p=cova, chi.alt=X2, A=A, y1=y1,
-            y0=y0, n=n, mu=mu)
+            y0=y0, n=n, mu=mu, nobs=length(n))
   class(z) <- "eba"
   z
 }
@@ -147,7 +147,7 @@ summary.eba <- function(object, ...){
 
    # mean poisson model vs. saturated poisson model (on n)
     c(df1 <- 1,
-      df2 <- I*(I-1)/2,
+      df2 <- I*(I - 1)/2,
       l.1 <- sum(dpois(x$n, mean(x$n), log=TRUE)),
       l.2 <- sum(dpois(x$n, x$n, log=TRUE)),
       dev <- 2*(l.2 - l.1), 1 - pchisq(dev, df2 - df1))
@@ -180,11 +180,6 @@ print.eba <- function(x, digits=max(3, getOption("digits")-3),
 }
 
 
-# Old:
-# print.summary.eba <- function(x, digits=max(3, getOption("digits")-3),
-#   na.print="", symbolic.cor=p>4, signif.stars=getOption("show.signif.stars"),
-#   ...){
-
 print.summary.eba <- function(x, digits=max(3, getOption("digits") - 3),
   na.print="", signif.stars=getOption("show.signif.stars"), ...){
   cat("\nParameter estimates:\n")
@@ -199,7 +194,8 @@ print.summary.eba <- function(x, digits=max(3, getOption("digits") - 3),
 }
 
 
-L <- function(p,y1,m,i1,i0) -sum(dbinom(y1, m, 1/(1+i0%*%p/i1%*%p), log=TRUE))
+L <- function(p, y1, m, i1, i0)
+  -sum(dbinom(y1, m, 1/(1 + i0 %*% p/i1 %*% p), log=TRUE))
 
 
 L.constrained <- function(p, y1, m, i1, i0)  # constrain search space
@@ -351,11 +347,6 @@ group.test <- function(groups, A=1:I, s=rep(1/J,J), constrained=TRUE){
 }
 
 
-# Old:
-# print.group.test <- function(x, digits=max(3,getOption("digits")-3),
-#   na.print="", symbolic.cor=p>4, signif.stars=getOption("show.signif.stars"),
-#   ...){
-
 print.group.test <- function(x, digits=max(3,getOption("digits")-3),
   na.print="", signif.stars=getOption("show.signif.stars"), ...){
   cat("\nTesting for group effects in EBA models:\n")
@@ -482,16 +473,20 @@ vcov.eba <- function(object, ...) object$cov.p
 
 
 ## Log-likelihood for eba objects
-logLik.eba <- function(object, ...)
-{
+logLik.eba <- function(object, ...){
     if(length(list(...)))
         warning("extra arguments discarded")
     p <- length(object$estimate) - 1
     val <- object$logL.eba
     attr(val, "df") <- p
+    attr(val, "nobs") <- object$nobs
     class(val) <- "logLik"
     val
 }
+
+
+## Number of observations
+nobs.eba <- function(object, ...) object$nobs
 
 
 simulate.eba <- function(object, nsim, seed, pool = TRUE, ...){

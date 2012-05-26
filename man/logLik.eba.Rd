@@ -1,5 +1,6 @@
 \name{logLik.eba}
 \alias{logLik.eba}
+\alias{nobs.eba}
 \title{Log-Likelihood of an eba Object}
 \description{
   Returns the log-likelihood value of the (multi-attribute) probabilistic
@@ -27,5 +28,6 @@ data(heaviness)
 btl1 <- eba(heaviness[,,order=1])
 logLik(btl1)
 AIC(btl1)
+BIC(btl1)
 }
 \keyword{models}

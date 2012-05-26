@@ -72,7 +72,7 @@ group.test(groups)  # Yes, there is.
 
 ## Elimination-by-aspects model
 data(drugrisk)   # Do younger and older males judge risk of drugs differently?
-A2 <- list (c(1), c(2,7), c(3,7), c(4,7,8), c(5,7,8), c(6,7,8))
+A2 <- list(c(1), c(2,7), c(3,7), c(4,7,8), c(5,7,8), c(6,7,8))
 group.test(drugrisk[,,3:4], A2)  # Yes.
 }
 \keyword{models}

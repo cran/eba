@@ -48,7 +48,8 @@ OptiPt(M, A = 1:I, s = rep(1/J, J), constrained = TRUE)
   elimination-by-aspects (EBA) models (Tversky, 1972), the former being
   special cases of the latter.
 
-  \code{A} is usually a list of vectors, the first element of each being
+  \code{A} represents the family of aspect sets.
+  It is usually a list of vectors, the first element of each being
   a number from 1 to \code{I}; additional elements specify the aspects shared
   by several stimuli.  \code{A} must have as many elements as there are
   stimuli.  When fitting a BTL model, \code{A} reduces to \code{1:I} (the
@@ -81,6 +82,7 @@ OptiPt(M, A = 1:I, s = rep(1/J, J), constrained = TRUE)
   \item{y0}{the data vector of the lower triangle matrix}
   \item{n}{the number of observations per pair (\code{y1 + y0})}
   \item{mu}{the predicted choice probabilities for the upper triangle}
+  \item{nobs}{the number of pairs}
 }
 \author{Florian Wickelmaier}
 \references{
@@ -107,8 +109,8 @@ OptiPt(M, A = 1:I, s = rep(1/J, J), constrained = TRUE)
   \code{\link{group.test}}, \code{\link{wald.test}}, \code{\link{plot.eba}},
   \code{\link{residuals.eba}}, \code{\link{logLik.eba}},
   \code{\link{simulate.eba}},
-  \code{\link{kendall.u}}, \code{\link{circular}}, \code{\link{thurstone}},
-  \code{\link{nlm}}.
+  \code{\link{kendall.u}}, \code{\link{circular}}, \code{\link{trineq}},
+  \code{\link{thurstone}}, \code{\link{nlm}}.
 }
 \examples{
 data(celebrities)                     # absolute choice frequencies
@@ -126,7 +128,7 @@ uscale(eba1)                          # utility scale
 
 ci <- 1.96 * sqrt(diag(cov.u(eba1)))      # 95\% CI for utility scale values
 dotchart(uscale(eba1), xlim=c(0, .3), main="Choice among celebrities",
-  xlab="Utility scale value (EBA model)", pch=16)           # plot the scale
+         xlab="Utility scale value (EBA model)", pch=16)    # plot the scale
 arrows(uscale(eba1)-ci, 1:9, uscale(eba1)+ci, 1:9, .05, 90, 3)  # error bars
 abline(v=1/9, lty=2)                      # indifference line
 mtext("(Rumelhart & Greeno, 1971)", line=.5)

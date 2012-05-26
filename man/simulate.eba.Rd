@@ -10,11 +10,11 @@
 }
 \arguments{
   \item{object}{an object of class \code{eba}, typically the result of a
-    call to \code{\link{eba}}}
-  \item{nsim}{currently not used}
-  \item{seed}{currently not used}
+    call to \code{\link{eba}}.}
+  \item{nsim}{currently not used.}
+  \item{seed}{currently not used.}
   \item{pool}{logical, if TRUE (default), pooled responses (summed across
-    respondents) are returned}
+    respondents) are returned.}
   \item{\dots}{further arguments passed to or from other methods.
     None are used in this method.}
 }
@@ -38,8 +38,8 @@ eba1 <- eba(celebrities, A)           # fit elimination-by-aspects model
 ## Perform parametric bootstrap
 LR.stat <- replicate(200, eba(simulate(eba1), A)$good[1])
 
-hist(LR.stat, col="lightgrey", border="white", freq=FALSE, breaks=20,
-  xlim=c(0, 60), main="Parametric bootstrap")
+hist(LR.stat, col="lightgray", border="white", freq=FALSE, breaks=20,
+     xlim=c(0, 60), main="Parametric bootstrap")
 curve(dchisq(x, df=eba1$good[2]), add=TRUE)
 abline(v=eba1$good[1], lty=2)
 }

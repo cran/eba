@@ -6,7 +6,7 @@
 }
 \usage{
 \method{plot}{eba}(x, xlab = "Predicted choice probabilities",
-  ylab = "Deviance residuals", \dots)
+     ylab = "Deviance residuals", \dots)
 }
 \arguments{
   \item{x}{an object of class \code{eba}, typically the result of a
@@ -30,7 +30,7 @@ A <- list(c(1,10), c(2,10), c(3,10),
 eba1 <- eba(celebrities, A)           # fit elimination-by-aspects model
 anova(btl1, eba1)                     # model comparison based on likelihoods
 
-par(mfrow = c(1,2))                   # residuals versus fitted values
+par(mfrow = 1:2)                      # residuals versus fitted values
 plot(btl1, main = "BTL", ylim = c(-4, 4.5))  # BTL doesn't fit well
 plot(eba1, main = "EBA", ylim = c(-4, 4.5))  # EBA fits better
 }

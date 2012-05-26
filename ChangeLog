@@ -1,3 +1,14 @@
+Changes in 1.7-1
+
+  * trineq (new function): check trinary inequality
+  * inclusion.rule (new function): check inclusion rule (tree structure of
+    aspect sets)
+  * nobs.eba (new function): extract number of pairs
+  * mbt.R: computes a bootstrap p-value; the ordering of the ranking data is
+      now irrelevant
+  * NAMESPACE: include OptiPt, trineq, inclusion.rule
+  * DESCRIPTION (Version, Date): 1.7-1
+
 Changes in 1.7-0
 
   * mbt.R (new function): Mallows-Bradley-Terry model

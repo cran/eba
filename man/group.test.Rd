@@ -66,7 +66,7 @@
 \examples{
 ## Bradley-Terry-Luce model
 data(pork)          # Is there a difference between Judge 1 and Judge 2?
-groups <- array(c(apply(pork[,,1:5], 1:2, sum),
+groups <- array(c(apply(pork[,,1:5],  1:2, sum),
                   apply(pork[,,6:10], 1:2, sum)), c(3,3,2))
 group.test(groups)  # Yes, there is.
 

@@ -1,3 +1,9 @@
+Changes in 1.7-2
+
+  * New functions: deviance.eba(), deviance.eba.order()
+  * anova.eba: now works with stats::print.anova()
+  * NAMESPACE: import graphics
+
 Changes in 1.7-1
 
   * trineq (new function): check trinary inequality
@@ -5,9 +11,8 @@ Changes in 1.7-1
     aspect sets)
   * nobs.eba (new function): extract number of pairs
   * mbt.R: computes a bootstrap p-value; the ordering of the ranking data is
-      now irrelevant
+    now irrelevant
   * NAMESPACE: include OptiPt, trineq, inclusion.rule
-  * DESCRIPTION (Version, Date): 1.7-1
 
 Changes in 1.7-0
 
@@ -16,7 +21,6 @@ Changes in 1.7-0
   * boot.R: fix CRAN check warning about partial matching
   * OptiPt.Rd (references): add Luce (1959)
   * NAMESPACE: new file
-  * DESCRIPTION (Version, Date): 1.7-0
 
 Changes in 1.6-0
 
@@ -30,7 +34,6 @@ Changes in 1.6-0
   * heaviness.Rd (examples): new plot
   * drugrisk (examples): new plot
   * simulate.eba.Rd (examples): update
-  * DESCRIPTION (Version, Date): 1.6-0
 
 Changes in 1.5-7
 
@@ -39,7 +42,6 @@ Changes in 1.5-7
   * drugrisk (new data set): perceived health risk of drugs
   * circular.R: remove diagonal before counting circular triads
   * DESCRIPTION: change depends on nlme to imports nlme
-  * DESCRIPTION (Version, Date): 1.5-7
 
 Changes in 1.5-6
 
@@ -48,18 +50,15 @@ Changes in 1.5-6
   * eba.order.R: eba.order(M1, M2=NULL, ...) accepts a 3d array
   * celebrities, heaviness, pork: more informative dimnames
   * linear2btl.Rd: add weighted least squares example
-  * DESCRIPTION (Version, Date): 1.5-6
 
 Changes in 1.5-5
 
   * strans.R (bug fix): replace viol.tab by violdf, better obj.names
-  * DESCRIPTION (Version, Date): 1.5-5
 
 Changes in 1.5-4
 
   * CITATION: add reference to BRMIC paper
   * strans.Rd: update value, examples
-  * DESCRIPTION (Version, Date): 1.5-4
 
 Changes in 1.5-3
 
@@ -71,7 +70,6 @@ Changes in 1.5-3
   * strans.Rd: update details, value, references
   * boot.Rd: delete unmatched right brace on line 32 that caused a CRAN
     check warning
-  * DESCRIPTION (Version, Date): 1.5-3
 
 Changes in 1.5-2
 
@@ -83,7 +81,6 @@ Changes in 1.5-2
   * print.group.test, print.summary.eba, and print.summary.eba.order: delete
     the symbolic.cor=p>4 argument that caused a NOTE from CRAN check
   * pcX.Rd (see also): update
-  * DESCRIPTION (Version, Date): 1.5-2
 
 Changes in 1.5-1
 
@@ -96,7 +93,6 @@ Changes in 1.5-1
   * zzMethods.R: add anova.eba.order
   * OptiPt.Rd: put anova and vcov
   * pcX.Rd: put reference to Critchlow & Fligner (1991)
-  * DESCRIPTION (Version, Date): 1.5-1
 
 Changes in 1.5-0
 
@@ -107,7 +103,6 @@ Changes in 1.5-0
     "0" (not "NaN") when there are no SST violations
   * strans.Rd (value): update
   * heaviness.Rd (source): put original reference to the data
-  * DESCRIPTION file (Date, Version, URL): 1.5-0, new web address
 
 Changes in 1.4-3
 
@@ -133,7 +128,6 @@ Changes in 1.4-3
   * plot.eba.Rd (arguments, examples, usage: method): update
   * residuals.eba.Rd (usage, method): update
   * group.test.Rd (details, references): update
-  * DESCRIPTION (Date, Version): 1.4-3
 
 Changes in 1.4-2
 
@@ -152,4 +146,3 @@ Changes in 1.4-2
   * strans.Rd (value, references): update
   * celebrities.Rd (description, source, examples): update
   * pork.Rd (description, source, examples): update
-  * DESCRIPTION (Version, Date): 1.4-2

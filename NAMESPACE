@@ -1,4 +1,5 @@
 import("stats")
+import("graphics")
 
 importFrom("nlme", "fdHess")
 
@@ -34,6 +35,7 @@ S3method("vcov", "eba")
 S3method("logLik", "eba")
 S3method("nobs", "eba")
 S3method("simulate", "eba")
+S3method("deviance", "eba")
 
 ## Methods for class eba.order
 S3method("summary", "eba.order")
@@ -44,6 +46,7 @@ S3method("plot", "eba.order")
 S3method("anova", "eba.order")
 S3method("vcov", "eba.order")
 S3method("logLik", "eba.order")
+S3method("deviance", "eba.order")
 
 ## Misc print methods
 S3method("print", "circular")

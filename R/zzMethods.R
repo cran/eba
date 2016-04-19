@@ -11,3 +11,6 @@ plot.eba.order <- plot.eba
 anova.eba.order <- anova.eba
 
 vcov.eba.order <- vcov.eba
+
+deviance.eba.order <- deviance.eba
+

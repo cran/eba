@@ -41,7 +41,7 @@
 \examples{
 data(drugrisk)
 y1 <- t(drugrisk[,,1])[lower.tri(drugrisk[,,1])]
-y0 <- drugrisk[,,1][lower.tri(drugrisk[,,1])]
+y0 <-   drugrisk[,,1][ lower.tri(drugrisk[,,1])]
 
 ## Fit BTL model using glm (maximum likelihood)
 btl.glm <- glm(cbind(y1, y0) ~ 0 + pcX(6), binomial)

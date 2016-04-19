@@ -41,13 +41,13 @@ A <- list(c(1,10), c(2,10), c(3,10),
 eba1 <- eba(celebrities, A)           # fit elimination-by-aspects model
 
 ## Test whether JU, CY, and AJF have equal utility scale values
-C1 <- matrix(c(0,0,0,1,-1,0,0,0,0,
-               0,0,0,1,0,-1,0,0,0), 2, 9, TRUE)
+C1 <- rbind(c(0,0,0,1,-1, 0,0,0,0),
+            c(0,0,0,1, 0,-1,0,0,0))
 wald.test(eba1, C1)
 
 ## Test whether the three branch parameters are different
-C2 <- matrix(c(0,0,0,0,0,0,0,0,0,1,-1,0,
-               0,0,0,0,0,0,0,0,0,1,0,-1), 2, 12, TRUE)
+C2 <- rbind(c(0,0,0,0,0,0,0,0,0,1,-1, 0),
+            c(0,0,0,0,0,0,0,0,0,1, 0,-1))
 wald.test(eba1, C2, u.scale = FALSE)
 }
 \keyword{models}

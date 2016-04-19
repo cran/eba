@@ -29,7 +29,7 @@
 #              in print.group.test
 #
 # 2011/MAR/01:
-#   removed dependencies on $estimate and $se components in objects or class
+#   removed dependencies on $estimate and $se components in objects of class
 #     eba
 #   used seq_along and seq_len where possible
 #   uscale: utility scale extractor function
@@ -423,49 +423,45 @@ plot.eba <- function(x, xlab="Predicted choice probabilities",
 }
 
 
-anova.eba <- function (object, ..., test=c("Chisq", "none")){
-  # Adapted form anova.polr by Brian Ripley
-  # Works also for eba.order
+anova.eba <- function(object, ..., test=c("Chisq", "none")){
+  # Adapted form MASS::anova.polr and stats::anova.glmlist
+  # Also works for objects of class eba.order
 
   test <- match.arg(test)
   dots <- list(...)
   if (length(dots) == 0)
       stop('anova is not implemented for a single "eba" object')
   mlist <- list(object, ...)
-  names(mlist) <- c(deparse(substitute(object)),
-    as.character(substitute(...[]))[2:length(mlist)])
-  nt <- length(mlist)
-  dflis <- sapply(mlist, function(x) x$goodness["df"])
-  s <- order(dflis, decreasing = TRUE)
-  mlist <- mlist[s]
+  nmodels <- length(mlist)
+  names(mlist) <- sapply(match.call()[-1],
+      function(s) paste(deparse(s), collapse="\n"))[seq_len(nmodels)]
 
-  # if (any(!sapply(mlist, inherits, "eba")))
-  #     stop('not all objects are of class "eba"')
-  ## All models must be either eba or eba.order.
-  if(any(!sapply(mlist, inherits, "eba")) &
-     any(!sapply(mlist, inherits, "eba.order")))
-       stop('not all objects are of class "eba" or of class "eba.order"')
+  ## All models must be either eba or eba.order
+  if (any(!sapply(mlist, inherits, "eba")) &&
+      any(!sapply(mlist, inherits, "eba.order")))
+      stop('not all objects are of class "eba" or of class "eba.order"')
 
   ns <- sapply(mlist, function(x) length(x$mu))
-  if(any(ns != ns[1]))
+  if (any(ns != ns[1]))
       stop("models were not all fitted to the same size of dataset")
 
-  dfs <- dflis[s]
-  lls <- sapply(mlist, function(x) x$goodness["-2logL"])
-  tss <- c("", paste(1:(nt - 1), 2:nt, sep = " vs "))
+  dfs <- sapply(mlist, function(x) x$goodness.of.fit["df"])
+  lls <- sapply(mlist, function(x) x$goodness.of.fit["-2logL"])
   df <- c(NA, -diff(dfs))
   x2 <- c(NA, -diff(lls))
-  pr <- c(NA, 1 - pchisq(x2[-1], df[-1]))
-  out <- data.frame(Model = names(mlist), Resid.df = dfs, Deviance = lls,
-                    Test = tss, Df = df, LRtest = x2, Prob = pr)
-  names(out) <- c("Model", "Resid. df", "Resid. Dev", "Test",
-                  "   Df", "LR stat.", "Pr(>Chi)")
-  rownames(out) <- 1:nt
-  if (test == "none") out <- out[, 1:6]
-  class(out) <- c("Anova", "data.frame")
-  attr(out, "heading") <-
-    "Analysis of deviance table for elimination-by-aspect models\n"
-  out
+  pr <- c(NA, pchisq(x2[-1], df[-1], lower.tail = FALSE))
+
+  out <- data.frame(Resid.df = dfs, Deviance = lls, Df = df, Chisq = x2,
+                    Prob = pr)
+  dimnames(out) <- list(1:nmodels, c("Resid. Df", "Resid. Dev", "Df",
+                                     "Deviance", "Pr(>Chi)"))
+  if (test == "none") out <- out[, -ncol(out)]
+
+  structure(out,
+            heading = c("Analysis of Deviance Table\n",
+                        paste0("Model ", format(1L:nmodels), ": ",
+                               names(mlist), collapse = "\n")),
+            class = c("anova", "data.frame"))
 }
 
 
@@ -507,4 +503,7 @@ simulate.eba <- function(object, nsim, seed, pool = TRUE, ...){
   }
   mat
 }
+
+
+deviance.eba <- function(object, ...) object$goodness.of.fit["-2logL"]
 

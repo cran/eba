@@ -8,6 +8,7 @@
 \alias{print.eba}
 \alias{L}
 \alias{L.constrained}
+\alias{deviance.eba}
 \title{Elimination-by-Aspects (EBA) Models}
 \description{
   Fits a (multi-attribute) probabilistic choice model by maximum likelihood.
@@ -57,7 +58,7 @@ OptiPt(M, A = 1:I, s = rep(1/J, J), constrained = TRUE)
 
   The maximum likelihood estimation of the parameters is carried out by
   \code{nlm}.  The Hessian matrix, however, is approximated by
-  \code{fdHess{nlme}}.  The likelihood functions \code{L.constrained} and
+  \code{nlme::fdHess}.  The likelihood functions \code{L.constrained} and
   \code{L} are called automatically.
 
   See \code{\link{group.test}} for details on the likelihood ratio

@@ -36,11 +36,11 @@ A <- list(c(1,10), c(2,10), c(3,10),
 eba1 <- eba(celebrities, A)           # fit elimination-by-aspects model
 
 ## Perform parametric bootstrap
-LR.stat <- replicate(200, eba(simulate(eba1), A)$good[1])
+LR.stat <- replicate(200, deviance(eba(simulate(eba1), A)))
 
 hist(LR.stat, col="lightgray", border="white", freq=FALSE, breaks=20,
      xlim=c(0, 60), main="Parametric bootstrap")
-curve(dchisq(x, df=eba1$good[2]), add=TRUE)
-abline(v=eba1$good[1], lty=2)
+curve(dchisq(x, df=eba1$goodness.of.fit["df"]), add=TRUE)
+abline(v=deviance(eba1), lty=2)
 }
 \keyword{models}

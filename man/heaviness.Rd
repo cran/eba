@@ -45,20 +45,20 @@ btl2 <- eba(heaviness[,,2])
 
 xval <- seq(90, 110, 5)
 plot(uscale(btl1) ~ xval, type="n", log="y",
-  xlab="Mass of lead shot filled bottle (in g)",
-  ylab="Estimated perceived heaviness (BTL model)",
-  main="Weights judging experiment")
+     xlab="Mass of lead shot filled bottle (in g)",
+     ylab="Estimated perceived heaviness (BTL model)",
+     main="Weights judging experiment")
 mtext("(Beaver & Gokhale, 1975)", line=.5)
 
 arrows(xval, uscale(btl1) - 1.96*sqrt(diag(cov.u(btl1))),
-       xval, uscale(btl1) + 1.96*sqrt(diag(cov.u(btl1))), .05, 90, 3, "grey")
+       xval, uscale(btl1) + 1.96*sqrt(diag(cov.u(btl1))), .05, 90, 3, "gray")
 arrows(xval, uscale(btl2) - 1.96*sqrt(diag(cov.u(btl2))),
-       xval, uscale(btl2) + 1.96*sqrt(diag(cov.u(btl2))), .05, 90, 3, "grey")
+       xval, uscale(btl2) + 1.96*sqrt(diag(cov.u(btl2))), .05, 90, 3, "gray")
 
 points(uscale(btl1) ~ xval, type="b", pch=16)
 points(uscale(btl2) ~ xval, type="b", lty=2, pch=21, bg="white")
 
-text(90.3, .01, "Lower weight judged first",  adj=0)
+text(90.3, .01,  "Lower weight judged first", adj=0)
 text(90.3, .08, "Higher weight judged first", adj=0)
 }
 \keyword{datasets}

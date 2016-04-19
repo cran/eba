@@ -55,7 +55,7 @@ dotchart(cbind(
   apply(drugrisk[,,3:4], 3, function(x) uscale(eba(x, A2), norm=1, log=TRUE))
   ), xlab="log[ Utility scale value (BTL and EBA models) ]",
      main="Perceived health risk of drugs")
-abline(v=0, col="grey")
+abline(v=0, col="gray")
 mtext("(Wickelmaier, 2008)", line=.5)
 }
 \keyword{datasets}

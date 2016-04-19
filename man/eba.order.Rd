@@ -10,6 +10,7 @@
 \alias{logLik.eba.order}
 \alias{plot.eba.order}
 \alias{residuals.eba.order}
+\alias{deviance.eba.order}
 \title{Elimination-by-Aspects (EBA) Models with Order-Effect}
 \description{
   Fits a (multi-attribute) probabilistic choice model that

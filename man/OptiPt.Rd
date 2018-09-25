@@ -40,7 +40,7 @@ OptiPt(M, A = 1:I, s = rep(1/J, J), constrained = TRUE)
 }
 \details{
   \code{eba} is a wrapper function for \code{OptiPt}.  Both functions
-  can be used interchangeably.  See Wickelmaier & Schmid (2004) for further
+  can be used interchangeably.  See Wickelmaier and Schmid (2004) for further
   details.
 
   The probabilistic choice models that can be fitted to paired-comparison
@@ -87,23 +87,33 @@ OptiPt(M, A = 1:I, s = rep(1/J, J), constrained = TRUE)
 }
 \author{Florian Wickelmaier}
 \references{
-  Bradley, R.A. (1984). Paired comparisons: Some basic procedures and
-  examples. In P.R. Krishnaiah & P.K. Sen (eds.),
-  \emph{Handbook of Statistics, Volume 4}. Amsterdam: Elsevier.
+  Bradley, R.A. (1984).
+  Paired comparisons: Some basic procedures and examples.
+  In P.R. Krishnaiah & P.K. Sen (eds.),
+  \emph{Handbook of Statistics, Volume 4}.
+  Amsterdam: Elsevier.
+  \doi{10.1016/S0169-7161(84)04016-5}
 
-  Luce, R.D. (1959). \emph{Individual choice behavior: A theoretical
-  analysis}. New York: Wiley.
+  Luce, R.D. (1959).
+  \emph{Individual choice behavior: A theoretical analysis}.
+  New York: Wiley.
 
-  Tversky, A. (1972). Elimination by aspects: A theory of choice.
+  Tversky, A. (1972).
+  Elimination by aspects: A theory of choice.
   \emph{Psychological Review}, \bold{79}, 281--299.
+  \doi{10.1037/h0032955}
 
-  Tversky, A., & Sattath, S. (1979). Preference trees.
+  Tversky, A., & Sattath, S. (1979).
+  Preference trees.
   \emph{Psychological Review}, \bold{86}, 542--573.
+  \doi{10.1037/0033-295X.86.6.542}
 
-  Wickelmaier, F., & Schmid, C. (2004). A Matlab function to estimate
-  choice model parameters from paired-comparison data.
+  Wickelmaier, F., & Schmid, C. (2004).
+  A Matlab function to estimate choice model parameters from paired-comparison
+  data.
   \emph{Behavior Research Methods, Instruments, and Computers},
   \bold{36}, 29--40.
+  \doi{10.3758/BF03195547}
 }
 \seealso{
   \code{\link{strans}}, \code{\link{uscale}}, \code{\link{cov.u}},
@@ -132,6 +142,6 @@ dotchart(uscale(eba1), xlim=c(0, .3), main="Choice among celebrities",
          xlab="Utility scale value (EBA model)", pch=16)    # plot the scale
 arrows(uscale(eba1)-ci, 1:9, uscale(eba1)+ci, 1:9, .05, 90, 3)  # error bars
 abline(v=1/9, lty=2)                      # indifference line
-mtext("(Rumelhart & Greeno, 1971)", line=.5)
+mtext("(Rumelhart and Greeno, 1971)", line=.5)
 }
 \keyword{models}

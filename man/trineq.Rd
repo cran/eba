@@ -19,7 +19,7 @@
   where \eqn{R(x, y, z) = R(x, y) R(y, z) R(z, x)},
   \eqn{R(x, y) = P(x, y)/P(y, x)}, and \eqn{(xy)z} denotes that \eqn{x} and
   \eqn{y} share at least one aspect that \eqn{z} does not have
-  (Tversky & Sattath, 1979, p. 554).
+  (Tversky and Sattath, 1979, p. 554).
 
   \code{\link{inclusion.rule}} checks if a family of aspect sets is
   representable by a tree.
@@ -34,8 +34,10 @@
     \eqn{P(x, y) > 1/2} and \eqn{(xy)z}}
 }
 \references{
-  Tversky, A., & Sattath, S. (1979). Preference trees.
+  Tversky, A., & Sattath, S. (1979).
+  Preference trees.
   \emph{Psychological Review}, \bold{86}, 542--573.
+  \doi{10.1037/0033-295X.86.6.542}
 }
 \seealso{\code{\link{eba}}, \code{\link{inclusion.rule}},
   \code{\link{strans}}.}

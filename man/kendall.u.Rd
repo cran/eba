@@ -5,16 +5,17 @@
 \description{
   Kendall's u coefficient of agreement between judges.
 }
-\usage{kendall.u(M, cont.correct = FALSE)}
+\usage{kendall.u(M, correct = TRUE)}
 \arguments{
   \item{M}{a square matrix or a data frame consisting of absolute choice
     frequencies; row stimuli are chosen over column stimuli}
-  \item{cont.correct}{logical, if TRUE a correction for continuity is
-    applied (by deducting 1 from \code{chi2}), default is FALSE}
+  \item{correct}{logical, if \code{TRUE} (default) a continuity correction is
+    applied when computing the test statistic (by subtracting one from the sum
+    of agreeing pairs)}
 }
 \details{
-  Kendall's u takes values between \code{min.u} (when agreement is minimum)
-  and 1 (when agreement is maximum).
+  Kendall's u (Kendall and Babington Smith, 1940) takes on values between
+  \code{min.u} (minimum agreement) and 1 (maximum agreement).
   The minimum \code{min.u} equals \eqn{-1/(m - 1)}, if \eqn{m} is even,
   and \eqn{-1/m}, if \eqn{m} is odd, where \eqn{m} is the number of subjects
   (judges).
@@ -31,17 +32,20 @@
   \item{chi2}{the chi-square statistic for a test that the agreement is
     by chance}
   \item{df}{the degrees of freedom}
-  \item{pval}{the p-value of the test}
+  \item{p.value}{the p-value of the test}
 }
 \references{
-  Kendall, M.G., & Smith, B.B. (1940). On the method of paired comparisons. 
+  Kendall, M.G., & Babington Smith, B. (1940).
+  On the method of paired comparisons.
   \emph{Biometrika}, \bold{31}, 324--345.
+  \doi{10.1093/biomet/31.3-4.324}
 }
 \seealso{
-  \code{\link{eba}}, \code{\link{strans}}, \code{\link{circular}}.
+  \code{\link{schoolsubjects}}, \code{\link{eba}}, \code{\link{strans}},
+  \code{\link{circular}}.
 }
 \examples{
-data(celebrities)
-kendall.u(celebrities)  # moderate agreement
+data(schoolsubjects)
+lapply(schoolsubjects, kendall.u)  # better-than-chance agreement
 }
 \keyword{models}

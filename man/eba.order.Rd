@@ -17,7 +17,8 @@
   accounts for the effect of the presentation order within a pair.
 }
 \usage{
-eba.order(M1, M2 = NULL, A = 1:I, s = c(rep(1/J, J), 1), constrained = TRUE)
+eba.order(M1, M2 = NULL, A = 1:I, s = c(rep(1/J, J), 1),
+          constrained = TRUE)
 
 \method{summary}{eba.order}(object, \dots)
 }
@@ -36,7 +37,7 @@ eba.order(M1, M2 = NULL, A = 1:I, s = c(rep(1/J, J), 1), constrained = TRUE)
 }
 \details{
   The choice models include a single multiplicative order effect,
-  \code{order}, that is constant for all pairs (see Davidson & Beaver,
+  \code{order}, that is constant for all pairs (see Davidson and Beaver,
   1977). An order effect < 1 (> 1) indicates a bias in favor of the
   first (second) interval.
 
@@ -58,7 +59,7 @@ eba.order(M1, M2 = NULL, A = 1:I, s = c(rep(1/J, J), 1), constrained = TRUE)
   the order-effect EBA model; this corresponds to testing for a
   stimulus effect; \code{order0} is the estimate of the former model.
 
-  Wickelmaier & Choisel (2006) describe a model that generalizes the
+  Wickelmaier and Choisel (2006) describe a model that generalizes the
   Davidson-Beaver model and allows for an order effect in Pretree and
   EBA models.
 }

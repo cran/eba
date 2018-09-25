@@ -39,7 +39,7 @@ data(pork)  # pork tasting data, 10 individual paired comparison matrices
 btl1 <- eba(apply(pork, 1:2, sum))  # fit Bradley-Terry-Luce model
 b <- boot(pork, 200)                # resample 200 times
 
-plot(btl1$estimate, b$stat[,"mean"], log="xy")
+plot(btl1$estimate, b$stat[, "mean"], log="xy")
 abline(0, 1, lty=2)
 }
 \keyword{models}

@@ -18,7 +18,7 @@ mbt(data, bootstrap = FALSE, nsim = 1000, ...)
 \details{
   \code{mbt} provides a front end for \code{glm}.
 
-  See Critchlow & Fligner (1991) for more details.
+  See Critchlow and Fligner (1991) for more details.
 }
 \value{
   \item{coefficients}{a vector of parameter estimates (scale values)
@@ -33,13 +33,16 @@ mbt(data, bootstrap = FALSE, nsim = 1000, ...)
 }
 \author{Florian Wickelmaier}
 \references{
-  Critchlow, D.E., & Fligner, M.A. (1991). Paired comparison, triple
-  comparison, and ranking experiments as generalized linear models, and their
-  implementation in GLIM.
+  Critchlow, D.E., & Fligner, M.A. (1991).
+  Paired comparison, triple comparison, and ranking experiments as generalized
+  linear models, and their implementation in GLIM.
   \emph{Psychometrika}, \bold{56}, 517--533.
+  \doi{10.1007/bf02294488}
 
-  Mallows, C.L. (1957). Non-null ranking models. I. \emph{Biometrika},
-  \bold{44}, 114--130.
+  Mallows, C.L. (1957).
+  Non-null ranking models. I.
+  \emph{Biometrika}, \bold{44}, 114--130.
+  \doi{10.1093/biomet/44.1-2.114}
 }
 \seealso{
   \code{\link{tartness}}, \code{\link{glm}}.

@@ -9,12 +9,13 @@ citEntry(entry="Article",
   volume  = "36",
   number  = "1",
   pages   = "29--40",
+  doi     = "10.3758/BF03195547",
 
   textVersion =
   paste("Wickelmaier, F. and Schmid, C. (2004).",
         "A Matlab function to estimate choice model parameters
          from paired-comparison data.",
         "Behavior Research Methods, Instruments, and Computers,
-         36(1), 29-40."),
+         36(1), 29-40. doi:10.3758/BF03195547"),
   header = "Please cite the eba package by the following reference:"
 )

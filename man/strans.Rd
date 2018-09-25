@@ -31,8 +31,8 @@
   The deviance resulting from this restriction is reported in \code{wst.fit}.
 
   The approximate likelihood ratio test for significance of the WST violations
-  is according to Tversky (1969); a more exact test of WST is suggested by
-  Iverson & Falmagne (1985).
+  is according to Tversky (1969); for a more exact test of WST see Iverson and
+  Falmagne (1985).
 }
 \value{
   A table displaying the number of violations of the weak, moderate,
@@ -61,15 +61,19 @@
   \item{wst.mat}{restricted matrix that satisfies WST}
 }
 \references{
-  Iverson, G., & Falmagne, J.-C. (1985). Statistical issues in measurement.
+  Iverson, G., & Falmagne, J.-C. (1985).
+  Statistical issues in measurement.
   \emph{Mathematical Social Sciences}, \bold{10}, 131--153.
+  \doi{10.1016/0165-4896(85)90031-9}
 
   Suppes, P., Krantz, D.H., Luce, R.D., & Tversky, A. (1989/2007).
-  \emph{Foundations of measurement. Volume II}. Mineola, N.Y.: Dover
-  Publications.
+  \emph{Foundations of measurement. Volume II}.
+  Mineola, N.Y.: Dover Publications.
 
-  Tversky, A. (1969). Intransitivity of preferences.
+  Tversky, A. (1969).
+  Intransitivity of preferences.
   \emph{Psychological Review}, \bold{76}, 31--48.
+  \doi{10.1037/h0026750}
 }
 \seealso{\code{\link{eba}}, \code{\link{circular}}, \code{\link{kendall.u}},
   \code{\link{trineq}}.}

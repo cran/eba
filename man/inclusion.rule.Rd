@@ -23,8 +23,10 @@
   otherwise.
 }
 \references{
-  Tversky, A., & Sattath, S. (1979). Preference trees.
+  Tversky, A., & Sattath, S. (1979).
+  Preference trees.
   \emph{Psychological Review}, \bold{86}, 542--573.
+  \doi{10.1037/0033-295X.86.6.542}
 }
 \seealso{\code{\link{eba}}, \code{\link{trineq}}, \code{\link{strans}}.}
 \examples{

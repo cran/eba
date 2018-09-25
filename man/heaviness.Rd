@@ -12,10 +12,10 @@
 \format{
   A 3d array consisting of two square matrices:
   \describe{
-    \item{\code{heaviness[,,order = 1]}}{holds the choices where the row
+    \item{\code{heaviness[, , order = 1]}}{holds the choices where the row
       stimulus was presented first for each pair (in the upper triangle, and
       vice versa in the lower triangle).}
-    \item{\code{heaviness[,,order = 2]}}{holds the choices where the column
+    \item{\code{heaviness[, , order = 2]}}{holds the choices where the column
       stimulus was presented first for each pair (in the upper triangle, and
       vice versa in the lower triangle).}
   }
@@ -24,6 +24,7 @@
   Beaver, R.J., & Gokhale, D.V. (1975).
   A model to incorporate within-pair order effects in paired comparisons.
   \emph{Communications in Statistics}, \bold{4}, 923--939.
+  \doi{10.1080/03610927308827302}
 }
 \examples{
 data(heaviness)
@@ -40,15 +41,15 @@ heaviness["90g", "100g", order=2]
 heaviness["100g", "90g", order=2]
 
 ## Bradley-Terry-Luce (BTL) model for each within-pair order
-btl1 <- eba(heaviness[,,1])
-btl2 <- eba(heaviness[,,2])
+btl1 <- eba(heaviness[, , 1])
+btl2 <- eba(heaviness[, , 2])
 
 xval <- seq(90, 110, 5)
 plot(uscale(btl1) ~ xval, type="n", log="y",
      xlab="Mass of lead shot filled bottle (in g)",
-     ylab="Estimated perceived heaviness (BTL model)",
+     ylab="Perceived heaviness (BTL model)",
      main="Weights judging experiment")
-mtext("(Beaver & Gokhale, 1975)", line=.5)
+mtext("(Beaver and Gokhale, 1975)", line=.5)
 
 arrows(xval, uscale(btl1) - 1.96*sqrt(diag(cov.u(btl1))),
        xval, uscale(btl1) + 1.96*sqrt(diag(cov.u(btl1))), .05, 90, 3, "gray")

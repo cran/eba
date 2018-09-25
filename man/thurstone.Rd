@@ -15,7 +15,7 @@ thurstone(M)
 \details{
   \code{thurstone} provides a front end for \code{glm}.
 
-  See Critchlow & Fligner (1991) for more details.
+  See Critchlow and Fligner (1991) for more details.
 }
 \value{
   \item{estimate}{a vector of parameter estimates (scale values), first
@@ -27,10 +27,11 @@ thurstone(M)
 }
 \author{Florian Wickelmaier}
 \references{
-  Critchlow, D.E., & Fligner, M.A. (1991). Paired comparison, triple
-  comparison, and ranking experiments as generalized linear models, and their
-  implementation in GLIM.
+  Critchlow, D.E., & Fligner, M.A. (1991).
+  Paired comparison, triple comparison, and ranking experiments as generalized
+  linear models, and their implementation in GLIM.
   \emph{Psychometrika}, \bold{56}, 517--533.
+  \doi{10.1007/bf02294488}
 }
 \seealso{
   \code{\link{eba}}, \code{\link{strans}}, \code{\link{pcX}},
@@ -38,10 +39,12 @@ thurstone(M)
 }
 \examples{
 ## Taste data (David, 1988, p. 116)
-dat <- matrix(c( 0,  3,  2,  2,
-                12,  0, 11,  3,
-                13,  4,  0,  5,
-                13, 12, 10,  0), 4, 4, byrow=TRUE)
-thurstone(dat)  # Thurstone-Mosteller model fits OK
+taste <- matrix(c( 0,  3,  2,  2,
+                  12,  0, 11,  3,
+                  13,  4,  0,  5,
+                  13, 12, 10,  0), 4, 4, byrow=TRUE)
+dimnames(taste) <- setNames(rep(list(c("A1", "A2", "A3", "A4")), 2),
+                            c(">", "<"))
+thurstone(taste)  # Thurstone-Mosteller model fits OK
 }
 \keyword{models}

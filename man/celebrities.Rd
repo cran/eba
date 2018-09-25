@@ -19,6 +19,7 @@
   Similarity between stimuli: An experimental test of the
   Luce and Restle choice models.
   \emph{Journal of Mathematical Psychology}, \bold{8}, 370--381.
+  \doi{10.1016/0022-2496(71)90038-1}
 }
 \examples{
 data(celebrities)

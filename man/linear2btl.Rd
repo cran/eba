@@ -19,7 +19,7 @@
 
   The covariance matrix is estimated by employing the delta method.
 
-  See Imrey, Johnson, & Koch (1976) for more details.
+  See Imrey, Johnson, and Koch (1976) for more details.
 }
 \value{
   \item{btl.parameters}{a matrix; the first column holds the BTL parameter
@@ -30,9 +30,10 @@
     by \code{glm} or \code{lm}}
 }
 \references{
-  Imrey, P.B., Johnson, W.D., & Koch, G.G. (1976). An incomplete contingency
-  table approach to paired-comparison experiments.
+  Imrey, P.B., Johnson, W.D., & Koch, G.G. (1976).
+  An incomplete contingency table approach to paired-comparison experiments.
   \emph{Journal of the American Statistical Association}, \bold{71}, 614--623.
+  \doi{10.2307/2285591}
 }
 \seealso{
   \code{\link{eba}}, \code{\link{eba.order}}, \code{\link{glm}},
@@ -40,8 +41,8 @@
 }
 \examples{
 data(drugrisk)
-y1 <- t(drugrisk[,,1])[lower.tri(drugrisk[,,1])]
-y0 <-   drugrisk[,,1][ lower.tri(drugrisk[,,1])]
+y1 <- t(drugrisk[, , 1])[lower.tri(drugrisk[, , 1])]
+y0 <-   drugrisk[, , 1][ lower.tri(drugrisk[, , 1])]
 
 ## Fit BTL model using glm (maximum likelihood)
 btl.glm <- glm(cbind(y1, y0) ~ 0 + pcX(6), binomial)

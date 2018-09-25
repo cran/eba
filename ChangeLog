@@ -1,3 +1,12 @@
+Changes in 1.8-0
+
+  * schoolsubjects (new data set): preference for school subjects
+  * circular (new features): exact p-values for small n, one- and two-sided
+    tests, simulated p-values (prompted by Maarten Wijntjes and Cristina
+    Spoiala)
+  * kendall.u.Rd: original example from Kendall and Babington Smith (1940)
+  * Documentation: add DOIs to references
+
 Changes in 1.7-2
 
   * New functions: deviance.eba(), deviance.eba.order()

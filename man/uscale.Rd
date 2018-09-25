@@ -10,7 +10,7 @@
   \item{object}{an object of class \code{eba}, typically the result of a
     call to \code{\link{eba}}}
   \item{norm}{either \code{sum}, so the scale values sum to unity (default);
-    or a number form 1 to number of stimuli, so this scale value becomes one;
+    or a number from 1 to number of stimuli, so this scale value becomes one;
     or \code{NULL} (no normalization)}
   \item{log}{should the log of the utility scale values be returned? Defaults
     to FALSE.}

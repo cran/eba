@@ -2,11 +2,11 @@
 \alias{heaviness}
 \title{Weights Judging Data}
 \description{
-  Fifty subjects were presented with all 20 ordered pairs of bottles filled
-  with lead shot and asked to choose the bottle that felt heavier.  The mass
-  of the bottles was 90, 95, 100, 105, and 110 grams, respectively.  Choice
-  frequencies were aggregated across subjects for the two within-pair
-  presentation orders.
+  Beaver and Gokhale (1975) presented fifty subjects with all 20 ordered pairs
+  of bottles filled with lead shot and asked them to choose the bottle that
+  felt heavier.  The mass of the bottles was 90, 95, 100, 105, and 110 grams,
+  respectively.  Choice frequencies were aggregated across subjects for the
+  two within-pair presentation orders.
 }
 \usage{data(heaviness)}
 \format{
@@ -25,6 +25,9 @@
   A model to incorporate within-pair order effects in paired comparisons.
   \emph{Communications in Statistics}, \bold{4}, 923--939.
   \doi{10.1080/03610927308827302}
+}
+\seealso{\code{\link{eba.order}} for a model that includes a within-pair
+  order effect.
 }
 \examples{
 data(heaviness)

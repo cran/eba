@@ -16,7 +16,7 @@
   Structure theorem. A family \eqn{\{x' | x \in T\}} of aspect sets is
   representable by a tree iff either \eqn{x' \cap y' \supset x' \cap z'} or
   \eqn{x' \cap z' \supset x' \cap y'} for all \eqn{x, y, z} in \eqn{T}.
-  (Tversky & Sattath, 1979, p. 546)
+  (Tversky and Sattath, 1979, p. 546)
 }
 \value{
   Either \code{TRUE} if the inclusion rule holds for \code{A}, or \code{FALSE}

@@ -2,13 +2,13 @@
 \alias{tartness}
 \title{Tartness Rankings of Salad Dressings}
 \description{
-  The data were collected by Vargo (1989; as cited in Critchlow and Fligner,
+  The data were collected by Vargo (1989; cited in Critchlow and Fligner,
   1991). Each of 32 judges is asked to rank four salad dressing preparations
   according to tartness, with a rank of 1 being assigned to the formulation
   judged to be the most tart.
 }
 \usage{data(tartness)}
-\format{a data frame consisting the rankings and their frequencies.}
+\format{A data frame consisting the rankings and their frequencies.}
 \source{
   Critchlow, D.E., & Fligner, M.A. (1991).
   Paired comparison, triple comparison, and ranking experiments as generalized

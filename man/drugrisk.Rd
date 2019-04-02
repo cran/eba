@@ -2,13 +2,13 @@
 \alias{drugrisk}
 \title{Perceived Health Risk of Drugs}
 \description{
-  In summer 2007, a survey was conducted at the Department of
-  Psychology, University of Tuebingen. Hundred and ninety-two participants
-  were presented with all 15 unordered pairs of the names of six drugs or
-  substances and asked to choose the drug they judged as more dangerous
-  for their health. The six drugs were alcohol (alc), tobacco (tob), cannabis
-  (can), ecstasy (ecs), heroine (her), and cocaine (coc). Choice frequencies
-  were aggregated in four groups defined by gender and age.
+  In summer 2007, a survey was conducted at the Department of Psychology,
+  University of Tuebingen.  Hundred and ninety-two participants were presented
+  with all 15 unordered pairs of the names of six drugs or substances and
+  asked to choose the drug they judged as more dangerous for their health.
+  The six drugs were alcohol (alc), tobacco (tob), cannabis (can), ecstasy
+  (ecs), heroine (her), and cocaine (coc).  Choice frequencies were aggregated
+  in four groups defined by gender and age.
 }
 \usage{data(drugrisk)}
 \format{

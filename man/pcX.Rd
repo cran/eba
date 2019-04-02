@@ -13,9 +13,7 @@
 \details{
   The design matrix can be used when fitting a Bradley-Terry-Luce (BTL)
   model or a Thurstone-Mosteller (TM) model by means of \code{\link{glm}}
-  or \code{\link{lm}}.
-
-  See Critchlow and Fligner (1991) for more details.
+  or \code{\link{lm}}.  See Critchlow and Fligner (1991) for more details.
 }
 \value{
   A matrix having \code{(nstimuli - 1)*nstimuli/2} rows and

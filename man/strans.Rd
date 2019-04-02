@@ -11,9 +11,9 @@
     frequencies; row stimuli are chosen over column stimuli}
 }
 \details{
-  The weak (WST), moderate (MST), and strong (SST) stochastic
-  transitivity hold for a set of choice probabilities \eqn{P},
-  whenever if \eqn{P_{ij} \ge 0.5} and \eqn{P_{jk} \ge 0.5}, then
+  Weak (WST), moderate (MST), and strong (SST) stochastic transitivity hold
+  for a set of choice probabilities \eqn{P}, whenever if \eqn{P_{ij} \ge 0.5}
+  and \eqn{P_{jk} \ge 0.5}, then
 
   \eqn{P_{ik} \ge 0.5} (WST),
 
@@ -21,12 +21,12 @@
 
   \eqn{P_{ik} \ge \max(P_{ij}, P_{jk})} (SST).
 
-  See Suppes, Krantz, Luce, & Tversky (1989/2007, chap. 17) for an
+  See Suppes, Krantz, Luce, and Tversky (1989/2007, chap. 17) for an
   introduction to the representation of choice probabilities.
 
   If WST holds, a permutation of the indices of the matrix exists such that
-  the proportions in the upper triangular matrix are \eqn{\ge 0.5}. This
-  re-arranged matrix is stored in \code{pcm}. If WST does not hold, cells in
+  the proportions in the upper triangular matrix are \eqn{\ge 0.5}.  This
+  rearranged matrix is stored in \code{pcm}.  If WST does not hold, cells in
   the upper triangular matrix that are smaller than 0.5 are replaced by 0.5.
   The deviance resulting from this restriction is reported in \code{wst.fit}.
 
@@ -35,11 +35,10 @@
   Falmagne (1985).
 }
 \value{
-  A table displaying the number of violations of the weak, moderate,
-  and strong stochastic transitivity, the number of tests, the
-  error ratio (violations/tests), and the mean and maximum deviation
-  from the minimum probability for which the corresponding transitivity
-  would hold.
+  A table displaying the number of violations of the weak, moderate, and
+  strong stochastic transitivity, the number of tests, the error ratio
+  (violations/tests), and the mean and maximum deviation from the minimum
+  probability for which the corresponding transitivity would hold.
   \item{weak}{number of violations of WST}
   \item{moderate}{number of violations of MST}
   \item{strong}{number of violations of SST}
@@ -57,7 +56,7 @@
     each permutation}
   \item{violdf}{data frame reporting for each triple which type of
     transitivity holds or does not hold}
-  \item{wst.fit}{likelihood ratio test of WST (see details)}
+  \item{wst.fit}{likelihood ratio test of WST (see Details)}
   \item{wst.mat}{restricted matrix that satisfies WST}
 }
 \references{
@@ -80,7 +79,7 @@
 \examples{
 data(celebrities)           # absolute choice frequencies
 strans(celebrities)         # WST and MST hold, but not SST
-strans(celebrities)$pcm     # re-ordered relative frequencies
+strans(celebrities)$pcm     # reordered relative frequencies
 strans(celebrities)$violdf  # transitivity violations
 }
 \keyword{models}

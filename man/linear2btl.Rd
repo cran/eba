@@ -14,12 +14,9 @@
 }
 \details{
   The design matrix used by \code{glm} or \code{lm} usually results from
-  a call to \code{\link{pcX}}. It is assumed that the reference category is
-  the first level.
-
-  The covariance matrix is estimated by employing the delta method.
-
-  See Imrey, Johnson, and Koch (1976) for more details.
+  a call to \code{\link{pcX}}.  It is assumed that the reference category is
+  the first level.  The covariance matrix is estimated by employing the delta
+  method.  See Imrey, Johnson, and Koch (1976) for more details.
 }
 \value{
   \item{btl.parameters}{a matrix; the first column holds the BTL parameter

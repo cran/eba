@@ -13,9 +13,8 @@ thurstone(M)
     frequencies; row stimuli are chosen over column stimuli}
 }
 \details{
-  \code{thurstone} provides a front end for \code{glm}.
-
-  See Critchlow and Fligner (1991) for more details.
+  \code{thurstone} provides a front end for \code{glm}.  See Critchlow and
+  Fligner (1991) for more details.
 }
 \value{
   \item{estimate}{a vector of parameter estimates (scale values), first
@@ -25,7 +24,6 @@ thurstone(M)
     freedom, and the p-value of the corresponding chi-square distribution}
   \item{tm.glm}{the output from a call to \code{glm}}
 }
-\author{Florian Wickelmaier}
 \references{
   Critchlow, D.E., & Fligner, M.A. (1991).
   Paired comparison, triple comparison, and ranking experiments as generalized

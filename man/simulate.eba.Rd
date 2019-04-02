@@ -10,13 +10,13 @@
 }
 \arguments{
   \item{object}{an object of class \code{eba}, typically the result of a
-    call to \code{\link{eba}}.}
-  \item{nsim}{currently not used.}
-  \item{seed}{currently not used.}
+    call to \code{\link{eba}}}
+  \item{nsim}{currently not used}
+  \item{seed}{currently not used}
   \item{pool}{logical, if TRUE (default), pooled responses (summed across
-    respondents) are returned.}
-  \item{\dots}{further arguments passed to or from other methods.
-    None are used in this method.}
+    respondents) are returned}
+  \item{\dots}{further arguments passed to or from other methods; none are
+    used in this method}
 }
 \details{
   Responses are simulated by \code{\link{rbinom}} with sizes taken from the
@@ -35,7 +35,7 @@ A <- list(c(1,10), c(2,10), c(3,10),
           c(7,12), c(8,12), c(9,12))  # the structure of aspects
 eba1 <- eba(celebrities, A)           # fit elimination-by-aspects model
 
-## Perform parametric bootstrap
+## Parametric bootstrap of goodness-of-fit test
 LR.stat <- replicate(200, deviance(eba(simulate(eba1), A)))
 
 hist(LR.stat, col="lightgray", border="white", freq=FALSE, breaks=20,

@@ -31,17 +31,17 @@
   and the maximum possible number of circular triads is
   \eqn{T_{max} = n(n^2 - 4)/24}, if \eqn{n} is even, and
   \eqn{T_{max} = n(n^2 - 1)/24} else, and \eqn{n} is the
-  number of stimuli or objects being judged. For details, see Kendall and
+  number of stimuli or objects being judged. For details see Kendall and
   Babington Smith (1940) and David (1988).
 
   Kendall (1962) discusses a test of the hypothesis that the number of
   circular triads \code{T} is different (smaller or greater) than expected
   when choosing randomly. For small \eqn{n}, an exact p-value is computed,
   based on the exact distributions listed in Alway (1962) and in Kendall
-  (1962). Otherwise, an approximate chi-square test is computed. In this test,
-  the sampling distribution is measured from lower to higher values of
+  (1962).  Otherwise, an approximate chi-square test is computed.  In this
+  test, the sampling distribution is measured from lower to higher values of
   \code{T}, so that the probability that \code{T} will be exceeded is the
-  complement of the probability for \code{chi2}. The chi-square approximation
+  complement of the probability for \code{chi2}.  The chi-square approximation
   may be incorrect if \eqn{n < 8} and is only available for \eqn{n > 4}.
 }
 \value{

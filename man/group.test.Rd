@@ -19,31 +19,28 @@
 \details{
   The five tests are all based on likelihood ratios. 
 
-  \code{Overall} compares a 1-parameter Poisson model to a saturated
-  Poisson model, thereby testing the equality of the frequencies in each cell
-  of the array.  This test corresponds to simultaneously testing for a null
-  effect of (1) the context induced by a given pair, (2) the grouping factor,
-  (3) the stimuli, and (4) the imbalance between pairs.  The deviances of
-  the remaining tests sum to the total deviance associated with the overall
-  test.
+  \code{Overall} compares a 1-parameter Poisson model to a saturated Poisson
+  model, thereby testing the equality of the frequencies in each cell of the
+  array.  This test corresponds to simultaneously testing for a null effect of
+  (1) the context induced by a given pair, (2) the grouping factor, (3) the
+  stimuli, and (4) the imbalance between pairs.  The deviances of the
+  remaining tests sum to the total deviance associated with the overall test.
 
-  \code{EBA.g} tests an EBA group model against a saturated
-  binomial group model, which corresponds to a goodness of fit test of
-  the EBA group model.
+  \code{EBA.g} tests an EBA group model against a saturated binomial group
+  model, which corresponds to a goodness of fit test of the EBA group model.
 
-  \code{Group} tests an EBA model having its parameters restricted to
-  be equal across groups (single set of
-  parameters) against the EBA group model allowing its parameters to vary
-  freely across groups (one set of parameters per
-  group); this corresponds to testing for group differences.
+  \code{Group} tests an EBA model having its parameters restricted to be equal
+  across groups (single set of parameters) against the EBA group model
+  allowing its parameters to vary freely across groups (one set of parameters
+  per group); this corresponds to testing for group differences.
 
   \code{Effect} tests an indifference model (where all choice probabilities
-  are equal to 0.5) against the restricted EBA model,
-  which corresponds to testing for a stimulus effect.
+  are equal to 0.5) against the restricted EBA model (single set of
+  parameters), which corresponds to testing for a stimulus effect.
 
-  \code{Imbalance} tests for differences in the number of observations
-  per pair by comparing the average sample size (1-parameter Poisson model)
-  to the actual sample sizes (saturated Poisson model).
+  \code{Imbalance} tests for differences in the number of observations per
+  pair by comparing the average sample size (1-parameter Poisson model) to the
+  actual sample sizes (saturated Poisson model).
   
   See Duineveld, Arents, and King (2000) for further details, and Choisel and
   Wickelmaier (2007) for an application.
@@ -68,8 +65,8 @@
 \examples{
 ## Bradley-Terry-Luce model
 data(pork)          # Is there a difference between Judge 1 and Judge 2?
-groups <- array(c(apply(pork[, , 1:5],  1:2, sum),
-                  apply(pork[, , 6:10], 1:2, sum)), c(3,3,2))
+groups <- simplify2array(list(apply(pork[, , 1:5],  1:2, sum),
+                              apply(pork[, , 6:10], 1:2, sum)))
 group.test(groups)  # Yes, there is.
 
 ## Elimination-by-aspects model

@@ -149,11 +149,11 @@ summary.eba.order <- function(object, ...){
     c("Estimate", "Std. Error", "z value", "Pr(>|z|)"))
 
   eba.p <- OptiPt(x$M1 + x$M2, x$A)  # EBA for pooled data
-  C <- sum(log(choose(n1, y1.1))) + sum(log(choose(n2, y1.2))) -
-       sum(log(choose(eba.p$n, eba.p$y1)))  # combinatorial constant
+  C <- sum(lchoose(n1, y1.1)) + sum(lchoose(n2, y1.2)) -
+       sum(lchoose(eba.p$n, eba.p$y1))  # combinatorial constant
 
   tests <- rbind(
-  # # Discarded, because the remaining deviances do not sum to the
+  # # Discarded because the remaining deviances do not sum to the
   # #   "overall deviance" associated with this test
   # # mean poisson model vs. saturated poisson model (on y) for both orders
   #  c(df1 <- 1,

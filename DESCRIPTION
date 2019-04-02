@@ -1,11 +1,11 @@
 Package: eba
-Version: 1.8-0
-Date: 2018-09-25
+Version: 1.9-0
+Date: 2019-04-02
 Title: Elimination-by-Aspects Models
 Authors@R: person(given = "Florian", family = "Wickelmaier",
-                   role = c("aut", "cre"), email = "wickelmaier@web.de")
+                  role = c("aut", "cre"), email = "wickelmaier@web.de")
 Depends: R (>= 2.15.0), stats, graphics
-Imports: nlme
+Imports: nlme, psychotools
 Description: Fitting and testing multi-attribute probabilistic choice
   models, especially the Bradley-Terry-Luce (BTL) model (Bradley &
   Terry, 1952 <doi:10.1093/biomet/39.3-4.324>; Luce, 1959),
@@ -13,10 +13,10 @@ Description: Fitting and testing multi-attribute probabilistic choice
   and preference tree (Pretree) models (Tversky & Sattath, 1979
   <doi:10.1037/0033-295X.86.6.542>).
 License: GPL (>= 2)
-URL: http://homepages.uni-tuebingen.de/florian.wickelmaier
+URL: http://www.mathpsy.uni-tuebingen.de/wickelmaier
 NeedsCompilation: no
-Packaged: 2018-09-25 12:39:35 UTC; siifw01
+Packaged: 2019-04-02 09:24:03 UTC; siifw01
 Author: Florian Wickelmaier [aut, cre]
 Maintainer: Florian Wickelmaier <wickelmaier@web.de>
 Repository: CRAN
-Date/Publication: 2018-09-25 13:20:06 UTC
+Date/Publication: 2019-04-02 09:50:03 UTC

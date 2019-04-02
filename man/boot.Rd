@@ -22,7 +22,7 @@ boot(D, R = 100, A = 1:I, s = rep(1/J, J), constrained = TRUE)
 }
 \details{
   The bootstrap functions \code{eba.boot.constrained} and \code{eba.boot}
-  are called automatically by \code{boot}.
+  are automatically called by \code{boot}.
 
   The code is experimental and may change in the future.
 }

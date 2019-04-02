@@ -20,7 +20,7 @@
   parameters) that characterize a given stimulus.  First these sums are
   computed for all stimuli, then normalization (if any) is applied.  As
   each type of normalization corresponds to a multiplication by a positive
-  real, the ratio between scale values remains constant.
+  real number, the ratio between scale values remains constant.
 }
 \value{
   The (normalized) utility scale of the stimuli.
@@ -31,7 +31,7 @@
 \examples{
 data(drugrisk)
 A <- list(c(1), c(2,7), c(3,7), c(4,7,8), c(5,7,8), c(6,7,8))
-eba1 <- eba(drugrisk[,,group = "male30"], A)  # EBA model
+eba1 <- eba(drugrisk[, , group = "male30"], A)  # EBA model
 
 uscale(eba1)                    # sum-to-unity normalization
 uscale(eba1, norm=1)            # u(alcohol) := 1

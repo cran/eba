@@ -39,22 +39,22 @@ OptiPt(M, A = 1:I, s = rep(1/J, J), constrained = TRUE)
     in the anova method they refer to additional objects of class \code{eba}.}
 }
 \details{
-  \code{eba} is a wrapper function for \code{OptiPt}.  Both functions
-  can be used interchangeably.  See Wickelmaier and Schmid (2004) for further
+  \code{eba} is a wrapper function for \code{OptiPt}.  Both functions can be
+  used interchangeably.  See Wickelmaier and Schmid (2004) for further
   details.
 
   The probabilistic choice models that can be fitted to paired-comparison
   data are the Bradley-Terry-Luce (BTL) model (Bradley, 1984; Luce, 1959),
-  preference tree (Pretree) models (Tversky & Sattath, 1979), and
+  preference tree (Pretree) models (Tversky and Sattath, 1979), and
   elimination-by-aspects (EBA) models (Tversky, 1972), the former being
   special cases of the latter.
 
-  \code{A} represents the family of aspect sets.
-  It is usually a list of vectors, the first element of each being
-  a number from 1 to \code{I}; additional elements specify the aspects shared
-  by several stimuli.  \code{A} must have as many elements as there are
-  stimuli.  When fitting a BTL model, \code{A} reduces to \code{1:I} (the
-  default), i.e. there is only one aspect per stimulus.
+  \code{A} represents the family of aspect sets.  It is usually a list of
+  vectors, the first element of each being a number from 1 to \code{I};
+  additional elements specify the aspects shared by several stimuli.  \code{A}
+  must have as many elements as there are stimuli.  When fitting a BTL model,
+  \code{A} reduces to \code{1:I} (the default), i.e. there is only one aspect
+  per stimulus.
 
   The maximum likelihood estimation of the parameters is carried out by
   \code{nlm}.  The Hessian matrix, however, is approximated by
@@ -143,5 +143,7 @@ dotchart(uscale(eba1), xlim=c(0, .3), main="Choice among celebrities",
 arrows(uscale(eba1)-ci, 1:9, uscale(eba1)+ci, 1:9, .05, 90, 3)  # error bars
 abline(v=1/9, lty=2)                      # indifference line
 mtext("(Rumelhart and Greeno, 1971)", line=.5)
+
+## See data(package = "eba") for application examples.
 }
 \keyword{models}

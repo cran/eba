@@ -2,6 +2,7 @@ import("stats")
 import("graphics")
 
 importFrom("nlme", "fdHess")
+importFrom("psychotools", "paircomp")
 
 export(
   "eba",

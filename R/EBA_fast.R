@@ -271,7 +271,7 @@ pcX <- function(nstimuli, omitRef=TRUE){
 }
 
 
-group.test <- function(groups, A=1:I, s=rep(1/J,J), constrained=TRUE){
+group.test <- function(groups, A=1:I, s=rep(1/J, J), constrained=TRUE){
   # groups: 3d array of group matrices (one matrix per group)
   # BUG FIX: combinatorial constant is added to the pooled models!
 
@@ -280,27 +280,16 @@ group.test <- function(groups, A=1:I, s=rep(1/J,J), constrained=TRUE){
   J <- max(unlist(A))              # number of eba parameters
   ngroups <- dim(groups)[3]        # number of groups
 
-  eba.p <- OptiPt(pool, A, s, constrained)  # EBA for pooled data
-  ebas <- NULL  # list of eba models (one per group)
-  for(i in seq_len(ngroups))
-    ebas[[i]] <- OptiPt(groups[,,i], A, s, constrained)
+  eba.p <- OptiPt(pool, A, s, constrained)            # model for pooled data
+  ebas <- apply(groups, 3, OptiPt, A, s, constrained) # models for each group
 
-  C1 <- sum(log(choose(eba.p$n, eba.p$y1)))
-  C2 <- 0
-  for(i in seq_len(ngroups))
-    C2 <- C2 + sum(log(choose(ebas[[i]]$n, ebas[[i]]$y1)))
-  C <- C2 - C1  # combinatorial constant
+  C <- sum(sapply(ebas, function(m) sum(lchoose(m$n, m$y1)))) -
+       sum(lchoose(eba.p$n, eba.p$y1))                # combinatorial constant
 
-  logL.eba.group <- 0
-  y <- n <- NULL
-  for(i in seq_len(ngroups)){          # for(i in 1:ngroups){
-    logL.eba.group <- logL.eba.group + ebas[[i]]$logL.eba
-    y <- c(y, c(ebas[[i]]$y1, ebas[[i]]$y0))
-    n <- c(n, ebas[[i]]$n)
-  }
-  logL.sat.group <- 0
-  for(i in seq_len(ngroups))
-    logL.sat.group <- logL.sat.group + ebas[[i]]$logL.sat
+  logL.eba.group <- sum(sapply(ebas, logLik))
+  logL.sat.group <- sum(sapply(ebas, "[[", "logL.sat"))
+  y <- as.vector(sapply(ebas, function(m) c(m$y1, m$y0)))
+  n <- as.vector(sapply(ebas, "[[", "n"))
 
   tests <- rbind(
    # mean poisson model vs. saturated poisson group model (on y)

@@ -11,16 +11,13 @@
   \item{object}{an object of class \code{eba}, typically the result of a
     call to \code{\link{eba}}}
   \item{type}{the type of residuals which should be returned; the
-          alternatives are: \code{"deviance"} (default) and
-          \code{"pearson"}}
-  \item{\dots}{further arguments passed to or from other methods.
-    None are used in this method.}
+    alternatives are: \code{"deviance"} (default) and \code{"pearson"}}
+  \item{\dots}{further arguments passed to or from other methods; none are
+    used in this method.}
 }
 \details{
   Residuals are computed from the upper triangle of the paired-comparison
-  matrix.
-  
-  See \code{\link{residuals.glm}} for details.
+  matrix.  See \code{\link{residuals.glm}} for details.
 }
 \value{
   A vector of residuals having as many elements as pairs of stimuli.

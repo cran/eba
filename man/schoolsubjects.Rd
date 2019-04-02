@@ -5,7 +5,8 @@
   Two classes of children (ages 11 to 13) were asked to state their
   preferences with respect to certain school subjects. Each child was given a
   sheet on which were written the possible pairs of subjects and asked to
-  underline the one preferred in each case.
+  underline the one preferred in each case (Kendall and Babington Smith,
+  1940).
 }
 \usage{data(schoolsubjects)}
 \format{

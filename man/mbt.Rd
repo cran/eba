@@ -10,15 +10,14 @@ mbt(data, bootstrap = FALSE, nsim = 1000, ...)
 }
 \arguments{
   \item{data}{a data frame, the first t columns containing the ranks, the
-  (t + 1)th column containing the frequencies.}
+  (t + 1)th column containing the frequencies}
   \item{bootstrap}{logical. Return a parametric bootstrap p-value?}
-  \item{nsim}{number of bootstrap replicates.}
-  \item{...}{further aguments passed to \code{simulate}.}
+  \item{nsim}{number of bootstrap replicates}
+  \item{...}{further aguments passed to \code{simulate}}
 }
 \details{
-  \code{mbt} provides a front end for \code{glm}.
-
-  See Critchlow and Fligner (1991) for more details.
+  \code{mbt} provides a front end for \code{glm}.  See Critchlow and Fligner
+  (1991) and Mallows (1957) for details.
 }
 \value{
   \item{coefficients}{a vector of parameter estimates (scale values)

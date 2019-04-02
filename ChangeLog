@@ -1,3 +1,12 @@
+Changes in 1.9-0
+
+  * DESCRIPTION, NAMESPACE: import psychotools, new URL
+  * soundquality (new data set and replication code): quality of multichannel
+    reproduced sound
+  * Code efficiency: replace all left-over occurrences of log(choose()) by
+    lchoose() so group.test() and eba.order() handle larger data sets (spotted
+    by Frank Papenmeier)
+
 Changes in 1.8-0
 
   * schoolsubjects (new data set): preference for school subjects

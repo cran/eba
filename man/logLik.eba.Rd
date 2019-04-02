@@ -4,17 +4,17 @@
 \title{Log-Likelihood of an eba Object}
 \description{
   Returns the log-likelihood value of the (multi-attribute) probabilistic
-  choice model represented by \code{object} evaluated at the
-  estimated parameters.
+  choice model represented by \code{object} evaluated at the estimated
+  parameters.
 }
 \usage{
 \method{logLik}{eba}(object, \dots)
 }
 \arguments{
  \item{object}{an object inheriting from class \code{eba}, representing
-   a fitted elimination-by-aspects model.}
+   a fitted elimination-by-aspects model}
  \item{\dots}{some methods for this generic require additional
-    arguments.  None are used in this method.} 
+    arguments; none are used in this method.} 
 }
 \value{
   The log-likelihood of the model represented by

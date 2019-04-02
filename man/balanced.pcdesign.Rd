@@ -12,17 +12,13 @@
   When \code{nstimuli} is odd, the presentation order is completely balanced,
   that is any given stimulus appears an equal number of times as the first
   and second member of a pair. When \code{nstimuli} is even, the presentation
-  order is balanced as much as possible.
-
-  Subjects should be equally assigned to \code{listA} and \code{listB}
-  for the purpose of balancing the within-pair presentation order across a
-  sample of subjects.
-
-  Pairs should be re-randomized for each subject.
+  order is balanced as much as possible.  Subjects should be equally assigned
+  to \code{listA} and \code{listB} for the purpose of balancing the
+  within-pair presentation order across a sample of subjects.  Pairs should be
+  re-randomized for each subject.  See David (1988) for details.
 }
 \value{
-  \item{pairs}{a character array holding the balanced pairs; see David (1988)
-    for details on how it is constructed}
+  \item{pairs}{a character array holding the balanced pairs}
   \item{listA}{the vector pairs in the original within-pair order}
   \item{listB}{the vector of pairs in the inverted within-pair order}
 }

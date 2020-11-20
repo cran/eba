@@ -10,8 +10,8 @@
 boot(D, R = 100, A = 1:I, s = rep(1/J, J), constrained = TRUE)
 }
 \arguments{
-  \item{D}{a 3d array consisting of the individual paired
-    comparison matrices}
+  \item{D}{either a 3d array consisting of the individual paired
+    comparison matrices or an object of class \code{paircomp}}
   \item{R}{the number of bootstrap samples}
   \item{A}{a list of vectors consisting of the stimulus aspects;
     the default is \code{1:I}, where \code{I} is the number of stimuli}
@@ -32,14 +32,14 @@ boot(D, R = 100, A = 1:I, s = rep(1/J, J), constrained = TRUE)
     means, standard errors, and confidence limits}
 }
 \seealso{
-  \code{\link{eba}}, \code{\link{simulate.eba}}.
+  \code{\link{eba}}, \code{\link{simulate.eba}}, \code{\link{paircomp}}.
 }
 \examples{
 data(pork)  # pork tasting data, 10 individual paired comparison matrices
 btl1 <- eba(apply(pork, 1:2, sum))  # fit Bradley-Terry-Luce model
-b <- boot(pork, 200)                # resample 200 times
+b <- boot(pork, R = 200)            # resample 200 times
 
-plot(btl1$estimate, b$stat[, "mean"], log="xy")
-abline(0, 1, lty=2)
+plot(coef(btl1), b$stat[, "mean"], log = "xy")
+abline(0, 1, lty = 2)
 }
 \keyword{models}

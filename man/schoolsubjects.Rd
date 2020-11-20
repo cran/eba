@@ -36,8 +36,8 @@ data(schoolsubjects)
 m <- lapply(schoolsubjects, eba)  # Bradley-Terry-Luce (BTL) model
 
 par(mfrow = 1:2)
-dotchart(uscale(m$boys), main = "Boys' preferences",)
-dotchart(uscale(m$girls), main = "Girls' preferences")
+dotchart(uscale(m$boys), main = "Boys' preferences", log = "x")
+dotchart(uscale(m$girls), main = "Girls' preferences", log = "x")
 mtext("Utility scale value (BTL model)", outer = TRUE, side = 1,
       line = -2)
 mtext("(Kendall and Babington Smith, 1940)", outer = TRUE, line = -4)

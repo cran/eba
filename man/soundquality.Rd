@@ -128,11 +128,12 @@ prefdf <- aggregate(preference ~ progmat + time,
 p <- t(prefdf[prefdf$time == "before", 3])
 colnames(p) <- levels(prefdf$progmat)
 dotchart(p, main = "Quality of multichannel reproduced sound",
-         xlab = "Estimated preference (BTL model)")
+         xlab = "Estimated preference (BTL model)", log = "x",
+         panel.first = abline(v = 1/8, col = "gray"))
 points(x = t(prefdf[prefdf$time == "after", 3]),
-       y = c(31:38, 21:28, 11:18, 1:8), pch = 16)
-legend("topleft", c("before", "after"), pch = c(1, 16))
-mtext("(Choisel and Wickelmaier, 2007)", 3, line = 0.5)
+       y = c(31:38, 21:28, 11:18, 1:8), pch = 3)
+legend("topleft", c("before", "after"), pch = c(1, 3))
+mtext("(Choisel and Wickelmaier, 2007)", line = 0.5)
 
 ### B. Scaling specific auditory attributes
 

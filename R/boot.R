@@ -1,6 +1,6 @@
 boot <- function(D, R = 100, A = 1:I, s = rep(1/J,J), constrained = TRUE){
   # performs bootstrapping by resampling the ind. PCMs
-  # input: D, a 3d array of ind. PCMs
+  # input: D, either a 3d array of ind. PCMs or a paircomp object
   # output: bootstrap means, standard errors, and cis
   # author: Florian Wickelmaier (wickelmaier@web.de)
   # last mod: 20/JUL/2004
@@ -8,10 +8,17 @@ boot <- function(D, R = 100, A = 1:I, s = rep(1/J,J), constrained = TRUE){
   #           03/MAR/2011  fix warning about partial matching in sample()
   #                        use seq_len when possible
   #                        substitute for loop by replicate()
+  #           06/FEB/2020  accept D of class paircomp
 
   # constrained minimization might yield suboptimal estimates
   #  (=> always compare to the eba-estimated values!)
   # try() catches nlm errors, so generally nrow(p) =< R
+
+  if(inherits(D, "paircomp"))  # convert to array
+    D <- simplify2array(
+           lapply( split(D, seq_along(D)),
+                   summary, pcmatrix = TRUE )
+    )
 
   I <- ncol(D)  # number of alternatives/stimuli
   J <- max(unlist(A))  # number of eba parameters
@@ -21,9 +28,9 @@ boot <- function(D, R = 100, A = 1:I, s = rep(1/J,J), constrained = TRUE){
   rdx <- 1
   for(i in seq_len(I - 1)){
     for(j in (i + 1):I){
-      idx1[rdx, setdiff(A[[i]], A[[j]])] = 1
-      idx0[rdx, setdiff(A[[j]], A[[i]])] = 1
-      rdx = rdx + 1
+      idx1[rdx, setdiff(A[[i]], A[[j]])] <- 1
+      idx0[rdx, setdiff(A[[j]], A[[i]])] <- 1
+      rdx <- rdx + 1
     }
   }
 
@@ -41,7 +48,7 @@ boot <- function(D, R = 100, A = 1:I, s = rep(1/J,J), constrained = TRUE){
       error = function(e) rep(NA, J)))
   }
 
-  p <- p[,!is.na(p)[1,], drop=FALSE]   # remove NA columns
+  p <- p[, !is.na(p)[1, ], drop=FALSE] # remove NA columns
   colnames(p) <- NULL
   if(ncol(p) < R)
     warning("missing bootstrap sample(s) due to convergence problems")

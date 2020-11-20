@@ -1,3 +1,12 @@
+Changes in 1.10-0
+
+  * DESCRIPTION: depend on R >= 4.0.0
+  * boot.R: accept input of class paircomp
+  * winetaste (new data sets and replication code): ambient lighting and
+    flavor of white wine, sensory quality of red wines
+  * envirosound (new data set and replication code): auditory unpleasantness
+    of environmental sound
+
 Changes in 1.9-0
 
   * DESCRIPTION, NAMESPACE: import psychotools, new URL

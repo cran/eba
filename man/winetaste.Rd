@@ -18,8 +18,8 @@
 \code{ambilight} A data frame containing 230 observations on 10 variables:
 \describe{
   \item{preference, fruitiness, spiciness, sweetness}{Paired comparison of
-    class \code{\link{paircomp}}; judgments for one of the 6 ordered pairs
-    of the blue, red, and white lighting conditions.}
+    class \code{\link[psychotools]{paircomp}}; judgments for one of the
+    6 ordered pairs of the blue, red, and white lighting conditions.}
   \item{age}{subject age}
   \item{gender}{factor, subject gender}
   \item{sensesmell}{self-rating of sense of smell and taste.}
@@ -30,9 +30,9 @@
 \code{redwines} A data frame containing 11 observations on 7 variables:
 \describe{
   \item{bitterness, fruitiness, sourness, roundness, preference}{Paired
-    comparison of class \code{\link{paircomp}}; judgments for all 10 pairs
-    from 5 red wines:  Primitivo di Manduria, Cotes du Rhone, Bourgogne,
-    Shiraz cuvee, Cabernet Sauvignon.}
+    comparison of class \code{\link[psychotools]{paircomp}}; judgments for
+    all 10 pairs from 5 red wines:  Primitivo di Manduria, Cotes du Rhone,
+    Bourgogne, Shiraz cuvee, Cabernet Sauvignon.}
   \item{best}{factor, Which of the five wines did you like best?}
   \item{worst}{factor, Which of the five wines did you like worst?}
 }
@@ -54,7 +54,10 @@
   \doi{10.1111/j.1745-459X.2009.00239.x}
 }
 
-\seealso{\code{\link{eba}}, \code{\link{eba.order}}, \code{\link{paircomp}}.}
+\seealso{
+  \code{\link{eba}}, \code{\link{eba.order}},
+  \code{\link[psychotools]{paircomp}}.
+}
 
 \examples{
 requireNamespace("psychotools")

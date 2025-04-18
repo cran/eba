@@ -14,8 +14,9 @@
 \format{
   A data frame containing 74 observations on 2 variables:
   \describe{
-  \item{unpleasantness}{paired comparison of class \code{\link{paircomp}};
-    judgments for all 66 paired comparisons from 12 recordings:
+  \item{unpleasantness}{paired comparison of class
+    \code{\link[psychotools]{paircomp}}; judgments for all 66 paired
+    comparisons from 12 recordings:
     circular saw, stadium, dentist's drill, waterfall, ship's horn, stone in
     well, typewriter, hooves, fan, howling wind, tyre on gravel, wasp.}
     \item{rt}{median response time.}
@@ -39,7 +40,9 @@
   \emph{Acta Acustica united with Acustica}, \bold{87}(2), 290--293.
 }
 
-\seealso{\code{\link{eba}}, \code{\link{strans}}, \code{\link{paircomp}}.}
+\seealso{
+  \code{\link{eba}}, \code{\link{strans}}, \code{\link[psychotools]{paircomp}}.
+}
 
 \examples{
 requireNamespace("psychotools")

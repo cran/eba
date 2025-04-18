@@ -28,8 +28,9 @@
   \item{repet}{the repetition number.}
   \item{session}{the experimental session coding the presentation order of
     the program material.}
-  \item{preference}{paired comparison of class \code{\link{paircomp}};
-    preferences for all 28 paired comparisons from 8 audio reproduction modes:
+  \item{preference}{paired comparison of class
+    \code{\link[psychotools]{paircomp}}; preferences for all 28 paired
+    comparisons from 8 audio reproduction modes:
     Mono, Phantom Mono, Stereo, Wide-Angle Stereo, 4-channel Matrix,
     5-channel Upmix 1, 5-channel Upmix 2, and 5-channel Original.}
 }
@@ -39,7 +40,7 @@
   \item{progmat}{factor, the program material.}
   \item{width, spaciousness, envelopment, distance, clarity, brightness,
     elevation, naturalness}{Paired comparison of class
-    \code{\link{paircomp}}.}
+    \code{\link[psychotools]{paircomp}}.}
 }
 \code{SQsubjects} A data frame containing 78 observations on 18 variables:
 \describe{
@@ -100,7 +101,10 @@ preference judgments.}
   \doi{10.3758/BF03193750}
 }
 
-\seealso{\code{\link{eba}}, \code{\link{strans}}, \code{\link{paircomp}}.}
+\seealso{
+  \code{\link{eba}}, \code{\link{strans}},
+  \code{\link[psychotools]{paircomp}}.
+}
 
 \examples{
 requireNamespace("psychotools")

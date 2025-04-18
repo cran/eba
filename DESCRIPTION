@@ -1,6 +1,6 @@
 Package: eba
-Version: 1.10-0
-Date: 2020-11-20
+Version: 1.10-1
+Date: 2025-04-18
 Title: Elimination-by-Aspects Models
 Authors@R: person(given = "Florian", family = "Wickelmaier",
                   role = c("aut", "cre"), email = "wickelmaier@web.de")
@@ -13,10 +13,10 @@ Description: Fitting and testing multi-attribute probabilistic choice
   and preference tree (Pretree) models (Tversky & Sattath, 1979
   <doi:10.1037/0033-295X.86.6.542>).
 License: GPL (>= 2)
-URL: http://www.mathpsy.uni-tuebingen.de/wickelmaier
+URL: https://www.mathpsy.uni-tuebingen.de/wickelmaier/
 NeedsCompilation: no
-Packaged: 2020-11-20 12:38:03 UTC; siifw01
+Packaged: 2025-04-18 15:57:29 UTC; siifw01
 Author: Florian Wickelmaier [aut, cre]
 Maintainer: Florian Wickelmaier <wickelmaier@web.de>
 Repository: CRAN
-Date/Publication: 2020-11-20 23:50:02 UTC
+Date/Publication: 2025-04-18 16:30:02 UTC

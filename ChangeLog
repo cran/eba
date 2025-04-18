@@ -1,3 +1,8 @@
+Changes in 1.10-1
+
+  * CITATION: use bibentry() and person()
+  * *.Rd: fix cross-references
+
 Changes in 1.10-0
 
   * DESCRIPTION: depend on R >= 4.0.0
@@ -173,3 +178,4 @@ Changes in 1.4-2
   * strans.Rd (value, references): update
   * celebrities.Rd (description, source, examples): update
   * pork.Rd (description, source, examples): update
+
